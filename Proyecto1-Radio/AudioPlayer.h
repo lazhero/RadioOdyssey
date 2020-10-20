@@ -12,7 +12,6 @@ public:
     virtual void Skip()=0;
     virtual void setVolumen(int volumen)=0;
     virtual void addToPlayList(Song song)=0;
-    virtual void MiltonPutoAmo()=0;
 
 private:
 

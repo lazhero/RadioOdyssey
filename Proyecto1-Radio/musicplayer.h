@@ -14,7 +14,6 @@ public:
     void Stop();
     void Skip();
     void addToPlayList(Song song);
-    void MiltonPutoAmo(){};
     void setVolumen(int volumen);
 private:
     QMediaPlayer* player;

@@ -2,14 +2,16 @@
 #include "ui_widget.h"
 #include <QMediaPlayer>
 #include <QDir>
+#include<string>
+QString PlayText="Play";
+QString PauseText="Pause";
+int starting_Vol=50;
+
 Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 {
 
-    player = new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile(QDir().absoluteFilePath("../RadioOdyssey/Proyecto1-Radio/Resources/Music/testBach.mp3")));
-    player->setVolume(50);
-   // player->play();
-
+    player = new  MusicPlayer;
+    player->setVolumen(starting_Vol);
     playing=false;
     ui->setupUi(this);
 }
@@ -23,18 +25,22 @@ Widget::~Widget()
 void Widget::on_PlayB_clicked()
 {
 
-
     if(playing)
         {
-         ui->PlayB->setText("Stop");
-         player->stop();
+         ui->PlayB->setText(PlayText);
+         player->Pause();
         }
     else
         {
-         ui->PlayB->setText("Play");
-         player->play();
-         //player->play();
+         ui->PlayB->setText(PauseText);
+         player->Play();
 
         }
-    playing=!playing;
+     playing=!playing;
+
+}
+
+void Widget::on_PlayB_2_clicked()
+{
+    player->Stop();
 }
