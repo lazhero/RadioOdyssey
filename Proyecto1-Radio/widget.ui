@@ -201,6 +201,28 @@ background-color: rgba(255, 255, 255, 28)</string>
     </item>
    </layout>
   </widget>
+  <widget class="QPushButton" name="PlayB_2">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>450</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>Stop</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>111</width>
+     <height>111</height>
+    </size>
+   </property>
+  </widget>
   <zorder>listView</zorder>
   <zorder>label</zorder>
   <zorder>checkBox</zorder>
@@ -208,6 +230,7 @@ background-color: rgba(255, 255, 255, 28)</string>
   <zorder>layoutWidget</zorder>
   <zorder>layoutWidget</zorder>
   <zorder>PlayB</zorder>
+  <zorder>PlayB_2</zorder>
  </widget>
  <tabstops>
   <tabstop>checkBox</tabstop>
