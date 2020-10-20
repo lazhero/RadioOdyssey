@@ -32,8 +32,6 @@ void Widget::on_PlayB_clicked()
         {
          ui->PlayB->setText("Play");
          player->play();
-         //player->play();
-
         }
     playing=!playing;
 }
