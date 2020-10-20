@@ -37,3 +37,6 @@ void MusicPlayer::deleteFirst(){
         playlist->removeMedia(lowest);
     }
 }
+double MusicPlayer::currentMediaDuration(){
+    return  player->duration();
+}

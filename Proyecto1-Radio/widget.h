@@ -3,7 +3,7 @@
 #include <QMediaPlayer>
 #include"musicplayer.h"
 #include <QWidget>
-
+#include <QTimer>
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -19,9 +19,13 @@ public:
 private slots:
     void on_PlayB_clicked();
 
+    void on_PlayB_2_clicked();
+
 private:
     bool playing;
     AudioPlayer *player;
     Ui::Widget *ui;
+    void updateScenario();
+    QTimer* timer;
 };
 #endif // WIDGET_H
