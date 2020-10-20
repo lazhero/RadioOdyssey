@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,10 +10,16 @@ QT += multimedia
 
 SOURCES += \
     main.cpp \
-    widget.cpp
+    widget.cpp\
+    musicplayer.cpp \
+    song.cpp
 
 HEADERS += \
-    widget.h
+    widget.h\
+    AudioPlayer.h \
+    mainwindow.h \
+    musicplayer.h \
+    song.h
 
 FORMS += \
     widget.ui

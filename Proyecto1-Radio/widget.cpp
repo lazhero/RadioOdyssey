@@ -8,7 +8,7 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     player = new QMediaPlayer;
     player->setMedia(QUrl::fromLocalFile(QDir().absoluteFilePath("../Proyecto1-Radio/Resources/Music/testBach.mp3")));
     player->setVolume(50);
-    player->play();
+   // player->play();
 
     ui->setupUi(this);
 }
