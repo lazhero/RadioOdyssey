@@ -1,6 +1,6 @@
 #ifndef WIDGET_H
 #define WIDGET_H
-
+#include <QMediaPlayer>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -15,7 +15,12 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+private slots:
+    void on_PlayB_clicked();
+
 private:
+    bool playing;
+    QMediaPlayer *player;
     Ui::Widget *ui;
 };
 #endif // WIDGET_H

@@ -8,7 +8,6 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     player = new QMediaPlayer;
     player->setMedia(QUrl::fromLocalFile(QDir().absoluteFilePath("../RadioOdyssey/Proyecto1-Radio/Resources/Music/testBach.mp3")));
     player->setVolume(50);
-   // player->play();
 
     playing=false;
     ui->setupUi(this);
@@ -33,8 +32,6 @@ void Widget::on_PlayB_clicked()
         {
          ui->PlayB->setText("Play");
          player->play();
-         //player->play();
-
         }
     playing=!playing;
 }
