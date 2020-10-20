@@ -28,4 +28,4 @@ private:
     void updateScenario();
     QTimer* timer;
 };
-#endif // WIDGET_H
+#endif
