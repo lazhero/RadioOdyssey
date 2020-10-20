@@ -223,6 +223,19 @@ background-color: rgba(255, 255, 255, 28)</string>
     </size>
    </property>
   </widget>
+  <widget class="QSlider" name="timeBar">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>430</y>
+     <width>441</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
   <zorder>listView</zorder>
   <zorder>label</zorder>
   <zorder>checkBox</zorder>
@@ -231,6 +244,7 @@ background-color: rgba(255, 255, 255, 28)</string>
   <zorder>layoutWidget</zorder>
   <zorder>PlayB</zorder>
   <zorder>PlayB_2</zorder>
+  <zorder>timeBar</zorder>
  </widget>
  <tabstops>
   <tabstop>checkBox</tabstop>
