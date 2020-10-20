@@ -23,7 +23,8 @@ void MusicPlayer::Skip(){
     player->play();
 }
 void MusicPlayer::addToPlayList(Song song){
-    playlist->addMedia(QUrl::fromLocalFile(song.getDirectory()));
+    if(song.getLocalState())playlist->addMedia(QUrl::fromLocalFile(song.getDirectory()));
+    else playlist->addMedia(QUrl(song.getDirectory()));
 }
 
 void MusicPlayer::setVolumen(int volumen)
