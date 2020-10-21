@@ -5,6 +5,10 @@
 #include <QDir>
 #include<string>
 #include<iostream>
+
+#include "sys/types.h"
+#include "sys/sysinfo.h"
+
 QString PlayText="Play";
 QString PauseText="Pause";
 //QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
@@ -39,7 +43,6 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 
     ui->setupUi(this);
 
-    ui->vol->setMaximum(100);
     ui->vol->setValue(starting_Vol);
 }
 
@@ -97,6 +100,22 @@ void Widget :: updateScenario(){
 
     barra->setValue(value+updateFramingConstant);
     barra->setMaximum(player->currentMediaDuration());
+
+
+
+    /////////////Calculo de memoria en uso
+    /*
+    struct sysinfo memInfo;
+    sysinfo (&memInfo);
+    long long virtualMemUsed = memInfo.totalram - memInfo.freeram;
+    //Add other values in next statement to avoid int overflow on right hand side...
+    virtualMemUsed += memInfo.totalswap - memInfo.freeswap;
+    virtualMemUsed *= memInfo.mem_unit;
+    s::cout<<virtualMemUsed<< s::endl;
+    ui->MemoryBar->setValue(virtualMemUsed);
+    */
+    /////////////Calculo de memoria en uso
+
     //s::cout<<"hola"<< s::endl;
 }
 
@@ -146,5 +165,5 @@ void Widget::on_vol_valueChanged(int value)
 {
     player->setVolumen(value);
 
-    std::cout<<"hola "<<value<< std::endl;
+    //std::cout<<"hola "<<value<< std::endl;
 }

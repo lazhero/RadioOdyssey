@@ -124,8 +124,14 @@ background-color: rgba(255, 255, 255, 28);</string>
        </item>
        <item>
         <widget class="QSlider" name="vol">
+         <property name="maximum">
+          <number>100</number>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::NoTicks</enum>
          </property>
         </widget>
        </item>
@@ -168,7 +174,7 @@ background-color: rgba(255, 255, 255, 28)</string>
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="progressBar">
+      <widget class="QProgressBar" name="MemoryBar">
        <property name="value">
         <number>24</number>
        </property>
