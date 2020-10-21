@@ -27,5 +27,6 @@ private:
     Ui::Widget *ui;
     void updateScenario();
     QTimer* timer;
+    void  updateTimebarMinMax();
 };
 #endif
