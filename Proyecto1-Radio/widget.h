@@ -21,6 +21,16 @@ private slots:
 
     void on_PlayB_2_clicked();
 
+    void on_timeBar_valueChanged(int value);
+
+    void on_timeBar_sliderMoved(int position);
+
+    void on_horizontalSlider_valueChanged(int value);
+
+    void on_volumen_valueChanged(int value);
+
+    void on_vol_valueChanged(int value);
+
 private:
     bool playing;
     AudioPlayer *player;
@@ -28,5 +38,7 @@ private:
     void updateScenario();
     QTimer* timer;
     void  updateTimebarMinMax();
+    QString convToMinutes(int miliseconds);
+
 };
 #endif

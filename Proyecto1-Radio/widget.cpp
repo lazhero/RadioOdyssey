@@ -5,13 +5,20 @@
 #include <QDir>
 #include<string>
 #include<iostream>
+
+#include "sys/types.h"
+#include "sys/sysinfo.h"
+
 QString PlayText="Play";
 QString PauseText="Pause";
-QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
+//QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
+QString route="/home/adrian/Escritorio/musica";
 LocalfileGetter getter;
 int starting_Vol=50;
 int updateFramingConstant=150;
 namespace s = std;
+
+
 Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 {
 
@@ -29,13 +36,14 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
                  if(playing){
                      updateScenario();
                  }
-                 else{
-                     timer->stop();
-                 }
+
              });
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     ui->setupUi(this);
+
+    ui->vol->setValue(starting_Vol);
 }
 
 Widget::~Widget()
@@ -44,30 +52,35 @@ Widget::~Widget()
 }
 
 
-void Widget::on_PlayB_clicked()
-{
+void Widget::on_PlayB_clicked(){
 
-    if(playing)
+    if(playing)// if audio is being playing right now
         {
-         ui->PlayB->setText(PlayText);
-         player->Pause();
+             ui->PlayB->setText(PlayText);
+             player->Pause();
+             playing=!playing;
+
         }
-    else
+    else    //if there is no audio
         {
+
          ui->PlayB->setText(PauseText);
-        player->addToPlayList(getter.getSong(ui->input->text()));
+
+         player->addToPlayList(getter.getSong(ui->input->text()));
          player->Play();
-         //empieza a actualizar el escenario
-         updateTimebarMinMax();
-         timer->start(updateFramingConstant);
-         //////////////////////////////////
+
+
+         //empieza a actualizar el escenario///////
+
+             playing=!playing;
+             timer->start(updateFramingConstant);
+         //////////////////////////////////////////
         }
-     playing=!playing;
+
 
 }
 
-void Widget::on_PlayB_2_clicked()
-{
+void Widget::on_PlayB_2_clicked(){
     player->Stop();
     ui->timeBar->setValue(0);
     timer->stop();
@@ -84,8 +97,26 @@ void Widget::on_PlayB_2_clicked()
 void Widget :: updateScenario(){
     QSlider* barra = ui->timeBar;
     float value =  barra->value();
-    barra->setValue(value+updateFramingConstant);
 
+    barra->setValue(value+updateFramingConstant);
+    barra->setMaximum(player->currentMediaDuration());
+
+
+
+    /////////////Calculo de memoria en uso
+    /*
+    struct sysinfo memInfo;
+    sysinfo (&memInfo);
+    long long virtualMemUsed = memInfo.totalram - memInfo.freeram;
+    //Add other values in next statement to avoid int overflow on right hand side...
+    virtualMemUsed += memInfo.totalswap - memInfo.freeswap;
+    virtualMemUsed *= memInfo.mem_unit;
+    s::cout<<virtualMemUsed<< s::endl;
+    ui->MemoryBar->setValue(virtualMemUsed);
+    */
+    /////////////Calculo de memoria en uso
+
+    //s::cout<<"hola"<< s::endl;
 }
 
 /**
@@ -96,10 +127,43 @@ void Widget :: updateScenario(){
  *
  */
 
-void Widget ::updateTimebarMinMax(){
-    QSlider* barra = ui->timeBar;
-    /////////////////////////////////////////////// ESTO ES PARA CUANDO SELECCIONE LA CANCION
-    barra->setMinimum(0);
-    barra->setMaximum(player->currentMediaDuration());
-    ///////////////////////////////////////////////
+void Widget::on_timeBar_valueChanged(int value){
+        QString dur=  convToMinutes(ui->timeBar->maximum());
+                dur.append("/");
+        ui->Duration->setText(dur);
+        ui->currentTIME->setText(convToMinutes(ui->timeBar->maximum()-value));
+
+        //adelanta o atrasa la cancion
+
+
+
+}
+
+/**
+ * convert miliseconds to minutes
+ * @brief  Widget:: convToMinutes
+ * @author Adrian Gonzalez
+ * @return nothing
+ * @param int
+ */
+QString Widget:: convToMinutes(int miliseconds){
+            int seconds= miliseconds/1000;
+            int minutes= seconds/60;
+            seconds-= minutes*60;
+            QString result= QString::number(minutes).append(":").append(QString::number(seconds));
+            return result;
+    }
+
+void Widget::on_timeBar_sliderMoved(int position)
+{
+            player->setTime(position);
+}
+
+
+
+void Widget::on_vol_valueChanged(int value)
+{
+    player->setVolumen(value);
+
+    //std::cout<<"hola "<<value<< std::endl;
 }

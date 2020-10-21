@@ -29,8 +29,10 @@ void MusicPlayer::addToPlayList(Song song){
 
 void MusicPlayer::setVolumen(int volumen)
 {
-    if(volumen<0 || volumen>100)return;
-    player->setVolume(volumen);
+    if(volumen>=0 && volumen<=100){
+        player->setVolume(volumen);
+    }
+
 }
 void MusicPlayer::deleteFirst(){
     if(!playlist->isEmpty()){
@@ -39,4 +41,12 @@ void MusicPlayer::deleteFirst(){
 }
 double MusicPlayer::currentMediaDuration(){
     return  player->duration();
+}
+bool MusicPlayer::isStop(){
+    bool resultado=player->state()== QMediaPlayer::PausedState; //si esta sonando true
+    return resultado;
+}
+void MusicPlayer::setTime(int milisecond){
+    player->setPosition(milisecond);
+
 }
