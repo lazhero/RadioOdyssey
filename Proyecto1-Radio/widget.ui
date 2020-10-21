@@ -107,17 +107,27 @@ background-color: rgba(255, 255, 255, 28);</string>
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
+        <widget class="QLabel" name="label">
+         <property name="maximumSize">
+          <size>
+           <width>64</width>
+           <height>27</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>volumen </string>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSlider" name="vol">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="Duration">

@@ -29,8 +29,10 @@ void MusicPlayer::addToPlayList(Song song){
 
 void MusicPlayer::setVolumen(int volumen)
 {
-    if(volumen<0 || volumen>100)return;
-    player->setVolume(volumen);
+    if(volumen>=0 && volumen<=100){
+        player->setVolume(volumen);
+    }
+
 }
 void MusicPlayer::deleteFirst(){
     if(!playlist->isEmpty()){

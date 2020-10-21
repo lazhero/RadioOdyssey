@@ -35,10 +35,12 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 
              });
 
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     ui->setupUi(this);
+
+    ui->vol->setMaximum(100);
+    ui->vol->setValue(starting_Vol);
 }
 
 Widget::~Widget()
@@ -47,8 +49,7 @@ Widget::~Widget()
 }
 
 
-void Widget::on_PlayB_clicked()
-{
+void Widget::on_PlayB_clicked(){
 
     if(playing)// if audio is being playing right now
         {
@@ -76,8 +77,7 @@ void Widget::on_PlayB_clicked()
 
 }
 
-void Widget::on_PlayB_2_clicked()
-{
+void Widget::on_PlayB_2_clicked(){
     player->Stop();
     ui->timeBar->setValue(0);
     timer->stop();
@@ -108,8 +108,7 @@ void Widget :: updateScenario(){
  *
  */
 
-void Widget::on_timeBar_valueChanged(int value)
-{
+void Widget::on_timeBar_valueChanged(int value){
         QString dur=  convToMinutes(ui->timeBar->maximum());
                 dur.append("/");
         ui->Duration->setText(dur);
@@ -128,8 +127,7 @@ void Widget::on_timeBar_valueChanged(int value)
  * @return nothing
  * @param int
  */
-QString Widget:: convToMinutes(int miliseconds)
-    {
+QString Widget:: convToMinutes(int miliseconds){
             int seconds= miliseconds/1000;
             int minutes= seconds/60;
             seconds-= minutes*60;
@@ -140,4 +138,13 @@ QString Widget:: convToMinutes(int miliseconds)
 void Widget::on_timeBar_sliderMoved(int position)
 {
             player->setTime(position);
+}
+
+
+
+void Widget::on_vol_valueChanged(int value)
+{
+    player->setVolumen(value);
+
+    std::cout<<"hola "<<value<< std::endl;
 }
