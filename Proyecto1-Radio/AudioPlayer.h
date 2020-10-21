@@ -13,6 +13,8 @@ public:
     virtual void  setVolumen(int volumen)=0;
     virtual void addToPlayList(Song song)=0;
     virtual double currentMediaDuration()=0;
+    virtual bool isStop()=0;
+    virtual void setTime(int milisecond)=0;
 private:
 
 };

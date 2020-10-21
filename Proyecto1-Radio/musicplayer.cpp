@@ -40,3 +40,11 @@ void MusicPlayer::deleteFirst(){
 double MusicPlayer::currentMediaDuration(){
     return  player->duration();
 }
+bool MusicPlayer::isStop(){
+    bool resultado=player->state()== QMediaPlayer::PausedState; //si esta sonando true
+    return resultado;
+}
+void MusicPlayer::setTime(int milisecond){
+    player->setPosition(milisecond);
+
+}

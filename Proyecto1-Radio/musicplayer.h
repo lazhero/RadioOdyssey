@@ -16,6 +16,8 @@ public:
     void addToPlayList(Song song);
     void setVolumen(int volumen);
     double currentMediaDuration();
+    bool isStop();
+    void setTime(int milisecond);
 private:
     QMediaPlayer* player;
     QMediaPlaylist* playlist;
