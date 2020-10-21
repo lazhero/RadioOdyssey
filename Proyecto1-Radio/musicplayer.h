@@ -15,6 +15,7 @@ public:
     void Skip();
     void addToPlayList(Song song);
     void setVolumen(int volumen);
+    double currentMediaDuration();
 private:
     QMediaPlayer* player;
     QMediaPlaylist* playlist;
