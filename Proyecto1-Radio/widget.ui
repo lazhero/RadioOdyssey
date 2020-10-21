@@ -58,7 +58,7 @@ background-color: rgba(255, 255, 255, 28)</string>
      </widget>
     </item>
     <item>
-     <widget class="QListView" name="listView_2">
+     <widget class="QListView" name="TextInput">
       <property name="styleSheet">
        <string notr="true">border-color: rgba(255, 255, 255, 28);
 background-color: rgba(255, 255, 255, 28);</string>
@@ -236,6 +236,16 @@ background-color: rgba(255, 255, 255, 28)</string>
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
+  <widget class="QLineEdit" name="input">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>560</y>
+     <width>113</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
   <zorder>listView</zorder>
   <zorder>label</zorder>
   <zorder>checkBox</zorder>
@@ -245,11 +255,12 @@ background-color: rgba(255, 255, 255, 28)</string>
   <zorder>PlayB</zorder>
   <zorder>PlayB_2</zorder>
   <zorder>timeBar</zorder>
+  <zorder>input</zorder>
  </widget>
  <tabstops>
   <tabstop>checkBox</tabstop>
   <tabstop>listView</tabstop>
-  <tabstop>listView_2</tabstop>
+  <tabstop>TextInput</tabstop>
  </tabstops>
  <resources/>
  <connections/>

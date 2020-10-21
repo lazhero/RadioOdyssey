@@ -1,18 +1,24 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include <QMediaPlayer>
+#include<localfilegetter.h>
 #include <QDir>
 #include<string>
+#include<iostream>
 QString PlayText="Play";
 QString PauseText="Pause";
+QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
+LocalfileGetter getter;
 int starting_Vol=50;
 int updateFramingConstant=150;
+namespace s = std;
 Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 {
 
     player = new  MusicPlayer;
     player->setVolumen(starting_Vol);
     playing=false;
+    getter.setSource(route);
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +55,7 @@ void Widget::on_PlayB_clicked()
     else
         {
          ui->PlayB->setText(PauseText);
+        player->addToPlayList(getter.getSong(ui->input->text()));
          player->Play();
          //empieza a actualizar el escenario
          updateTimebarMinMax();
@@ -62,6 +69,8 @@ void Widget::on_PlayB_clicked()
 void Widget::on_PlayB_2_clicked()
 {
     player->Stop();
+    ui->timeBar->setValue(0);
+    timer->stop();
 }
 
 /**
