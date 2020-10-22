@@ -79,7 +79,10 @@ void Widget::on_PlayB_clicked(){
 
 
 }
-
+/**
+ * Dettects button clicked and stop the song
+ * @brief Widget::on_PlayB_2_clicked
+ */
 void Widget::on_PlayB_2_clicked(){
     player->Stop();
     ui->timeBar->setValue(0);
@@ -153,13 +156,21 @@ QString Widget:: convToMinutes(int miliseconds){
             QString result= QString::number(minutes).append(":").append(QString::number(seconds));
             return result;
     }
-
+/**
+ * Dettecs any on purpose movement of the timebar and update the current position of the song
+ * @brief Widget::on_timeBar_sliderMoved
+ * @param position
+ */
 void Widget::on_timeBar_sliderMoved(int position)
 {
             player->setTime(position);
 }
 
-
+/**
+ * Dettecs any on purpose movement of the volumebar and update the current volume
+ * @brief Widget::on_vol_valueChanged
+ * @param value
+ */
 
 void Widget::on_vol_valueChanged(int value)
 {
