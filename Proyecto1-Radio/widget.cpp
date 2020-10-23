@@ -11,8 +11,8 @@
 
 QString PlayText="Play";
 QString PauseText="Pause";
-//QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
-QString route="/home/adrian/Escritorio/musica";
+QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
+//QString route="/home/adrian/Escritorio/musica";
 LocalfileGetter getter;
 int starting_Vol=50;
 int updateFramingConstant=150;
