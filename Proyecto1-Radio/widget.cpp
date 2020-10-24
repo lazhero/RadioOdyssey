@@ -8,7 +8,7 @@
 
 #include "sys/types.h"
 #include "sys/sysinfo.h"
-
+#include "clikable_item.h"
 QString PlayText="Play";
 QString PauseText="Pause";
 //QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
@@ -51,7 +51,10 @@ Widget::~Widget()
     delete ui;
 }
 
-
+/**
+ * initialize ,stops and resume songs
+ * @brief Widget::on_PlayB_clicked
+ */
 void Widget::on_PlayB_clicked(){
 
     if(playing)// if audio is being playing right now
@@ -176,5 +179,38 @@ void Widget::on_vol_valueChanged(int value)
 {
     player->setVolumen(value);
 
+    addThingTo("carpetas",QString::number(value),QString::number(value));
+
     //std::cout<<"hola "<<value<< std::endl;
+}
+
+void Widget::addThingTo(QString listView ,QString dir,QString name){
+    Clikable_Item* newItem= new Clikable_Item;
+    newItem->setInfo(dir);        //direccion a seguir
+    newItem->setText(name);       //nombre visible
+    if(listView=="carpetas"){
+
+        ui->directorios->addItem(newItem);
+
+        }
+    else {
+        ui->canciones->addItem(newItem);
+    }
+
+
+
+
+
+}
+
+QString Widget ::returnPointer(QString direction){
+        return direction;
+}
+
+void Widget::on_directorios_itemClicked( QListWidgetItem *item)
+{
+    Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item)  ;
+
+    std::cout<<"imprimiendo: "<< algo->returnInfo().toStdString() <<std::endl;
+
 }

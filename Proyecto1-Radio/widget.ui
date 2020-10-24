@@ -38,19 +38,14 @@ background-color: rgba(255, 255, 255, 28)</string>
       </widget>
      </item>
      <item>
-      <widget class="QListView" name="TextInput">
-       <property name="styleSheet">
-        <string notr="true">border-color: rgba(255, 255, 255, 28);
-background-color: rgba(255, 255, 255, 28);</string>
-       </property>
-      </widget>
+      <widget class="QListWidget" name="directorios"/>
      </item>
     </layout>
    </item>
    <item row="1" column="1" colspan="3">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QListView" name="listView"/>
+      <widget class="QListWidget" name="canciones"/>
      </item>
      <item>
       <widget class="QSlider" name="timeBar">
@@ -238,21 +233,11 @@ background-color: rgba(255, 255, 255, 28)</string>
     </layout>
    </item>
   </layout>
-  <zorder>listView</zorder>
   <zorder>checkBox</zorder>
-  <zorder>PlayB</zorder>
-  <zorder>PlayB_2</zorder>
-  <zorder>timeBar</zorder>
   <zorder>input</zorder>
-  <zorder>Duration</zorder>
-  <zorder>currentTIME</zorder>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>horizontalSpacer_2</zorder>
  </widget>
  <tabstops>
   <tabstop>checkBox</tabstop>
-  <tabstop>listView</tabstop>
-  <tabstop>TextInput</tabstop>
  </tabstops>
  <resources/>
  <connections/>

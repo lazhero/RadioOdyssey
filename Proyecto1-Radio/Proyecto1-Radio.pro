@@ -10,6 +10,7 @@ QT += multimedia
 
 
 SOURCES += \
+    clikable_item.cpp \
     localfilegetter.cpp \
     main.cpp \
     widget.cpp\
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     SongGetter.h \
+    clikable_item.h \
     localfilegetter.h \
     widget.h\
     AudioPlayer.h \

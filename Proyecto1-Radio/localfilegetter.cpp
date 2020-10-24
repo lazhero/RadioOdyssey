@@ -33,7 +33,10 @@ Song LocalfileGetter::getSong(std::string id)
     return this->getSong(QString::fromStdString(id));
 }
 
-
+/**
+ * @brief LocalfileGetter::setSource
+ * @param source
+ */
 
 void LocalfileGetter::setSource(QString source)
 {
@@ -41,10 +44,17 @@ void LocalfileGetter::setSource(QString source)
 
 }
 
-
+/**
+ * @brief LocalfileGetter::setSouce
+ * @param source
+ */
 void LocalfileGetter::setSouce(std::string source){
     *Source_Route=QString::fromStdString(source);
 }
+/**
+ * @brief LocalfileGetter::getSource
+ * @return
+ */
 
 QString LocalfileGetter::getSource()
 {
@@ -53,7 +63,7 @@ QString LocalfileGetter::getSource()
 
 
 /**
- * look for a file called ""
+ * look for a file with name "value" and save it directory
  * @brief LocalfileGetter::getRoute
  * @param route
  * @param value

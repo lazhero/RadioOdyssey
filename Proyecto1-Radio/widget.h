@@ -2,8 +2,10 @@
 #define WIDGET_H
 #include <QMediaPlayer>
 #include"musicplayer.h"
-#include <QWidget>
+#include "clikable_item.h"
 #include <QTimer>
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -25,11 +27,12 @@ private slots:
 
     void on_timeBar_sliderMoved(int position);
 
-    void on_horizontalSlider_valueChanged(int value);
 
-    void on_volumen_valueChanged(int value);
-
+    void on_directorios_itemClicked( QListWidgetItem *item);
     void on_vol_valueChanged(int value);
+
+
+
 
 private:
     bool playing;
@@ -38,6 +41,9 @@ private:
     void updateScenario();
     QTimer* timer;
     void  updateTimebarMinMax();
+    void addThingTo(QString listView,QString value ,QString name);
+    QString returnPointer(QString direction);
+
     QString convToMinutes(int miliseconds);
 
 };
