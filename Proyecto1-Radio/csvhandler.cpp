@@ -70,7 +70,6 @@ DoubleList<std::string> *CSVHandler::getNextLineWithIn(std::string text, int pos
     DoubleList<std::string>* returnList;
     bool found;
     bool failCondition;
-
     while(getline(*inputStream,line)){
         if(line.compare(emptyString)==0) break;
         returnList=new DoubleList<std::string>;

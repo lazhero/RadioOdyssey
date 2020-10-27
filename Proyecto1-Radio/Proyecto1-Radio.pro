@@ -10,20 +10,38 @@ QT += multimedia
 
 
 SOURCES += \
+    cassettegallery.cpp \
+    csvhandler.cpp \
+    csvsorting.cpp \
+    filemanager.cpp \
     localfilegetter.cpp \
     main.cpp \
+    myproyectstringiterator.cpp \
+    pages.cpp \
+    stringIterator.cpp \
+    stringtools.cpp \
     widget.cpp\
     musicplayer.cpp \
     song.cpp
 
 HEADERS += \
     SongGetter.h \
+    cassettegallery.h \
+    csvhandler.h \
+    csvsorting.h \
+    filemanager.h \
     localfilegetter.h \
+    myproyectstringiterator.h \
+    pages.h \
+    stringiterator.h \
+    stringtools.h \
     widget.h\
     AudioPlayer.h \
     mainwindow.h \
     musicplayer.h \
-    song.h
+    song.h\
+    DoubleNode/DoubleNode.hpp\
+    DoubleList/DoubleList.hpp
 
 FORMS += \
     widget.ui

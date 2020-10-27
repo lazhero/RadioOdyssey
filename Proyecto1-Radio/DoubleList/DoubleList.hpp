@@ -97,12 +97,13 @@ DoubleList<T>::~DoubleList(){
     if(Tail!=NULL)free(Tail);
     if(Head!=NULL)free(Head);
     DoubleNode<T>* temp,Saved;
-
+/*
     for(temp=Head;temp!=NULL;){
-        Saved=&temp->getFront();
-        free(temp);
-        temp=Saved;
+       // Saved=&temp->getFront();
+        //free(temp);
+        //temp=Saved;
     }
+    */
 }
 template<typename T>
 bool DoubleList<T>::verification(int index) {

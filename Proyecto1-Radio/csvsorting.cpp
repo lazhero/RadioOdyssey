@@ -31,9 +31,9 @@ void CSVSorting::sortToDirectory()
     for(csvLine=handler1->getnextLine();csvLine->getLen()>0;csvLine=handler1->getnextLine()){
         if(ReferencePosition>=csvLine->getLen())continue;
         OutputSubDirectory=*csvLine->get(ReferencePosition);
+        if(FileManager::canOpen(*StringTools::appendString(*StringTools::appendString(OutputDirectory,delimiter),OutputSubDirectory)))continue;
         FileManager::createDirectory(OutputDirectory,OutputSubDirectory);
         if(OutputSubDirectory.compare(voidString)==0)continue;
-        if(FileManager::canOpen(*StringTools::appendString(*StringTools::appendString(OutputDirectory,delimiter),OutputSubDirectory)))continue;
         FilesMatrix=handle2->getAllLinesWithIn(OutputSubDirectory,ReferencePosition);
         for(int i=0;i<FilesMatrix->getLen();i++){
             if(FilesMatrix->get(i)->getLen()<=FilePosition)continue;

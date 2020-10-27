@@ -8,8 +8,10 @@ public:
     Song();
     ~Song();
     void setDirectory(QString dir);
+    void setDirectory(std::string);
     QString getDirectory();
     void setArtist(QString artist);
+    void setArtist(std::string artist);
     QString getArtist();
     QString getGenre();
     void setGenre(QString Name);

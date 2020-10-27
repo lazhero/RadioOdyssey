@@ -17,15 +17,10 @@ public:
     QString getSource();
     DoubleList<std::string>* getDirectoryList();
     DoubleList<std::string>* getFilesList();
-    Song getNextFile();
-    std::string getNextDir();
-    void restartIterator();
 private:
     QString* Source_Route;
     std::string getRoute(std::string route, std::string value);
     DoubleList<std::string>* getRoutesList(bool ISDIRECTORY);
-    fs::directory_iterator myIterator;
-    std::filesystem::directory_entry getNextBooleanCondition(bool dirCondition);
 
 
 

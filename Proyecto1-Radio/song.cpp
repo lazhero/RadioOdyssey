@@ -41,6 +41,12 @@ void Song::setArtist(QString artist){
     *Artist=artist;
 
 }
+
+void Song::setArtist(std::string artist)
+{
+    setArtist(QString::fromStdString(artist));
+
+}
 void Song::setDirectory(QString dir){
     *directory=dir;
 }
