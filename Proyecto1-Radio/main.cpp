@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     }
  */
 
-
+    /*
 
     CSVSorting *csv=new CSVSorting;
     csv->setCsvDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv");
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     iterator.setBeforeDigits(6);
     csv->setIterator(iterator);
     csv->sortToDirectory();
-
+    */
     Widget w;
     w.show();
     return a.exec();

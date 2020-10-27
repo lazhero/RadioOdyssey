@@ -96,7 +96,7 @@ template <typename T>
 DoubleList<T>::~DoubleList(){
     if(Tail!=NULL)free(Tail);
     if(Head!=NULL)free(Head);
-    DoubleNode<T>* temp,Saved;
+    //DoubleNode<T>* temp,Saved;
 /*
     for(temp=Head;temp!=NULL;){
        // Saved=&temp->getFront();

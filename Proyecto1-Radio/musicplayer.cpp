@@ -50,8 +50,18 @@ void MusicPlayer::Skip(){
  * @author Luis Zuniga
  */
 void MusicPlayer::addToPlayList(Song song){
-    if(song.getLocalState())playlist->addMedia(QUrl::fromLocalFile(song.getDirectory()));
-    else playlist->addMedia(QUrl(song.getDirectory()));
+    if(song.getLocalState())
+    {
+        playlist->removeMedia(0);
+        //MODIFICACION AQUI, SE BORRA VACIA LA LISTA PARA EVITAR CIERTOS ERRORES
+        playlist->addMedia(QUrl::fromLocalFile(song.getDirectory()));
+    }
+
+
+    else
+    {
+        playlist->addMedia(QUrl(song.getDirectory()));
+    }
 }
 
 /**

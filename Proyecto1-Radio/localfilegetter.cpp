@@ -18,6 +18,7 @@ Song LocalfileGetter::getSong(QString id)
     std::string route=getRoute(Source_Route->toStdString(),id.toStdString());
     Song song;
     song.setDirectory(QString::fromStdString(route));
+    std::cout<<"imprimiendo: "<< route <<std::endl;
     return song;
 }
 /**

@@ -4,7 +4,7 @@
 #include"musicplayer.h"
 #include "clikable_item.h"
 #include <QTimer>
-
+#include<localfilegetter.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -34,6 +34,8 @@ private slots:
 
 
 
+    void on_canciones_itemClicked(QListWidgetItem *item);
+
 private:
     bool playing;
     AudioPlayer *player;
@@ -43,8 +45,8 @@ private:
     void  updateTimebarMinMax();
     void addThingTo(QString listView,QString value ,QString name);
     QString returnPointer(QString direction);
-
+    void insertListToListView( DoubleList<std::string> listilla,QString listView);
     QString convToMinutes(int miliseconds);
-
+    QString calculateRealName(QString ruta);
 };
 #endif
