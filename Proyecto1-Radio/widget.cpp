@@ -225,19 +225,12 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
     Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item)  ;
 
     LocalfileGetter *myFileGetter= new LocalfileGetter;
+    getter.setSouce(algo->returnInfo().toStdString());
     myFileGetter->setSource(algo->returnInfo());
     DoubleList<std::string> *myList2=myFileGetter->getFilesList();
-
-    ui->canciones->clear();
-    ui->canciones->addItem("newSpace");
-
-
+    ui->canciones->clear();//LIMPIA LA VARA
     insertListToListView(*myList2,"canciones");
 
-
-
-
-    std::cout<<"imprimiendo: "<< algo->returnInfo().toStdString() <<std::endl;
 
 }
 
@@ -245,19 +238,7 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
 
 void Widget::on_canciones_itemClicked(QListWidgetItem *item)
 {
-        Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item)  ;
-        Song song;
-
-        /*
-        song.setDirectory(algo->returnInfo().toStdString());
-        player->addToPlayList(song);
-        */
-
-        //song=getter.getSong(algo->text());
-
-
-        //version mala pero funcional
-        std::cout<<"imprimiendo 222: "<< algo->returnInfo().toStdString() <<std::endl;
+        Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item);
         player->addToPlayList(getter.getSong(algo->text()));
 }
 
