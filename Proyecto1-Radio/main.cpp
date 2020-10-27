@@ -1,39 +1,57 @@
 #include "widget.h"
-#include"song.h"
-#include"musicplayer.h"
-#include "QDir"
 #include <QApplication>
-#include<fstream>
+#include"csvhandler.h"
 #include<iostream>
-#include<vector>
-#include<sstream>
 #include<localfilegetter.h>
+#include<csvsorting.h>
+#include<myproyectstringiterator.h>
+
+
+
+
+
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    std::fstream inputStream;
-    //inputStream.open("/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_albums.csv",std::ios_base::in);
-    /*
-    std::vector<std::string> vector;
-    std::string line,word;
-    for(int i=0;i<100;i++){
-        getline(inputStream,line);
-        std::stringstream s(line);
-       while (getline(s, word, ',')) {
+/*
+    CSVHandler* csv=new CSVHandler;
+    csv->setFileDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv");
+    csv->startReading();
 
-         //  std::cout<<word<<std::endl;
-       }
-
-       // std::cout<<"________________________________________________________________________"<<std::endl;
+    DoubleList<std::string>* line=csv->getnextLine();
+    for(int i=0;i<line->getLen();i++){
+        std::cout<<*line->get(i)<<std::endl;
     }
 
-   // LocalfileGetter* file=new LocalfileGetter;
-    //file->setSouce("/home/lazh/QTproyects/Resources/fma/fma_small");
-    //std::string data="025606.mp3";
-    Song song=file->getSong(data);
-    std::cout<<"El texto es :"<<song.getDirectory().toStdString()<<std::endl;
-    */
+
+
+    DoubleList<std::string>* List;
+    DoubleList<DoubleList<std::string>>* matrix=csv->getAllLinesWithIn("AWOL - A Way Of Life",11);
+      std::cout<<"EStpy aqui perras"<<std::endl;
+    for(int i=0;i<matrix->getLen();i++){
+        List=matrix->get(i);
+        for(int j=0;j<List->getLen();j++){
+            std::cout<<*List->get(j)<<std::endl;
+        }
+        std::cout<<"_______________________________________________________________________________________________"<<std::endl;
+    }
+ */
+
+
+
+    CSVSorting *csv=new CSVSorting;
+    csv->setCsvDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv");
+    csv->setOutputDirectory("/home/lazh/QTproyects/Resources/fma/Out");
+    csv->setSource("/home/lazh/QTproyects/Resources/fma/fma_small");
+    csv->setReferencePosition(11);
+    csv->setFilePosition(0);
+    MyProyectStringIterator iterator;
+    iterator.setAfter(".mp3");
+    iterator.setBefore("0");
+    iterator.setBeforeDigits(6);
+    csv->setIterator(iterator);
+    csv->sortToDirectory();
 
     Widget w;
     w.show();

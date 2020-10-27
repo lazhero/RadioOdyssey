@@ -1,7 +1,6 @@
 #include "localfilegetter.h"
 #include<iostream>
 std::string empty_value="";
-const char delim='/';
 LocalfileGetter::LocalfileGetter()
 {
     Source_Route=new QString;
@@ -17,9 +16,9 @@ LocalfileGetter::LocalfileGetter()
 Song LocalfileGetter::getSong(QString id)
 {
     std::string route=getRoute(Source_Route->toStdString(),id.toStdString());
-    Song* song=new Song;
-    song->setDirectory(QString::fromStdString(route));
-    return *song;
+    Song song;
+    song.setDirectory(QString::fromStdString(route));
+    return song;
 }
 /**
  * Auxiliar of other funtion
@@ -61,6 +60,17 @@ QString LocalfileGetter::getSource()
     return *new QString;
 }
 
+DoubleList<std::string> *LocalfileGetter::getDirectoryList()
+{
+    return getRoutesList(true);
+
+}
+
+DoubleList<std::string> *LocalfileGetter::getFilesList()
+{
+    return getRoutesList(false);
+
+}
 
 /**
  * look for a file with name "value" and save it directory
@@ -86,3 +96,21 @@ std::string LocalfileGetter::getRoute(std::string route,std::string value)
     }
     return empty_value;
 }
+
+DoubleList<std::string> *LocalfileGetter::getRoutesList(bool ISDIRECTORY)
+{
+    std::string temp;
+    DoubleList<std::string> * ReturnList=new DoubleList<std::string>;
+
+    for(auto& p: fs::directory_iterator(Source_Route->toStdString())){
+      if(p.is_directory()==ISDIRECTORY){
+          temp=p.path();
+          ReturnList->add(temp);
+      }
+
+    }
+    return ReturnList;
+}
+
+
+

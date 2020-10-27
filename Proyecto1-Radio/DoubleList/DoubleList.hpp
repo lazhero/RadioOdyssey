@@ -1,3 +1,14 @@
+#pragma once
+/**
+  *@file DoubleList.hpp
+  * @version 1.0
+  * @date 25/09/2020
+  * @author Luis Andrey Zuniga
+  * @title Generic DoubleList
+  */
+
+
+
 #include "../DoubleNode/DoubleNode.hpp"
 #define EmptyLen 0
 #define minIndex 0
@@ -12,19 +23,67 @@ struct OutIndexException : public std::exception {
 template<typename T>
 class DoubleList {
 private:
+    /**
+     * @brief HeadNode
+     */
     DoubleNode<T> *Head;
+    /**
+     * @brief TailNode
+     */
     DoubleNode<T> *Tail;
+    /**
+     * @brief len of the list
+     */
     int len;
+    /**
+     * @brief getNode at the indicated position
+     * @param pos of the node
+     * @return  a DoubleNode of the selected position
+     */
     DoubleNode<T>* getNode(int pos);
+    /**
+     * @brief verification of the position given, whenever is between [0:len[ returns true, else returns false
+     * @param index
+     * @return  a boolean
+     */
     bool verification(int index);
 public:
+    /**
+     * @brief The constructor of the DoubleList
+     */
     DoubleList();
+    /**
+     * @brief DoubleList Copy Constructor
+     * @param another object of the same class
+     */
     DoubleList(DoubleList<T>& List);
     ~DoubleList();
+    /**
+     * @brief Add data to the list
+     * @param The data to be added
+     */
     void add(T &data);
+    /**
+     * @brief Erase the data at an specific position
+     * @param the position to be erased
+     */
     void erase(int pos);
+    /**
+     * @brief replace the data at the specified position for another passed to this method
+     * @param position to be replaced
+     * @param Data to be putted instead
+     */
     void set(int pos,T &data);
+    /**
+     * @brief get the data at a position
+     * @param position to get the dada
+     * @return  the data at the given position
+     */
     T* get(int pos);
+    /**
+     * @brief get the length of the list
+     * @return  a integer that represents the length of the list
+     */
     int getLen();
 };
 template <typename T>
@@ -37,6 +96,14 @@ template <typename T>
 DoubleList<T>::~DoubleList(){
     if(Tail!=NULL)free(Tail);
     if(Head!=NULL)free(Head);
+    DoubleNode<T>* temp,Saved;
+/*
+    for(temp=Head;temp!=NULL;){
+       // Saved=&temp->getFront();
+        //free(temp);
+        //temp=Saved;
+    }
+    */
 }
 template<typename T>
 bool DoubleList<T>::verification(int index) {
@@ -61,7 +128,7 @@ template<typename T>
 void DoubleList<T>::add(T &data) {
     DoubleNode<T> *temp=new DoubleNode<T>;
     len++;
-    temp->setData(data);
+    temp->setData(*new T(data));
     if(Tail==NULL){
         Head=temp;
         Tail=temp;
@@ -103,7 +170,9 @@ void DoubleList<T>::set(int pos,T &data) {
 }
 template<typename T>
 DoubleList<T>::DoubleList(DoubleList<T> &List) {
-    DoubleList<int>();
+    Tail=NULL;
+    Head=NULL;
+    len=EmptyLen;
     T *temp;
     for (int i = 0; i < List.len; i++) {
         temp = new T(*List.get(i));

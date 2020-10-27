@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 template<typename T>
 class DoubleNode {
@@ -21,7 +22,7 @@ public:
 };
 template <typename T>
 DoubleNode<T>::DoubleNode() {
-    Data=(T*)malloc(sizeof(T));
+    Data=new T;
     Front=NULL;
     Back=NULL;
 }
