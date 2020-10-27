@@ -5,7 +5,7 @@
 #include "clikable_item.h"
 #include <QTimer>
 #include<localfilegetter.h>
-
+#include"csvhandler.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -48,5 +48,6 @@ private:
     void insertListToListView( DoubleList<std::string> listilla,QString listView);
     QString convToMinutes(int miliseconds);
     QString calculateRealName(QString ruta);
+    CSVHandler* csv;
 };
 #endif

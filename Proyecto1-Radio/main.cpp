@@ -15,9 +15,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 /*
-    CSVHandler* csv=new CSVHandler;
-    csv->setFileDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv");
-    csv->startReading();
+
 
     DoubleList<std::string>* line=csv->getnextLine();
     for(int i=0;i<line->getLen();i++){

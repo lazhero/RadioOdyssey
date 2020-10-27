@@ -81,7 +81,7 @@ DoubleList<std::string> *CSVHandler::getNextLineWithIn(std::string text, int pos
             if(text.compare(item)==0)found=true;
             returnList->add(item);
         }
-        if(!failCondition && ((position>0 && returnList->getLen()>position) || text.compare(emptyString)==0))return returnList;
+        if(!failCondition && ((position>=0 && returnList->getLen()>position) || text.compare(emptyString)==0))return returnList;
         if(position<0 && found)return returnList;
 
 

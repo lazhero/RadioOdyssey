@@ -20,6 +20,9 @@ QString PlayText="Play";
 QString PauseText="Pause";
 //QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
 QString route="/home/adrian/Escritorio/Musica";
+QString route2="/home/adrian/Escritorio/Musica/fma_metadata/tracks.csv";
+int songPosition=0;
+
 
 LocalfileGetter getter;
 int starting_Vol=50;
@@ -57,7 +60,17 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 
     ui->setupUi(this);
     ui->vol->setValue(starting_Vol);
-      insertListToListView(*myList,"carpetas");
+
+    //iniciado de directorios
+    insertListToListView(*myList,"carpetas");
+
+    //
+    csv=new CSVHandler;
+    csv->setFileDirectory(route2.toStdString());
+    csv->startReading();
+
+
+
 }
 
 Widget::~Widget()
@@ -134,7 +147,9 @@ QString Widget:: convToMinutes(int miliseconds){
  * @param name
  */
 void Widget::addThingTo(QString listView ,QString dir,QString name){
+
     Clikable_Item* newItem= new Clikable_Item;
+
     newItem->setInfo(dir);        //direccion a seguir
     newItem->setText(name);       //nombre visible
     if(listView=="carpetas")
@@ -152,6 +167,8 @@ QString Widget::calculateRealName(QString ruta){
 
     QStringList aux= ruta.split("/");
     QString resultado= aux.at(aux.length()-1);
+    aux= resultado.split(".");
+    resultado=aux.at(0);
     return resultado;
 
 
@@ -160,12 +177,45 @@ QString Widget::calculateRealName(QString ruta){
 
 void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView){
 
+    //listi
+
     for (int i=0; i< listilla.getLen();i++ ){
 
         QString dir_info= QString::fromStdString(listilla.get(i)->data());
-
-
         QString dir_nombre= calculateRealName(dir_info);
+
+        if(listView=="canciones"){
+            while(dir_nombre.left(1)=="0"){
+                dir_nombre=dir_nombre.right(dir_nombre.length()-1);
+            }
+
+            CSVHandler *milton= new CSVHandler;
+
+            milton->setFileDirectory(route2.toStdString());
+            milton->startReading();
+
+            //s::cout<<"SATANAAAAAAAAAAAAAAAAAAAS" <<dir_nombre.toStdString();
+            //s::cout<<s::endl;
+
+            DoubleList<std::string>*informacion = milton->getNextLineWithIn(dir_nombre.toStdString(), songPosition);
+            /*
+            s::string *artista= informacion->get(25);
+            s::string *genero= informacion->get(40);
+
+            QString resultado = dir_nombre .append(QString::fromStdString(*artista));
+            resultado.append(QString::fromStdString(*genero));
+            */
+            s::cout<<informacion->getLen();
+            s::cout<<s::endl;
+            for (int noguera=0; noguera<informacion->getLen();i++){
+                s::cout<<informacion->get(noguera) <<s::endl;
+            }
+
+
+        }
+
+
+
         addThingTo(listView,dir_info,dir_nombre);
         //addThingTo("carpetas",QString::number(123),QString::number(123));
 
@@ -227,8 +277,11 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
     LocalfileGetter *myFileGetter= new LocalfileGetter;
     getter.setSouce(algo->returnInfo().toStdString());
     myFileGetter->setSource(algo->returnInfo());
+
     DoubleList<std::string> *myList2=myFileGetter->getFilesList();
+
     ui->canciones->clear();//LIMPIA LA VARA
+
     insertListToListView(*myList2,"canciones");
 
 
