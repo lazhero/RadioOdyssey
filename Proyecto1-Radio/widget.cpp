@@ -15,12 +15,13 @@
 #include "sys/types.h"
 #include "sys/sysinfo.h"
 #include "clikable_item.h"
+#include<DoubleList/InsertionSort.hpp>
 
 QString PlayText="Play";
 QString PauseText="Pause";
-//QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
-QString route="/home/adrian/Escritorio/Musica";
-QString route2="/home/adrian/Escritorio/Musica/fma_metadata/tracks.csv";
+QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
+//QString route="/home/adrian/Escritorio/Musica";
+QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv";
 int songPosition=0;
 
 
@@ -57,7 +58,8 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     //DoubleList<std::string> *myList= new DoubleList<std::string>;
 
 
-
+    this->csv=new CSVHandler;
+    this->csv->setFileDirectory(route2.toStdString());
     ui->setupUi(this);
     ui->vol->setValue(starting_Vol);
 
@@ -65,10 +67,6 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     insertListToListView(*myList,"carpetas");
 
     //
-    csv=new CSVHandler;
-    csv->setFileDirectory(route2.toStdString());
-    csv->startReading();
-
 
 
 }
@@ -175,10 +173,32 @@ QString Widget::calculateRealName(QString ruta){
 
 }
 
+DoubleList<std::string> Widget::FixSongsNames(DoubleList<std::string> List)
+{
+    QString dir_info;
+    QString dir_nombre;
+    std::string Name;
+    DoubleList<std::string> ReturnList;
+    for(int i=0;i<List.getLen();i++){
+        dir_info= QString::fromStdString(List.get(i)->data());
+        dir_nombre= calculateRealName(dir_info);
+        while(dir_nombre.left(1)=="0"){
+            dir_nombre=dir_nombre.right(dir_nombre.length()-1);
+         }
+        dir_nombre= calculateRealName(dir_nombre);
+        Name=dir_nombre.toStdString();
+        ReturnList.add(Name);
+
+
+    }
+    return ReturnList;
+
+}
+
 void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView){
 
-    //listi
-
+     sort(&listilla);
+     this->csv->startReading();
     for (int i=0; i< listilla.getLen();i++ ){
 
         QString dir_info= QString::fromStdString(listilla.get(i)->data());
@@ -189,30 +209,28 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
                 dir_nombre=dir_nombre.right(dir_nombre.length()-1);
             }
 
-            CSVHandler *milton= new CSVHandler;
 
-            milton->setFileDirectory(route2.toStdString());
-            milton->startReading();
+            std::cout<<dir_nombre.toStdString()<<std::endl;
+             DoubleList<std::string>*informacion =this->csv->getNextLineWithIn(dir_nombre.toStdString(),0);
 
-            DoubleList<std::string>*informacion = milton->getNextLineWithIn(dir_nombre.toStdString(),0);
-            /*
-            s::string *artista= informacion->get(25);
-            s::string *genero= informacion->get(40);
 
-            QString resultado = dir_nombre .append(QString::fromStdString(*artista));
-            resultado.append(QString::fromStdString(*genero));
-            */
-            s::cout<<informacion->getLen();
-            s::cout<<s::endl;
-            for (int noguera=0; noguera<informacion->getLen();noguera++){
-                s::cout<<* informacion->get(noguera) <<s::endl;
-                s::cout<<"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" <<s::endl;
-            }
+             for(int i=0;i<informacion->getLen();i++){
+                 std::cout<<*informacion->get(i)<<std::endl;
+
+             }
+             std::cout<<"-----------------------------------------------------------"<<std::endl;
+             if(informacion->getLen()>25){
+                 s::string *artista= informacion->get(25);
+              //  s::string *genero= informacion->get(40);
+
+                 QString resultado = dir_nombre .append(QString::fromStdString(*artista));
+             //    resultado.append(QString::fromStdString(*genero));
+                 dir_nombre=resultado;
+             }
 
 
 
         }
-
 
 
         addThingTo(listView,dir_info,dir_nombre);
@@ -220,6 +238,7 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
 
 
     }
+    std::cout<<"--------------------------------------------------------------"<<std::endl;
 
 
 }
@@ -335,7 +354,6 @@ void Widget::on_PlayB_clicked(){
              timer->start(updateFramingConstant);
          //////////////////////////////////////////
         }
-
 
 }
 /**

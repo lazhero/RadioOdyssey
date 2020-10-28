@@ -48,6 +48,7 @@ private:
     void insertListToListView( DoubleList<std::string> listilla,QString listView);
     QString convToMinutes(int miliseconds);
     QString calculateRealName(QString ruta);
+    DoubleList<std::string> FixSongsNames(DoubleList<std::string> List);
     CSVHandler* csv;
 };
 #endif
