@@ -51,6 +51,16 @@ int main(int argc, char *argv[])
     csv->setIterator(iterator);
     csv->sortToDirectory();
     */
+
+    CSVHandler* handler=new CSVHandler;
+        handler->setFileDirectory("/home/adrian/Escritorio/Musica/fma_metadata/tracks.csv");
+        handler->startReading();
+        DoubleList<std::string>* List=handler->getNextLineWithIn("22",0);
+        for(int i=0;i<List->getLen();i++){
+            std::cout<<*List->get(i)<<std::endl;
+        }
+
+
     Widget w;
     w.show();
     return a.exec();

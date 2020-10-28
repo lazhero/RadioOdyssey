@@ -197,7 +197,7 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
             //s::cout<<"SATANAAAAAAAAAAAAAAAAAAAS" <<dir_nombre.toStdString();
             //s::cout<<s::endl;
 
-            DoubleList<std::string>*informacion = milton->getNextLineWithIn(dir_nombre.toStdString(), songPosition);
+            DoubleList<DoubleList<std::string>>*informacion = milton->getAllLinesWithIn("32525",0);
             /*
             s::string *artista= informacion->get(25);
             s::string *genero= informacion->get(40);
@@ -208,7 +208,7 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
             s::cout<<informacion->getLen();
             s::cout<<s::endl;
             for (int noguera=0; noguera<informacion->getLen();i++){
-                s::cout<<informacion->get(noguera) <<s::endl;
+                s::cout<<* informacion->get(0)->get(noguera) <<s::endl;
             }
 
 

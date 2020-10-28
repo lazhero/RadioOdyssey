@@ -108,4 +108,3 @@ DoubleList<DoubleList<std::string>> *CSVHandler::getAllLinesWithIn(std::string t
 
 }
 
-
