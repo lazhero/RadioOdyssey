@@ -39,7 +39,7 @@ void CSVHandler::startReading()
         inputStream->clear();
         inputStream->seekg(0,std::ios_base::beg);
     }
-
+   // inputStream->see
 
 
 

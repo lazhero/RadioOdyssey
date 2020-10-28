@@ -26,6 +26,7 @@ SOURCES += \
     song.cpp
 
 HEADERS += \
+    DoubleList/InsertionSort.hpp \
     SongGetter.h \
     cassettegallery.h \
     csvhandler.h \
