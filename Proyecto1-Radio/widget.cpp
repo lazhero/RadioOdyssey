@@ -194,10 +194,7 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
             milton->setFileDirectory(route2.toStdString());
             milton->startReading();
 
-            //s::cout<<"SATANAAAAAAAAAAAAAAAAAAAS" <<dir_nombre.toStdString();
-            //s::cout<<s::endl;
-
-            DoubleList<DoubleList<std::string>>*informacion = milton->getAllLinesWithIn("32525",0);
+            DoubleList<std::string>*informacion = milton->getNextLineWithIn(dir_nombre.toStdString(),0);
             /*
             s::string *artista= informacion->get(25);
             s::string *genero= informacion->get(40);
@@ -207,9 +204,11 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
             */
             s::cout<<informacion->getLen();
             s::cout<<s::endl;
-            for (int noguera=0; noguera<informacion->getLen();i++){
-                s::cout<<* informacion->get(0)->get(noguera) <<s::endl;
+            for (int noguera=0; noguera<informacion->getLen();noguera++){
+                s::cout<<* informacion->get(noguera) <<s::endl;
+                s::cout<<"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" <<s::endl;
             }
+
 
 
         }
