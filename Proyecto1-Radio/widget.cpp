@@ -11,7 +11,7 @@
 #include<csvsorting.h>
 #include<myproyectstringiterator.h>
 
-
+#include <QScrollBar>
 #include "sys/types.h"
 #include "sys/sysinfo.h"
 #include "clikable_item.h"
@@ -19,13 +19,15 @@
 
 QString PlayText="Play";
 QString PauseText="Pause";
-QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
-//QString route="/home/adrian/Escritorio/Musica";
-QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv";
-int songPosition=0;
 
+QString route="/home/adrian/Escritorio/Musica";
+QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+QString DirectoriesID="carpetas";
 
+//QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
+//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv";
 LocalfileGetter getter;
+int songPosition=0;
 int starting_Vol=50;
 int updateFramingConstant=150;
 
@@ -35,41 +37,34 @@ namespace s = std;
 
 Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 {
-
+    //instancias
+    this->csv=new CSVHandler;
     player = new  MusicPlayer;
-    player->setVolumen(starting_Vol);
+    timer  = new  QTimer(this);
+    LocalfileGetter *myFileGetter= new LocalfileGetter;
+
+    //valores iniciales
     playing=false;
     getter.setSource(route);
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    timer = new QTimer(this); /// calls after X MILIseconds updateScenario who updates the slideBar and timeCount Label
-      connect(timer, &QTimer::timeout,[&]
-             {
-                 if(playing){
-                     updateScenario();
-                 }
-
-             });
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    LocalfileGetter *myFileGetter= new LocalfileGetter;
     myFileGetter->setSource(route);
-    DoubleList<std::string> *myList=myFileGetter->getDirectoryList();
-
-    //DoubleList<std::string> *myList= new DoubleList<std::string>;
+    player->setVolumen(starting_Vol);
 
 
-    this->csv=new CSVHandler;
-    this->csv->setFileDirectory(route2.toStdString());
+    //inicio ventana
     ui->setupUi(this);
     ui->vol->setValue(starting_Vol);
 
+    //conexiones
+    connect(ui->directorios->verticalScrollBar(), &QScrollBar::valueChanged, [&]{reportScrollPosition();}  );
+    connect(timer, &QTimer::timeout,[&]{if(playing)updateScenario();});
+
     //iniciado de directorios
-    insertListToListView(*myList,"carpetas");
-
-    //
-
+    DoubleList<std::string> *myList = myFileGetter->getDirectoryList();
+    this->csv->setFileDirectory(route2.toStdString());
+    insertListToListView(*myList,DirectoriesID);
 
 }
+
 
 Widget::~Widget()
 {
@@ -127,16 +122,6 @@ QString Widget:: convToMinutes(int miliseconds){
             return result;
 }
 
-
-
-
-
-
-
-
-
-
-
 /**
  * Adds items to both list view
  * @brief Widget::addThingTo
@@ -144,12 +129,13 @@ QString Widget:: convToMinutes(int miliseconds){
  * @param dir
  * @param name
  */
-void Widget::addThingTo(QString listView ,QString dir,QString name){
+void Widget::addThingTo(QString listView ,QString dir,QString name,QString realName){
 
     Clikable_Item* newItem= new Clikable_Item;
 
     newItem->setInfo(dir);        //direccion a seguir
     newItem->setText(name);       //nombre visible
+    newItem->setRname(realName.append(".mp3"));
     if(listView=="carpetas")
         ui->directorios->addItem(newItem);
    if(listView=="canciones")
@@ -194,35 +180,40 @@ DoubleList<std::string> Widget::FixSongsNames(DoubleList<std::string> List)
     return ReturnList;
 
 }
-
+/**
+* Insert a entire directory list into  a Listview
+ * @brief Widget::insertListToListView
+ * @param listilla
+ * @param listView
+ */
 void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView){
 
-     sort(&listilla);
-     this->csv->startReading();
+    sort(&listilla);
+    this->csv->startReading();
     for (int i=0; i< listilla.getLen();i++ ){
 
         QString dir_info= QString::fromStdString(listilla.get(i)->data());
         QString dir_nombre= calculateRealName(dir_info);
+        QString dir_rName= dir_nombre;
 
+        //Quita los ceros del nombre de la cancion
         if(listView=="canciones"){
-            while(dir_nombre.left(1)=="0"){
+             while(dir_nombre.left(1)=="0"){
                 dir_nombre=dir_nombre.right(dir_nombre.length()-1);
-            }
+             }
 
 
-            std::cout<<dir_nombre.toStdString()<<std::endl;
+             std::cout<<dir_nombre.toStdString()<<std::endl;
              DoubleList<std::string>*informacion =this->csv->getNextLineWithIn(dir_nombre.toStdString(),0);
 
 
-             for(int i=0;i<informacion->getLen();i++){
-                 std::cout<<*informacion->get(i)<<std::endl;
+             for(int i=0;i<informacion->getLen();i++){std::cout<<*informacion->get(i)<<std::endl;}
 
-             }
              std::cout<<"-----------------------------------------------------------"<<std::endl;
+
              if(informacion->getLen()>25){
                  s::string *artista= informacion->get(25);
               //  s::string *genero= informacion->get(40);
-
                  QString resultado = dir_nombre .append(QString::fromStdString(*artista));
              //    resultado.append(QString::fromStdString(*genero));
                  dir_nombre=resultado;
@@ -230,26 +221,35 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
 
 
 
-        }
+       }
 
-
-        addThingTo(listView,dir_info,dir_nombre);
+        addThingTo(listView,dir_info,dir_nombre,dir_rName);
         //addThingTo("carpetas",QString::number(123),QString::number(123));
-
 
     }
     std::cout<<"--------------------------------------------------------------"<<std::endl;
+}
+
+/**
+ * Set pagination mode active or inactive
+ * @brief Widget::setPaginationMode
+ * @param state
+ */
+
+void Widget::setPaginationMode(bool state){
 
 
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////
-/// ////////////////////////////////////////////////////////////////////////////////////////////
-/// ////////////////////////////////////////////////////////////////////////////////////////////
+/**
+ * catch changes on the checkbox and call setpaginationmode
+ * @brief Widget::on_checkBox_stateChanged
+ * @param arg1
+ */
+void Widget::on_checkBox_stateChanged(int arg1){
+     paginationMode=arg1;
+     setPaginationMode(paginationMode);
+}
 
 
 /**
@@ -265,9 +265,6 @@ void Widget::on_timeBar_valueChanged(int value){
                 dur.append("/");
         ui->Duration->setText(dur);
         ui->currentTIME->setText(convToMinutes(ui->timeBar->maximum()-value));
-
-        //adelanta o atrasa la cancion
-
 }
 
 /**
@@ -278,8 +275,7 @@ void Widget::on_timeBar_valueChanged(int value){
 
 void Widget::on_vol_valueChanged(int value){
     player->setVolumen(value);
-    //DUMMY TEST HERE addThingTo("carpetas",QString::number(value),QString::number(value));
-    //std::cout<<"hola "<<value<< std::endl;
+
 }
 
 
@@ -291,31 +287,20 @@ void Widget::on_vol_valueChanged(int value){
 void Widget::on_directorios_itemClicked( QListWidgetItem *item)
 {
     Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item)  ;
-
     LocalfileGetter *myFileGetter= new LocalfileGetter;
     getter.setSouce(algo->returnInfo().toStdString());
     myFileGetter->setSource(algo->returnInfo());
-
     DoubleList<std::string> *myList2=myFileGetter->getFilesList();
-
     ui->canciones->clear();//LIMPIA LA VARA
-
     insertListToListView(*myList2,"canciones");
-
-
 }
-
-
 
 void Widget::on_canciones_itemClicked(QListWidgetItem *item)
 {
         Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item);
-        player->addToPlayList(getter.getSong(algo->text()));
+        s::cout<<algo->getRname().toStdString()<<s::endl;
+        player->addToPlayList(getter.getSong(algo->getRname()));
 }
-
-
-
-
 
 /**
  * Dettects button clicked and stop the song
@@ -364,4 +349,9 @@ void Widget::on_PlayB_clicked(){
 void Widget::on_timeBar_sliderMoved(int position){
             player->setTime(position);
 }
+
+void Widget::reportScrollPosition(){
+     s::cout<<ui->directorios->verticalScrollBar()->value() <<s::endl;
+}
+
 

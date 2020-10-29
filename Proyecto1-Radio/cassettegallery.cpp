@@ -3,14 +3,19 @@ const int pageNumber=3;
 const char charDelimiter='/';
 const std::string delimiter="/";
 const std::string format=".mp3";
-
+/**
+ * @brief CassetteGallery::CassetteGallery
+ * @param requestedLen
+ */
 CassetteGallery::CassetteGallery(int requestedLen)
 {
     page=new Pages(requestedLen);
     csvHandler=new CSVHandler;
 
 }
-
+/**
+ * @brief CassetteGallery::~CassetteGallery
+ */
 CassetteGallery::~CassetteGallery()
 {
     free(page);
@@ -19,7 +24,10 @@ CassetteGallery::~CassetteGallery()
     free(CSVList);
 
 }
-
+/**
+ * @brief CassetteGallery::setRequestLen
+ * @param len
+ */
 void CassetteGallery::setRequestLen(int len)
 {
     page->setListLen(len);

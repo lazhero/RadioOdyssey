@@ -3,12 +3,17 @@ std::string delimiter="/";
 char charDelimiter='/';
 std::string voidString;
 std::string Filetext="Job Done";
+/**
+ * @brief CSVSorting::CSVSorting
+ */
 CSVSorting::CSVSorting()
 {
 
 
 }
-
+/**
+ * @brief CSVSorting::sortToDirectory
+ */
 void CSVSorting::sortToDirectory()
 {
 
