@@ -23,7 +23,7 @@ QString PauseText="Pause";
 QString route="/home/adrian/Escritorio/Musica";
 QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
-
+QString SongsID="canciones";
 //QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
 //QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv";
 LocalfileGetter getter;
@@ -54,8 +54,9 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     ui->setupUi(this);
     ui->vol->setValue(starting_Vol);
 
+
     //conexiones
-    connect(ui->directorios->verticalScrollBar(), &QScrollBar::valueChanged, [&]{reportScrollPosition();}  );
+    connect(ui->canciones->verticalScrollBar(), &QScrollBar::valueChanged, [&]{reportScrollPosition();}  );
     connect(timer, &QTimer::timeout,[&]{if(playing)updateScenario();});
 
     //iniciado de directorios
@@ -103,7 +104,7 @@ void Widget :: updateScenario(){
     */
     /////////////Calculo de memoria en uso
 
-    //s::cout<<"hola"<< s::endl;
+
 }
 
 
@@ -136,17 +137,21 @@ void Widget::addThingTo(QString listView ,QString dir,QString name,QString realN
     newItem->setInfo(dir);        //direccion a seguir
     newItem->setText(name);       //nombre visible
     newItem->setRname(realName.append(".mp3"));
-    if(listView=="carpetas")
+
+    if(listView==DirectoriesID)
         ui->directorios->addItem(newItem);
-   if(listView=="canciones")
+    else
         ui->canciones->addItem(newItem);
 
 
 
-
-
-
 }
+/**
+ * Remove all routes prefixes
+ * @brief Widget::calculateRealName
+ * @param ruta
+ * @return
+ */
 QString Widget::calculateRealName(QString ruta){
 
     QStringList aux= ruta.split("/");
@@ -158,7 +163,12 @@ QString Widget::calculateRealName(QString ruta){
 
 
 }
-
+/**
+ * Fix all visual issues with songs in a list
+ *  @brief Widget::FixSongsNames
+ * @param List
+ * @return
+ */
 DoubleList<std::string> Widget::FixSongsNames(DoubleList<std::string> List)
 {
     QString dir_info;
@@ -197,7 +207,7 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
         QString dir_rName= dir_nombre;
 
         //Quita los ceros del nombre de la cancion
-        if(listView=="canciones"){
+        if(listView==SongsID){
              while(dir_nombre.left(1)=="0"){
                 dir_nombre=dir_nombre.right(dir_nombre.length()-1);
              }
@@ -224,7 +234,6 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
        }
 
         addThingTo(listView,dir_info,dir_nombre,dir_rName);
-        //addThingTo("carpetas",QString::number(123),QString::number(123));
 
     }
     std::cout<<"--------------------------------------------------------------"<<std::endl;
@@ -292,7 +301,7 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
     myFileGetter->setSource(algo->returnInfo());
     DoubleList<std::string> *myList2=myFileGetter->getFilesList();
     ui->canciones->clear();//LIMPIA LA VARA
-    insertListToListView(*myList2,"canciones");
+    insertListToListView(*myList2,SongsID);
 }
 
 void Widget::on_canciones_itemClicked(QListWidgetItem *item)
@@ -351,7 +360,7 @@ void Widget::on_timeBar_sliderMoved(int position){
 }
 
 void Widget::reportScrollPosition(){
-     s::cout<<ui->directorios->verticalScrollBar()->value() <<s::endl;
+     s::cout<<ui->canciones->verticalScrollBar()->value() <<s::endl;
 }
 
 
