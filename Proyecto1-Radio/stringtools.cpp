@@ -24,3 +24,16 @@ std::string *StringTools::appendString(std::string First, std::string Second)
     return returnString;
 
 }
+
+std::string StringTools::replaceChar(std::string string, char toReplace, std::string Changed){
+    int i=0;
+    for(char t:string){
+        if(t==toReplace){
+            string.replace(i,1,Changed);
+        }
+        i++;
+    }
+    return string;
+}
+
+

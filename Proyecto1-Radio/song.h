@@ -21,6 +21,7 @@ public:
     QString getFileName();
     void setFileName(QString Name);
     void setFileName(std::string Name);
+    std::string toString();
 private:
     QString* FileName;
     QString* directory;

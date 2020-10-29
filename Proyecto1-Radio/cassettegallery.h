@@ -39,11 +39,16 @@ public:
     int getGenrePosition() const;
     void setGenrePosition(int value);
 
-    void setIterator(stringIterator iterator);
+    void setIterator(stringIterator* iterator);
     stringIterator getIterator();
 
     bool moveForwards();
     bool moverBackwards();
+
+
+   DoubleList<Song>* getActualList();
+
+   std::string getFileName(std::string data);
 
 
 
@@ -65,8 +70,11 @@ private:
     CSVHandler* csvHandler;
     stringIterator* iterator;
     DoubleList<DoubleList<std::string>>* CSVList;
+    DoubleList<std::string> *FilesList;
 
     Song* getSong(DoubleList<std::string>* AtributeList);
+    void add(int n);
+    void clear();
 
 
 

@@ -5,6 +5,7 @@
 #include "clikable_item.h"
 #include <QTimer>
 #include<localfilegetter.h>
+#include<cassettegallery.h>
 #include"csvhandler.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -50,5 +51,7 @@ private:
     QString calculateRealName(QString ruta);
     DoubleList<std::string> FixSongsNames(DoubleList<std::string> List);
     CSVHandler* csv;
+    CassetteGallery * gallery;
+    stringIterator *iterator;
 };
 #endif

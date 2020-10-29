@@ -10,6 +10,7 @@ public:
     StringTools();
     static DoubleList<std::string>* slipString(char delimiter,std::string input);
     static std::string* appendString(std::string First,std::string Second);
+    static std::string replaceChar(std::string string, char toReplace,std::string Changed);
 
 };
 

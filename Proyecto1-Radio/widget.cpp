@@ -5,7 +5,7 @@
 #include <QDir>
 #include<string>
 #include<iostream>
-
+#include<myproyectstringiterator.h>
 #include"csvhandler.h"
 #include<localfilegetter.h>
 #include<csvsorting.h>
@@ -17,13 +17,18 @@
 #include "clikable_item.h"
 #include<DoubleList/InsertionSort.hpp>
 
+
 QString PlayText="Play";
 QString PauseText="Pause";
 QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
 //QString route="/home/adrian/Escritorio/Musica";
-QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv";
+QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
 int songPosition=0;
 
+
+int artistPosition=5;
+int albumPosition=2;
+int genrePosition=artistPosition;
 
 LocalfileGetter getter;
 int starting_Vol=50;
@@ -60,6 +65,13 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 
     this->csv=new CSVHandler;
     this->csv->setFileDirectory(route2.toStdString());
+    MyProyectStringIterator* myIterator=new MyProyectStringIterator;
+    myIterator->setAfter(".mp3");
+    myIterator->setBefore("0");
+    myIterator->setBeforeDigits(5);
+    this->iterator=myIterator;
+    gallery=NULL;
+
     ui->setupUi(this);
     ui->vol->setValue(starting_Vol);
 
@@ -151,9 +163,13 @@ void Widget::addThingTo(QString listView ,QString dir,QString name){
     newItem->setInfo(dir);        //direccion a seguir
     newItem->setText(name);       //nombre visible
     if(listView=="carpetas")
+    {
         ui->directorios->addItem(newItem);
-   if(listView=="canciones")
+    }
+   if(listView=="canciones"){
+
         ui->canciones->addItem(newItem);
+   }
 
 
 
@@ -197,40 +213,16 @@ DoubleList<std::string> Widget::FixSongsNames(DoubleList<std::string> List)
 
 void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView){
 
-     sort(&listilla);
+     if(listView!="canciones")sort(&listilla);
      this->csv->startReading();
     for (int i=0; i< listilla.getLen();i++ ){
 
         QString dir_info= QString::fromStdString(listilla.get(i)->data());
         QString dir_nombre= calculateRealName(dir_info);
-
         if(listView=="canciones"){
-            while(dir_nombre.left(1)=="0"){
-                dir_nombre=dir_nombre.right(dir_nombre.length()-1);
-            }
-
-
-            std::cout<<dir_nombre.toStdString()<<std::endl;
-             DoubleList<std::string>*informacion =this->csv->getNextLineWithIn(dir_nombre.toStdString(),0);
-
-
-             for(int i=0;i<informacion->getLen();i++){
-                 std::cout<<*informacion->get(i)<<std::endl;
-
-             }
-             std::cout<<"-----------------------------------------------------------"<<std::endl;
-             if(informacion->getLen()>25){
-                 s::string *artista= informacion->get(25);
-              //  s::string *genero= informacion->get(40);
-
-                 QString resultado = dir_nombre .append(QString::fromStdString(*artista));
-             //    resultado.append(QString::fromStdString(*genero));
-                 dir_nombre=resultado;
-             }
-
-
-
+            std::cout<<"satanas"<<std::endl;
         }
+
 
 
         addThingTo(listView,dir_info,dir_nombre);
@@ -238,7 +230,6 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
 
 
     }
-    std::cout<<"--------------------------------------------------------------"<<std::endl;
 
 
 }
@@ -296,11 +287,28 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
     getter.setSouce(algo->returnInfo().toStdString());
     myFileGetter->setSource(algo->returnInfo());
 
-    DoubleList<std::string> *myList2=myFileGetter->getFilesList();
+    if(gallery!=NULL)free(gallery);
+    gallery=new CassetteGallery(15);
 
-    ui->canciones->clear();//LIMPIA LA VARA
+    gallery->setAlbumPosition(albumPosition);
+    gallery->setArtistPosition(artistPosition);\
+    gallery->setGenrePosition(genrePosition);
+    gallery->setRequestLen(15);
+    gallery->setCsvDir(route2.toStdString());
+    gallery->setIterator(this->iterator);
+    gallery->setSourceDir(algo->returnInfo().toStdString());
+    DoubleList<Song>* SongList=gallery->getActualList();
+    DoubleList<std::string>* List=new DoubleList<std::string>;
+    std::string tempString;
+    for(int i=0;i<SongList->getLen();i++){
+        tempString=SongList->get(i)->toString();
+        List->add(tempString);
+    }
+     ui->canciones->clear();//LIMPIA LA VARA
+    insertListToListView(*List,"canciones");
 
-    insertListToListView(*myList2,"canciones");
+
+   // insertListToListView(*myList2,"canciones");
 
 
 }

@@ -34,6 +34,14 @@ void Song::setFileName(QString Name){
 void Song::setFileName(std::string Name){
     this->setFileName(QString::fromStdString(Name));
 }
+
+std::string Song::toString()
+{
+    QString returning;
+    returning.append(*FileName);
+    returning.append(*Artist);
+    return returning.toStdString();
+}
 QString Song::getDirectory(){
     return *directory;
 }
@@ -65,8 +73,8 @@ void Song::setGenre(std::string Name){
   this->setGenre(QString::fromStdString(Name));
 }
 Song::~Song(){
-    free(Artist);
-    free(directory);
-    free(FileName);
-    free(genre);
+    //free(Artist);
+    //free(directory);
+    //free(FileName);
+    //free(genre);
 }

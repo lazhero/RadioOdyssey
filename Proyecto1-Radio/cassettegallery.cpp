@@ -3,16 +3,21 @@ const int pageNumber=3;
 const char charDelimiter='/';
 const std::string delimiter="/";
 const std::string format=".mp3";
+#include<DoubleList/InsertionSort.hpp>
+#include<localfilegetter.h>
 
 CassetteGallery::CassetteGallery(int requestedLen)
 {
     page=new Pages(requestedLen);
     csvHandler=new CSVHandler;
+    this->csvDir=new std::string;
+    this->sourceDir=new std::string;
 
 }
 
 CassetteGallery::~CassetteGallery()
 {
+    free(FilesList);
     free(page);
     free(csvDir);
     free(sourceDir);
@@ -49,21 +54,31 @@ std::string CassetteGallery::getCsvDir()
 void CassetteGallery::setSourceDir(std::string dir)
 {
     if(!FileManager::canOpen(dir))return;
+    clear();
+    page->setListLen(requestedLen);
     std::string FileDirectory;
     *this->sourceDir=dir;
-    DoubleList<std::string> slippedString;
-    slippedString=*StringTools::slipString(charDelimiter,dir);
-    csvHandler->startReading();
-    CSVList= csvHandler->getAllLinesWithIn(*slippedString.get(slippedString.getLen()-1),AlbumPosition);
-    Song* temp;
-    int i;
-    for(i=0;i<CSVList->getLen() && i<pageNumber*requestedLen;i++){
-        temp=getSong(CSVList->get(i));
-        page->AddToFront(*temp);
-
+    LocalfileGetter *getter=new LocalfileGetter;
+    getter->setSouce(dir);
+    FilesList=getter->getFilesList();
+    DoubleList<int>* tempList=new DoubleList<int>;
+    int tempInt;
+    for(int i=0;i<FilesList->getLen();i++){
+        tempInt=std::stoi(getFileName(*FilesList->get(i)));
+        tempList->add(tempInt);
     }
-    startPos=minIndex;   //Inclusive
-    endPos=i;//Exclusive
+    sort(tempList);
+    DoubleList<std::string>* TempStringList=new DoubleList<std::string>;
+    std::string tempString;
+    for(int i=0;i<tempList->getLen();i++){
+        tempInt=*tempList->get(i);
+        tempString=std::to_string(tempInt);
+        TempStringList->add(tempString);
+    }
+    FilesList=TempStringList;
+    csvHandler->startReading();
+    add((pageNumber-1)*requestedLen);
+    page->swap(0,1);
 }
 
 std::string CassetteGallery::getSourceDir()
@@ -131,9 +146,9 @@ void CassetteGallery::setGenrePosition(int value)
     GenrePosition = value;
 }
 
-void CassetteGallery::setIterator(stringIterator iterator)
+void CassetteGallery::setIterator(stringIterator* iterator)
 {
-    *this->iterator=iterator;
+    this->iterator=iterator;
 }
 stringIterator CassetteGallery::getIterator(){
     return *this->iterator;
@@ -155,19 +170,68 @@ bool CassetteGallery::moverBackwards(){
     return true;
 }
 
+DoubleList<Song> *CassetteGallery::getActualList()
+{
+    return page->getActual();
+}
+
+std::string CassetteGallery::getFileName(std::string data)
+{
+    std::string temp;
+    DoubleList<std::string>* SlipList= StringTools::slipString(charDelimiter,data);
+    temp=* SlipList->get(SlipList->getLen()-1);
+    SlipList=StringTools::slipString('.',temp);
+    temp=*SlipList->get(minIndex);
+    QString dir_nombre=QString::fromStdString(temp);
+    while(dir_nombre.left(1)=="0"){
+        dir_nombre=dir_nombre.right(dir_nombre.length()-1);
+    }
+    return dir_nombre.toStdString();
+}
+
 Song *CassetteGallery::getSong(DoubleList<std::string>* AtributteList)
 {
     std::string FileDirectory;
     Song *temp=new Song;
-    temp->setArtist(*AtributteList->get(ArtistPosition));
-    temp->setFileName(*AtributteList->get(NamePosition));
-    temp->setGenre(*AtributteList->get(GenrePosition));
+    temp->setArtist(*new std::string(*AtributteList->get(ArtistPosition)));
+    temp->setFileName(*new std::string(*AtributteList->get(NamePosition)));
+    temp->setGenre(*new std::string(*AtributteList->get(GenrePosition)));
     FileDirectory=*sourceDir;
     FileDirectory.append(delimiter);
-    FileDirectory.append(iterator->iterateString(temp->getFileName().toStdString()));
-    temp->setDirectory(FileDirectory);
+    std::string firstTemp=temp->getFileName().toStdString();
+    std::string tempString=iterator->iterateString(firstTemp);
+    FileDirectory.append(tempString);
+    temp->setDirectory(* new std::string(FileDirectory));
     return temp;
 
+}
+
+void CassetteGallery::add(int n)
+
+{
+    Song* temp;
+    std::string tempString;
+    int i;
+    page->setListLen(requestedLen);
+    for( i=endPos;i<FilesList->getLen() && i<endPos+n;i++){
+        temp=getSong(csvHandler->getNextLineWithIn(*FilesList->get(i),NamePosition));
+        //if(page->isFull())page->setListLen(page->getListLen()+1);
+        page->AddToFront(*temp);
+
+    }
+    if(i!=endPos){
+    startPos=endPos;
+    endPos=i;
+    }
+    requestedLen=endPos-startPos;
+}
+
+void CassetteGallery::clear()
+{
+    free(page);
+    page=new Pages(minIndex);
+    startPos=minIndex;
+    endPos=minIndex;
 }
 
 

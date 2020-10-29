@@ -85,6 +85,8 @@ public:
      * @return  a integer that represents the length of the list
      */
     int getLen();
+
+    void addFront(T &data);
 };
 template <typename T>
 DoubleList<T>::DoubleList() {
@@ -138,6 +140,21 @@ void DoubleList<T>::add(T &data) {
         temp->setBack(*Tail);
         Tail=temp;
     }
+}
+template<typename T>
+void DoubleList<T>::addFront(T& data){
+    DoubleNode<T>* temp=new DoubleNode<T>();
+    temp->setData(*new T(data));
+    if(Head==NULL){
+        Head=Tail=temp;
+        return;
+    }
+    Head->setBack(*temp);
+    temp->setBack(*Head);
+    Head=temp;
+
+
+
 }
 template<typename T>
 T* DoubleList<T>::get(int pos) {

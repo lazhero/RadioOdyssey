@@ -12,7 +12,9 @@ public:
     void AddToFront(Song song);
     int getListLen();
     void setListLen(int len);
+    DoubleList<Song>* getActual();
     bool isFull();
+    void swap(int a,int b);
 
 private:
     int ListLen;
@@ -22,6 +24,9 @@ private:
     bool lenVerification(int len);
     void iterateFront();
     void iterateBack();
+    void DeleteLeftOver();
+
+
 };
 
 #endif // PAGES_H

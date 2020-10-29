@@ -3,6 +3,7 @@ std::string delimiter="/";
 char charDelimiter='/';
 std::string voidString;
 std::string Filetext="Job Done";
+std::string substitute="-";
 CSVSorting::CSVSorting()
 {
 
@@ -22,6 +23,7 @@ void CSVSorting::sortToDirectory()
     std::string OutputSubDirectory;
     std::string FileName;
     std::string* fixDirectory;
+    std::string FixedSubDirectory;
     getter->setSouce(source);
     handler1->setFileDirectory(CsvDirectory);
     handle2->setFileDirectory(CsvDirectory);
@@ -31,8 +33,9 @@ void CSVSorting::sortToDirectory()
     for(csvLine=handler1->getnextLine();csvLine->getLen()>0;csvLine=handler1->getnextLine()){
         if(ReferencePosition>=csvLine->getLen())continue;
         OutputSubDirectory=*csvLine->get(ReferencePosition);
-        if(FileManager::canOpen(*StringTools::appendString(*StringTools::appendString(OutputDirectory,delimiter),OutputSubDirectory)))continue;
-        FileManager::createDirectory(OutputDirectory,OutputSubDirectory);
+        FixedSubDirectory=StringTools::replaceChar(OutputSubDirectory,charDelimiter,substitute);
+        if(FileManager::canOpen(*StringTools::appendString(*StringTools::appendString(OutputDirectory,delimiter),FixedSubDirectory)))continue;
+        FileManager::createDirectory(OutputDirectory,FixedSubDirectory);
         if(OutputSubDirectory.compare(voidString)==0)continue;
         FilesMatrix=handle2->getAllLinesWithIn(OutputSubDirectory,ReferencePosition);
         for(int i=0;i<FilesMatrix->getLen();i++){

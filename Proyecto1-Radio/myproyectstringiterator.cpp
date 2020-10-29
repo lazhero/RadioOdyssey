@@ -8,10 +8,12 @@ MyProyectStringIterator::MyProyectStringIterator()
 std::string MyProyectStringIterator::iterateString(std::string data)
 {
     std::string returnString;
-    while(returnString.length()<BeforeDigits-1){
-        returnString.append(before);
+    if(data.length()<=BeforeDigits){
+        while(returnString.length()<BeforeDigits-data.length()){
+            returnString.append(before);
+        }
     }
-    returnString.append(data);
+   returnString.append(data);
     returnString.append(after);
     return returnString;
 
