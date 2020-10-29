@@ -6,6 +6,10 @@ const std::string format=".mp3";
 #include<DoubleList/InsertionSort.hpp>
 #include<localfilegetter.h>
 
+/**
+ * @brief CassetteGallery::CassetteGallery
+ * @param requestedLen
+ */
 CassetteGallery::CassetteGallery(int requestedLen)
 {
     page=new Pages(requestedLen);
@@ -14,7 +18,9 @@ CassetteGallery::CassetteGallery(int requestedLen)
     this->sourceDir=new std::string;
 
 }
-
+/**
+ * @brief CassetteGallery::~CassetteGallery
+ */
 CassetteGallery::~CassetteGallery()
 {
     free(FilesList);
@@ -24,7 +30,10 @@ CassetteGallery::~CassetteGallery()
     free(CSVList);
 
 }
-
+/**
+ * @brief CassetteGallery::setRequestLen
+ * @param len
+ */
 void CassetteGallery::setRequestLen(int len)
 {
     page->setListLen(len);
