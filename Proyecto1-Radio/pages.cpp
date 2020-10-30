@@ -75,6 +75,13 @@ void Pages::swap(int a, int b)
     }
 }
 
+void Pages::emptyBack()
+{
+    while(Prev->getLen()>0){
+        iterateFront();
+    }
+}
+
 
 /**
  * add a song to prev page

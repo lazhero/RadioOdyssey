@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
  */
 
 
-
+/*
     CSVSorting *csv=new CSVSorting;
     csv->setCsvDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv");
     csv->setOutputDirectory("/home/lazh/QTproyects/Resources/fma/Out");
@@ -51,13 +51,15 @@ int main(int argc, char *argv[])
     iterator.setBeforeDigits(6);
     csv->setIterator(iterator);
     csv->sortToDirectory();
+    */
     /*
     CSVHandler* csv=new CSVHandler;
     csv->setFileDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv");
     csv->startReading();
     csv->getNextLineWithIn("190",0);
+    */
     Widget w;
     w.show();
     return a.exec();
-    */
+
 }

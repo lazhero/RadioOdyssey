@@ -15,6 +15,7 @@ public:
     DoubleList<Song>* getActual();
     bool isFull();
     void swap(int a,int b);
+    void emptyBack();
 
 private:
     int ListLen;

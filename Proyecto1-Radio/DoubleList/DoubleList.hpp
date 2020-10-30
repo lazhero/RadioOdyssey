@@ -150,7 +150,7 @@ void DoubleList<T>::addFront(T& data){
         return;
     }
     Head->setBack(*temp);
-    temp->setBack(*Head);
+    temp->setFront(*Head);
     Head=temp;
 
 

@@ -87,7 +87,8 @@ void CassetteGallery::setSourceDir(std::string dir)
     FilesList=TempStringList;
     csvHandler->startReading();
     add((pageNumber-1)*requestedLen);
-    page->swap(0,1);
+    //page->swap(0,1);
+    page->emptyBack();
 }
 
 std::string CassetteGallery::getSourceDir()

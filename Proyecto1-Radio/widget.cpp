@@ -21,12 +21,12 @@
 QString PlayText="Play";
 QString PauseText="Pause";
 
-QString route="/home/adrian/Escritorio/Musica";
-QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+//QString route="/home/adrian/Escritorio/Musica";
+//QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
-//QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
-//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv";
+QString route="/home/lazh/QTproyects/Resources/fma/fma_small";
+QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
 int artistPosition=5;
 int albumPosition=2;
 int genrePosition=artistPosition;
@@ -60,7 +60,7 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     MyProyectStringIterator* myIterator=new MyProyectStringIterator;
     myIterator->setAfter(".mp3");
     myIterator->setBefore("0");
-    myIterator->setBeforeDigits(5);
+    myIterator->setBeforeDigits(6);
     this->iterator=myIterator;
     gallery=NULL;
 
@@ -149,12 +149,15 @@ void Widget::addThingTo(QString listView ,QString dir,QString name,QString realN
 
     newItem->setInfo(dir);        //direccion a seguir
     newItem->setText(name);       //nombre visible
+
     if(listView=="carpetas")
+
     {
+
         ui->directorios->addItem(newItem);
     }
    if(listView=="canciones"){
-
+        newItem->setRname(realName);
         ui->canciones->addItem(newItem);
    }
 
@@ -211,25 +214,28 @@ DoubleList<std::string> Widget::FixSongsNames(DoubleList<std::string> List)
  * @param listilla
  * @param listView
  */
-void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView){
+void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView,DoubleList<QString>* DirList){
 
      if(listView!="canciones")sort(&listilla);
      this->csv->startReading();
     for (int i=0; i< listilla.getLen();i++ ){
-
+        QString temp;
         QString dir_info= QString::fromStdString(listilla.get(i)->data());
         QString dir_nombre= calculateRealName(dir_info);
         if(listView=="canciones"){
-            std::cout<<"satanas"<<std::endl;
+            temp=*DirList->get(i);
+            dir_info=temp;
+
+            std::cout<<"El texto es "<<temp.toStdString()<<std::endl;
         }
 
 
-
-        addThingTo(listView,dir_info,dir_nombre);
+        addThingTo(listView,dir_info,dir_nombre,temp);
         //addThingTo("carpetas",QString::number(123),QString::number(123));
 
 
     }
+}
 
 /**
  * Set pagination mode active or inactive
@@ -304,13 +310,17 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
     gallery->setSourceDir(algo->returnInfo().toStdString());
     DoubleList<Song>* SongList=gallery->getActualList();
     DoubleList<std::string>* List=new DoubleList<std::string>;
+    DoubleList<QString> * DirList=new DoubleList<QString>;
     std::string tempString;
+    QString tempQString;
     for(int i=0;i<SongList->getLen();i++){
         tempString=SongList->get(i)->toString();
         List->add(tempString);
+        tempQString=SongList->get(i)->getDirectory();
+        DirList->add(tempQString);
     }
      ui->canciones->clear();//LIMPIA LA VARA
-    insertListToListView(*List,"canciones");
+    insertListToListView(*List,"canciones",DirList);
 
 
    // insertListToListView(*myList2,"canciones");
@@ -321,8 +331,12 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
 void Widget::on_canciones_itemClicked(QListWidgetItem *item)
 {
         Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item);
-        s::cout<<algo->getRname().toStdString()<<s::endl;
-        player->addToPlayList(getter.getSong(algo->getRname()));
+        s::cout<<"Estoy imprimiendo la clave de la vida eterna"<<std::endl;
+        //s::cout<<algo->getRname().toStdString()<<s::endl;
+        ui->PlayB->setText("Play");
+        Song temp;
+        temp.setDirectory(algo->getRname());
+        player->addToPlayList(temp);
 }
 
 /**
@@ -378,3 +392,8 @@ void Widget::reportScrollPosition(){
 }
 
 
+
+void Widget::on_canciones_activated(const QModelIndex &index)
+{
+
+}
