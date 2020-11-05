@@ -25,8 +25,8 @@ QString route="/home/adrian/Escritorio/Musica";
 QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
-QString route="/home/lazh/QTproyects/Resources/fma/Out";
-QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
+//QString route="/home/lazh/QTproyects/Resources/fma/Out";
+//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
 int artistPosition=5;
 int albumPosition=2;
 int genrePosition=artistPosition;
@@ -296,13 +296,16 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
     getter.setSouce(algo->returnInfo().toStdString());
     myFileGetter->setSource(algo->returnInfo());
 
+    if(maxVisibleItems<=0)
+        maxVisibleItems=15;
+
     if(gallery!=NULL)free(gallery);
-    gallery=new CassetteGallery(15);
+        gallery=new CassetteGallery(maxVisibleItems);
 
     gallery->setAlbumPosition(albumPosition);
     gallery->setArtistPosition(artistPosition);\
     gallery->setGenrePosition(genrePosition);
-    gallery->setRequestLen(15);
+    gallery->setRequestLen(maxVisibleItems);
     gallery->setCsvDir(route2.toStdString());
     gallery->setIterator(this->iterator);
     gallery->setSourceDir(algo->returnInfo().toStdString());
@@ -387,7 +390,18 @@ void Widget::on_timeBar_sliderMoved(int position){
 }
 
 void Widget::reportScrollPosition(){
-     s::cout<<ui->canciones->verticalScrollBar()->value() <<s::endl;
+    int currentPos=ui->canciones->verticalScrollBar()->value();
+
+    if (lastScrollPos>currentPos){
+        gallery->moveForwards();
+    }
+    else if(lastScrollPos<currentPos){
+       gallery->moverBackwards();
+    }
+
+    lastScrollPos=currentPos;
+    //s::cout<<ui->canciones->verticalScrollBar()->value() <<s::endl;
+
 }
 
 
@@ -395,11 +409,13 @@ void Widget::reportScrollPosition(){
 
 void Widget::resizeEvent(QResizeEvent* event){
 
-
-  int maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
-  s::cout<<"estas viendo: "<< maxVisibleItems<<" items"<<"tamaño es :"<< this->size().height()<<s::endl;
-
-
+  maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
+  //s::cout<<"estas viendo: "<< maxVisibleItems<<" items"<<"tamaño es :"<< this->size().height()<<s::endl;
   QWidget::resizeEvent(event);
 }
 
+
+void Widget::on_pushButton_clicked()
+{
+          gallery->moveForwards();
+}

@@ -32,6 +32,8 @@ private slots:
 
 
 
+    void on_pushButton_clicked();
+
 protected:
     void resizeEvent(QResizeEvent* event);
 private:
@@ -42,8 +44,9 @@ private:
     void  updateTimebarMinMax();
     void addThingTo(QString listView,QString value ,QString name,QString realName);
     void insertListToListView( DoubleList<std::string> listilla,QString listView,DoubleList<QString>* DirList=NULL);
+    int maxVisibleItems;
     int currentLen;
-
+    int lastScrollPos;
     AudioPlayer *player;
     Ui::Widget *ui;
     QTimer* timer;

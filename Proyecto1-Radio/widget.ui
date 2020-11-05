@@ -17,28 +17,73 @@
    <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" rowspan="2">
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item row="0" column="1" colspan="3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QToolButton" name="toolButton">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="label_5">
        <property name="styleSheet">
         <string notr="true">border-color: rgb(0, 0, 0);
 background-color: rgba(255, 255, 255, 28)</string>
        </property>
        <property name="text">
-        <string>Directorios</string>
+        <string>Nombre</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QListWidget" name="directorios"/>
+      <widget class="QLabel" name="label_8">
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(0, 0, 0);
+background-color:  rgba(255, 255, 255, 28)</string>
+       </property>
+       <property name="text">
+        <string>Artista</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(0, 0, 0);
+background-color:  rgba(255, 255, 255, 28)</string>
+       </property>
+       <property name="text">
+        <string>Longitud</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgba(255, 255, 255, 28)</string>
+       </property>
+       <property name="text">
+        <string>Género</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="2">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_10">
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgba(255, 255, 255, 28)</string>
+       </property>
+       <property name="text">
+        <string>Memoria en uso</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="Memory">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -160,32 +205,28 @@ background-color: rgba(255, 255, 255, 28)</string>
      </item>
     </layout>
    </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="input">
-     <property name="text">
-      <string>test.mp3</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item row="0" column="0" rowspan="2">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QLabel" name="label_10">
+      <widget class="QToolButton" name="toolButton">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_9">
        <property name="styleSheet">
         <string notr="true">border-color: rgb(0, 0, 0);
 background-color: rgba(255, 255, 255, 28)</string>
        </property>
        <property name="text">
-        <string>Memoria en uso</string>
+        <string>Directorios</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="Memory">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
+      <widget class="QListWidget" name="directorios"/>
      </item>
     </layout>
    </item>
@@ -196,57 +237,14 @@ background-color: rgba(255, 255, 255, 28)</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" colspan="3">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label_5">
-       <property name="styleSheet">
-        <string notr="true">border-color: rgb(0, 0, 0);
-background-color: rgba(255, 255, 255, 28)</string>
-       </property>
-       <property name="text">
-        <string>Nombre</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_8">
-       <property name="styleSheet">
-        <string notr="true">border-color: rgb(0, 0, 0);
-background-color:  rgba(255, 255, 255, 28)</string>
-       </property>
-       <property name="text">
-        <string>Artista</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_7">
-       <property name="styleSheet">
-        <string notr="true">border-color: rgb(0, 0, 0);
-background-color:  rgba(255, 255, 255, 28)</string>
-       </property>
-       <property name="text">
-        <string>Longitud</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_6">
-       <property name="styleSheet">
-        <string notr="true">border-color: rgb(0, 0, 0);
-background-color: rgba(255, 255, 255, 28)</string>
-       </property>
-       <property name="text">
-        <string>Género</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>para abajo jiji</string>
+     </property>
+    </widget>
    </item>
   </layout>
-  <zorder>checkBox</zorder>
-  <zorder>input</zorder>
  </widget>
  <tabstops>
   <tabstop>checkBox</tabstop>
