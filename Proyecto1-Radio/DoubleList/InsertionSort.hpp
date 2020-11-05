@@ -5,6 +5,7 @@ void swap(DoubleList<T> *List,int position1, int position2){
     T  temp=*List->get(position1);
     List->set(position1,*List->get(position2));
     List->set(position2,temp);
+    temp=*new T;
 }
 
 

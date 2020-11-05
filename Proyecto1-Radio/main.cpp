@@ -40,10 +40,10 @@ int main(int argc, char *argv[])
 
 /*
     CSVSorting *csv=new CSVSorting;
-    csv->setCsvDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv");
+    csv->setCsvDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/sortedCSV.csv");
     csv->setOutputDirectory("/home/lazh/QTproyects/Resources/fma/Out");
     csv->setSource("/home/lazh/QTproyects/Resources/fma/fma_small");
-    csv->setReferencePosition(2);
+    csv->setReferencePosition(5);
     csv->setFilePosition(0);
     MyProyectStringIterator iterator;
     iterator.setAfter(".mp3");
@@ -51,7 +51,9 @@ int main(int argc, char *argv[])
     iterator.setBeforeDigits(6);
     csv->setIterator(iterator);
     csv->sortToDirectory();
-    */
+*/
+   // FileManager::DeleteEmptyDir("/home/lazh/QTproyects/Resources/fma/Out");
+
     /*
     CSVHandler* csv=new CSVHandler;
     csv->setFileDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/tracks.csv");

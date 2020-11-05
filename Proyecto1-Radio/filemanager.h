@@ -10,6 +10,7 @@ public:
     static bool canOpen(std::string path);
     static std::string delimiter;
     static void createFile(std::string root,std::string filename,std::string text);
+    static void DeleteEmptyDir(std::string route);
 
 };
 

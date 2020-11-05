@@ -1,6 +1,6 @@
 #include "csvhandler.h"
 
-std::string emptyString="";
+
 int lower=0;
 int negative=-1;
 int unity=1;
@@ -104,6 +104,13 @@ DoubleList<DoubleList<std::string>> *CSVHandler::getAllLinesWithIn(std::string t
     }
     if(vector!=NULL && vector->getLen()>0)matriz->add(*vector);
     return matriz;
+
+
+}
+
+DoubleList<DoubleList<std::string> > *CSVHandler::getAllLines()
+{
+    return getAllLinesWithIn(emptyString,negative);
 
 
 }

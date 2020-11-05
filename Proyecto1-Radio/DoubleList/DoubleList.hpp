@@ -97,7 +97,7 @@ DoubleList<T>::DoubleList() {
 template <typename T>
 DoubleList<T>::~DoubleList(){
     if(Tail!=NULL)free(Tail);
-    if(Head!=NULL)free(Head);
+    if(Head!=NULL && Tail!=Head)free(Head);
     //DoubleNode<T>* temp,Saved;
 /*
     for(temp=Head;temp!=NULL;){
@@ -182,7 +182,7 @@ void DoubleList<T>::erase(int pos) {
 }template<typename T>
 void DoubleList<T>::set(int pos,T &data) {
     DoubleNode<T>* temp=getNode(pos);
-    temp->setData(data);
+    temp->setData(*new T(data));
 
 }
 template<typename T>

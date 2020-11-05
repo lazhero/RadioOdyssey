@@ -105,6 +105,7 @@ DoubleList<std::string> *LocalfileGetter::getRoutesList(bool ISDIRECTORY)
 
     for(auto& p: fs::directory_iterator(Source_Route->toStdString())){
       if(p.is_directory()==ISDIRECTORY){
+
           temp=p.path();
           ReturnList->add(temp);
       }
@@ -112,6 +113,8 @@ DoubleList<std::string> *LocalfileGetter::getRoutesList(bool ISDIRECTORY)
     }
     return ReturnList;
 }
+
+
 
 
 

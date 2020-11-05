@@ -36,4 +36,13 @@ std::string StringTools::replaceChar(std::string string, char toReplace, std::st
     return string;
 }
 
+std::string StringTools::reducedString(int len, std::string str)
+{
+    std::string returnString;
+    for(int i=0;i<len && i<str.length();i++){
+        returnString+=str.at(i);
+    }
+    return returnString;
+}
+
 

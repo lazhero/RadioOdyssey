@@ -34,6 +34,11 @@ private:
     int FilePosition;
     stringIterator *iterator;
     const std::string verificationFile="Sucess.txt";
+    DoubleList<DoubleList<std::string>>* csvMatrix;
+
+    DoubleList<DoubleList<std::string>>* getNextIDFrame();
+    std::string getReference();
+    void initializeMatriz();
 
 
 };

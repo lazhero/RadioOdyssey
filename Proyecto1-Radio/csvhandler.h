@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CSVHANDLER_H
 #define CSVHANDLER_H
 #include "DoubleList/DoubleList.hpp"
@@ -19,10 +20,12 @@ public:
     DoubleList<std::string> *getNextLineWithIn(std::string text, int position);
     DoubleList<DoubleList<std::string>>*getAllLinesWith(std::string text);
     DoubleList<DoubleList<std::string>> *getAllLinesWithIn(std::string text, int position);
+    DoubleList<DoubleList<std::string>> * getAllLines();
     const char delimiter=',';
 private:
-    std::string* Route;
+    const std::string emptyString="";
     std::fstream* inputStream;
+    std::string * Route;
 
 
 };
