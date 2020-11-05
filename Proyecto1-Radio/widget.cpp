@@ -10,7 +10,7 @@
 #include<localfilegetter.h>
 #include<csvsorting.h>
 #include<myproyectstringiterator.h>
-
+#include<QResizeEvent>
 #include <QScrollBar>
 #include "sys/types.h"
 #include "sys/sysinfo.h"
@@ -21,8 +21,8 @@
 QString PlayText="Play";
 QString PauseText="Pause";
 
-//QString route="/home/adrian/Escritorio/Musica";
-//QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+QString route="/home/adrian/Escritorio/Musica";
+QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
 QString route="/home/lazh/QTproyects/Resources/fma/Out";
@@ -34,6 +34,7 @@ LocalfileGetter getter;
 int songPosition=0;
 int starting_Vol=50;
 int updateFramingConstant=150;
+float sizeItemRelationConstant=480/10;  //for each 480 pixels  10 items fits
 
 
 namespace s = std;
@@ -105,16 +106,13 @@ void Widget :: updateScenario(){
 
 
     /////////////Calculo de memoria en uso
-    /*
+
     struct sysinfo memInfo;
     sysinfo (&memInfo);
     long long virtualMemUsed = memInfo.totalram - memInfo.freeram;
-    //Add other values in next statement to avoid int overflow on right hand side...
-    virtualMemUsed += memInfo.totalswap - memInfo.freeswap;
-    virtualMemUsed *= memInfo.mem_unit;
-    s::cout<<virtualMemUsed<< s::endl;
-    ui->MemoryBar->setValue(virtualMemUsed);
-    */
+    //s::cout<<virtualMemUsed<< s::endl;
+    ui->Memory->setText(QString::number(virtualMemUsed/1048576) +"mb");
+
     /////////////Calculo de memoria en uso
 
 
@@ -216,17 +214,17 @@ DoubleList<std::string> Widget::FixSongsNames(DoubleList<std::string> List)
  */
 void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView,DoubleList<QString>* DirList){
 
-     if(listView!="canciones")sort(&listilla);
+     if(listView!=SongsID)sort(&listilla);
      this->csv->startReading();
     for (int i=0; i< listilla.getLen();i++ ){
         QString temp;
         QString dir_info= QString::fromStdString(listilla.get(i)->data());
         QString dir_nombre= calculateRealName(dir_info);
-        if(listView=="canciones"){
+        if(listView==SongsID){
             temp=*DirList->get(i);
             dir_info=temp;
 
-            std::cout<<"El texto es "<<temp.toStdString()<<std::endl;
+            //std::cout<<"El texto es "<<temp.toStdString()<<std::endl;
         }
 
 
@@ -319,6 +317,7 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
         tempQString=SongList->get(i)->getDirectory();
         DirList->add(tempQString);
     }
+    currentLen=SongList->getLen();
      ui->canciones->clear();//LIMPIA LA VARA
     insertListToListView(*List,"canciones",DirList);
 
@@ -393,7 +392,14 @@ void Widget::reportScrollPosition(){
 
 
 
-void Widget::on_canciones_activated(const QModelIndex &index)
-{
 
+void Widget::resizeEvent(QResizeEvent* event){
+
+
+  int maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
+  s::cout<<"estas viendo: "<< maxVisibleItems<<" items"<<"tamaño es :"<< this->size().height()<<s::endl;
+
+
+  QWidget::resizeEvent(event);
 }
+

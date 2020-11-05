@@ -181,9 +181,9 @@ background-color: rgba(255, 255, 255, 28)</string>
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="MemoryBar">
-       <property name="value">
-        <number>24</number>
+      <widget class="QLabel" name="Memory">
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>

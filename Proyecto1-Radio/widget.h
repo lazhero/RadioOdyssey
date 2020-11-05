@@ -29,8 +29,11 @@ private slots:
     void on_canciones_itemClicked(QListWidgetItem *item);
     void on_checkBox_stateChanged(int arg1);
     void reportScrollPosition();
-    void on_canciones_activated(const QModelIndex &index);
 
+
+
+protected:
+    void resizeEvent(QResizeEvent* event);
 private:
 
     bool playing;
@@ -39,6 +42,8 @@ private:
     void  updateTimebarMinMax();
     void addThingTo(QString listView,QString value ,QString name,QString realName);
     void insertListToListView( DoubleList<std::string> listilla,QString listView,DoubleList<QString>* DirList=NULL);
+    int currentLen;
+
     AudioPlayer *player;
     Ui::Widget *ui;
     QTimer* timer;

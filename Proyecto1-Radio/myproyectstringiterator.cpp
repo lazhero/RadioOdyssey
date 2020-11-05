@@ -8,7 +8,8 @@ MyProyectStringIterator::MyProyectStringIterator()
 std::string MyProyectStringIterator::iterateString(std::string data)
 {
     std::string returnString;
-    if(data.length()<=BeforeDigits){
+    int algo=data.length();
+    if (algo<=BeforeDigits){
         while(returnString.length()<BeforeDigits-data.length()){
             returnString.append(before);
         }
