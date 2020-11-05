@@ -21,22 +21,22 @@ public:
     void setSourceDir(std::string dir);
     std::string getSourceDir();
 
-    int getStartPos() const;
+    int getStartPos() ;
     void setStartPos(int value);
 
-    int getEndPos() const;
+    int getEndPos() ;
     void setEndPos(int value);
 
-    int getNamePosition() const;
+    int getNamePosition() ;
     void setNamePosition(int value);
 
-    int getArtistPosition() const;
+    int getArtistPosition() ;
     void setArtistPosition(int value);
 
-    int getAlbumPosition() const;
+    int getAlbumPosition() ;
     void setAlbumPosition(int value);
 
-    int getGenrePosition() const;
+    int getGenrePosition() ;
     void setGenrePosition(int value);
 
     void setIterator(stringIterator* iterator);

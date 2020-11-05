@@ -96,7 +96,7 @@ std::string CassetteGallery::getSourceDir()
     return *this->sourceDir;
 }
 
-int CassetteGallery::getStartPos() const
+int CassetteGallery::getStartPos()
 {
     return startPos;
 }
@@ -106,7 +106,7 @@ void CassetteGallery::setStartPos(int value)
     startPos = value;
 }
 
-int CassetteGallery::getEndPos() const
+int CassetteGallery::getEndPos()
 {
     return endPos;
 }
@@ -116,7 +116,7 @@ void CassetteGallery::setEndPos(int value)
     endPos = value;
 }
 
-int CassetteGallery::getNamePosition() const
+int CassetteGallery::getNamePosition()
 {
     return NamePosition;
 }
@@ -126,7 +126,7 @@ void CassetteGallery::setNamePosition(int value)
     NamePosition = value;
 }
 
-int CassetteGallery::getArtistPosition() const
+int CassetteGallery::getArtistPosition()
 {
     return ArtistPosition;
 }
@@ -136,7 +136,7 @@ void CassetteGallery::setArtistPosition(int value)
     ArtistPosition = value;
 }
 
-int CassetteGallery::getAlbumPosition() const
+int CassetteGallery::getAlbumPosition()
 {
     return AlbumPosition;
 }
@@ -146,7 +146,7 @@ void CassetteGallery::setAlbumPosition(int value)
     AlbumPosition = value;
 }
 
-int CassetteGallery::getGenrePosition() const
+int CassetteGallery::getGenrePosition()
 {
     return GenrePosition;
 }

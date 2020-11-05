@@ -143,6 +143,7 @@ void DoubleList<T>::add(T &data) {
 }
 template<typename T>
 void DoubleList<T>::addFront(T& data){
+    len++;
     DoubleNode<T>* temp=new DoubleNode<T>();
     temp->setData(*new T(data));
     if(Head==NULL){
