@@ -21,8 +21,8 @@
 QString PlayText="Play";
 QString PauseText="Pause";
 
-QString route="/home/adrian/Escritorio/Musica";
-QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+//QString route="/home/adrian/Escritorio/Musica";
+//QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
 //QString route="/home/lazh/QTproyects/Resources/fma/Out";

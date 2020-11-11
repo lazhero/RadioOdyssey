@@ -156,6 +156,7 @@ void DoubleList<T>::addFront(T& data){
 
 
 
+
 }
 template<typename T>
 T* DoubleList<T>::get(int pos) {
