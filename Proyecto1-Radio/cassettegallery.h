@@ -50,8 +50,6 @@ public:
 
    DoubleList<Song>* getActualList();
 
-   std::string getFileName(std::string data);
-
 
 
 private:
@@ -73,6 +71,7 @@ private:
     stringIterator* iterator;
     DoubleList<DoubleList<std::string>>* CSVList;
     DoubleList<std::string> *FilesList;
+    DoubleList<std::string> *SubDirectoryList;
     std::vector<DoubleList<std::string>*>* csvData;
     Song* getSong(DoubleList<std::string>* AtributeList);
     void add(int n);

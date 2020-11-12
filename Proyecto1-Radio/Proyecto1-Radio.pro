@@ -19,6 +19,7 @@ SOURCES += \
     main.cpp \
     myproyectstringiterator.cpp \
     pages.cpp \
+    routetools.cpp \
     stringIterator.cpp \
     stringtools.cpp \
     widget.cpp\
@@ -36,6 +37,7 @@ HEADERS += \
     localfilegetter.h \
     myproyectstringiterator.h \
     pages.h \
+    routetools.h \
     stringiterator.h \
     stringtools.h \
     widget.h\

@@ -45,4 +45,21 @@ std::string StringTools::reducedString(int len, std::string str)
     return returnString;
 }
 
+std::string StringTools::deleteStringFromLeft(std::string data, std::string erase)
+{
+    fix(data,erase,true);
+    return data;
+}
+
+void StringTools::fix(std::string& string,std::string erasing, bool leftcondition)
+{
+    QString dir_nombre=QString::fromStdString(string);
+    QString erasingQstring=QString::fromStdString(erasing);
+    if(leftcondition){
+        while(dir_nombre.left(1)==erasingQstring){
+            dir_nombre=dir_nombre.right(dir_nombre.length()-1);
+        }
+    }
+}
+
 

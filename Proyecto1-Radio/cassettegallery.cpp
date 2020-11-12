@@ -1,6 +1,6 @@
 #include "cassettegallery.h"
+#include "routetools.h"
 const int pageNumber=3;
-const char charDelimiter='/';
 const std::string delimiter="/";
 const std::string format=".mp3";
 int artistPosition=5;
@@ -77,8 +77,12 @@ void CassetteGallery::setSourceDir(std::string dir)
     FilesList=getter->getFilesList();
     DoubleList<int>* tempList=new DoubleList<int>;
     int tempInt;
+    RouteTools tools;
+    SubDirectoryList=new DoubleList<std::string>;
     for(int i=0;i<FilesList->getLen();i++){
-        tempInt=std::stoi(getFileName(*FilesList->get(i)));
+        tools.setRoute(*FilesList->get(i));
+        tempInt=std::stoi(tools.getFileName());
+       //SubDirectoryList->add(tools.getDirectory(t))
         tempList->add(tempInt);
     }
     sort(tempList);
@@ -173,10 +177,8 @@ bool CassetteGallery::moveForwards()
 {
     if(FilesList->getLen()>0)initCSV(1);
     std::cout<<"el len del file list es"<<FilesList->getLen()<<std::endl;
-
-    if(endPos<csvData->size()){
+    if(endPos<(signed int)csvData->size()){
         page->AddToFront(*getSong(csvData->at(endPos)));
-
         endPos++;
     }
     else{
@@ -184,14 +186,12 @@ bool CassetteGallery::moveForwards()
         page->DeleteLeftOver();
     }
     startPos=endPos-page->getTotal();
-    std::cout<<"The start position "<<startPos<<" "<<std::endl;
-    std::cout<<"The end position is "<<endPos<<" "<<std::endl;
     return true;
 }
 bool CassetteGallery::moverBackwards(){
 
     if(startPos>minIndex){
-        page->AddToBack(*getSong(csvData->at(startPos)));
+        page->AddToBack(*getSong(csvData->at(startPos-1)));
         startPos--;
     }
     else{
@@ -199,8 +199,6 @@ bool CassetteGallery::moverBackwards(){
         page->DeleteLeftOver();
     }
     endPos=startPos+page->getTotal();
-    //std::cout<<"The start position "<<startPos<<" "<<std::endl;
-    //std::cout<<"The end position is "<<endPos<<" "<<std::endl;
     return true;
 }
 
@@ -209,19 +207,7 @@ DoubleList<Song> *CassetteGallery::getActualList()
     return page->getActual();
 }
 
-std::string CassetteGallery::getFileName(std::string data)
-{
-    std::string temp;
-    DoubleList<std::string>* SlipList= StringTools::slipString(charDelimiter,data);
-    temp=* SlipList->get(SlipList->getLen()-1);
-    SlipList=StringTools::slipString('.',temp);
-    temp=*SlipList->get(minIndex);
-    QString dir_nombre=QString::fromStdString(temp);
-    while(dir_nombre.left(1)=="0"){
-        dir_nombre=dir_nombre.right(dir_nombre.length()-1);
-    }
-    return dir_nombre.toStdString();
-}
+
 
 Song *CassetteGallery::getSong(DoubleList<std::string>* AtributteList)
 {

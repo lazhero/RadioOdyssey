@@ -21,12 +21,12 @@
 QString PlayText="Play";
 QString PauseText="Pause";
 
-QString route="/home/adrian/Escritorio/Musica";
-QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+//QString route="/home/adrian/Escritorio/Musica";
+//QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
-//QString route="/home/lazh/QTproyects/Resources/fma/Out";
-//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
+QString route="/home/lazh/QTproyects/Resources/fma/Out";
+QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
 
 LocalfileGetter getter;
 int songPosition=0;
@@ -52,7 +52,7 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     getter.setSource(route);
     myFileGetter->setSource(route);
     player->setVolumen(starting_Vol);
-
+    //maxVisibleItems=3;//quitar esto despues
 
 
     this->csv=new CSVHandler;
@@ -237,6 +237,7 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
 void Widget::resizeEvent(QResizeEvent* event){
 
       maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
+      //maxVisibleItems=3; //quitar esto despues
       s::cout<<"estas viendo: "<< maxVisibleItems<<" items"<<"tamaño es :"<< this->size().height()<<s::endl;
       QWidget::resizeEvent(event);
     }

@@ -45,9 +45,6 @@ DoubleList<Song> *Pages::getActual()
  */
 bool Pages::isFull()
 {
-    std::cout<<"El len de la lista previa es "<<Prev->getLen()<<std::endl;
-    std::cout<<"El len de la lista actual es "<<Actual->getLen()<<std::endl;
-    std::cout<<"El len de la lista siguiente es "<<Next->getLen()<<std::endl;
     bool condition=Prev->getLen()==ListLen;
     condition&=Next->getLen()==ListLen;
     condition&=Actual->getLen()==ListLen;
