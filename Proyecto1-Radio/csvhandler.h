@@ -21,11 +21,15 @@ public:
     DoubleList<DoubleList<std::string>>*getAllLinesWith(std::string text);
     DoubleList<DoubleList<std::string>> *getAllLinesWithIn(std::string text, int position);
     DoubleList<DoubleList<std::string>> * getAllLines();
+    void setForward(bool state);
     const char delimiter=',';
 private:
+    bool FordWard;
     const std::string emptyString="";
     std::fstream* inputStream;
     std::string * Route;
+
+    std::istream& getTheLine(std::istream& is,std::string& str);
 
 
 };

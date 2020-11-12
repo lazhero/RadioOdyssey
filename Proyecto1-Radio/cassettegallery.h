@@ -71,10 +71,11 @@ private:
     stringIterator* iterator;
     DoubleList<DoubleList<std::string>>* CSVList;
     DoubleList<std::string> *FilesList;
-
+    std::vector<DoubleList<std::string>*>* csvData;
     Song* getSong(DoubleList<std::string>* AtributeList);
     void add(int n);
     void clear();
+    void initCSV(int number);
 
 
 

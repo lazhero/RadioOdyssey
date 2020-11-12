@@ -25,8 +25,8 @@ QString PauseText="Pause";
 //QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
-//QString route="/home/lazh/QTproyects/Resources/fma/Out";
-//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
+QString route="/home/lazh/QTproyects/Resources/fma/Out";
+QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
 int artistPosition=5;
 int albumPosition=2;
 int genrePosition=artistPosition;
@@ -75,8 +75,9 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 
     //iniciado de directorios
     DoubleList<std::string> *myList = myFileGetter->getDirectoryList();
-    this->csv->setFileDirectory(route2.toStdString());
+   // this->csv->setFileDirectory(route2.toStdString());
     insertListToListView(*myList,DirectoriesID);
+    maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
 
 }
 
@@ -214,7 +215,7 @@ DoubleList<std::string> Widget::FixSongsNames(DoubleList<std::string> List)
  */
 void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView,DoubleList<QString>* DirList){
 
-     if(listView!=SongsID)sort(&listilla);
+     //if(listView!=SongsID)sort(&listilla);
      this->csv->startReading();
     for (int i=0; i< listilla.getLen();i++ ){
         QString temp;
@@ -297,15 +298,16 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item)
     myFileGetter->setSource(algo->returnInfo());
 
     if(maxVisibleItems<=0)
-        maxVisibleItems=15;
+        //maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
+        maxVisibleItems=5;
 
     if(gallery!=NULL)free(gallery);
         gallery=new CassetteGallery(maxVisibleItems);
 
     gallery->setAlbumPosition(albumPosition);
-    gallery->setArtistPosition(artistPosition);\
+    gallery->setArtistPosition(artistPosition);
     gallery->setGenrePosition(genrePosition);
-    gallery->setRequestLen(maxVisibleItems);
+    gallery->setRequestLen(2);
     gallery->setCsvDir(route2.toStdString());
     gallery->setIterator(this->iterator);
     gallery->setSourceDir(algo->returnInfo().toStdString());
@@ -414,8 +416,35 @@ void Widget::resizeEvent(QResizeEvent* event){
   QWidget::resizeEvent(event);
 }
 
+void Widget::updateSongview()
+{
+    DoubleList<Song>* SongList=gallery->getActualList();
+    DoubleList<std::string>* List=new DoubleList<std::string>;
+    DoubleList<QString> * DirList=new DoubleList<QString>;
+    std::string tempString;
+    QString tempQString;
+    for(int i=0;i<SongList->getLen();i++){
+        tempString=SongList->get(i)->toString();
+        List->add(tempString);
+        tempQString=SongList->get(i)->getDirectory();
+        DirList->add(tempQString);
+    }
+    currentLen=SongList->getLen();
+     ui->canciones->clear();//LIMPIA LA VARA
+    insertListToListView(*List,"canciones",DirList);
+}
+
 
 void Widget::on_pushButton_clicked()
 {
           gallery->moveForwards();
+          updateSongview();
+
+}
+
+void Widget::on_pushButton_2_clicked()
+{
+    gallery->moverBackwards();
+    updateSongview();
+
 }

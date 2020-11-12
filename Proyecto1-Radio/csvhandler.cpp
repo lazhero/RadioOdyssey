@@ -1,14 +1,14 @@
 #include "csvhandler.h"
-
-
 int lower=0;
 int negative=-1;
 int unity=1;
+
 CSVHandler::CSVHandler()
 
 {
     Route=new std::string;
     inputStream=NULL;
+    FordWard=true;
 }
 
 void CSVHandler::setFileDirectory(std::string name)
@@ -70,7 +70,7 @@ DoubleList<std::string> *CSVHandler::getNextLineWithIn(std::string text, int pos
     DoubleList<std::string>* returnList;
     bool found;
     bool failCondition;
-    while(getline(*inputStream,line)){
+    while(this->getTheLine(*inputStream,line)){
         if(line.compare(emptyString)==0) continue;
         returnList=new DoubleList<std::string>;
         linestream=new std::stringstream(line);
@@ -111,6 +111,24 @@ DoubleList<DoubleList<std::string>> *CSVHandler::getAllLinesWithIn(std::string t
 DoubleList<DoubleList<std::string> > *CSVHandler::getAllLines()
 {
     return getAllLinesWithIn(emptyString,negative);
+
+
+}
+
+void CSVHandler::setForward(bool state)
+{
+   FordWard=state;
+}
+
+std::istream& CSVHandler::getTheLine(std::istream &is, std::string &str)
+{
+    if(!FordWard){
+        int pos=inputStream->tellg();
+        if(pos>0){
+            inputStream->seekg(pos-1,std::ios_base::beg);
+        }
+    }
+    return getline(is,str);
 
 
 }

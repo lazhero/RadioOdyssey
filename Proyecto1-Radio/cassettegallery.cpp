@@ -16,6 +16,7 @@ CassetteGallery::CassetteGallery(int requestedLen)
     csvHandler=new CSVHandler;
     this->csvDir=new std::string;
     this->sourceDir=new std::string;
+    csvData=new std::vector<DoubleList<std::string>*>;
 
 }
 /**
@@ -86,8 +87,8 @@ void CassetteGallery::setSourceDir(std::string dir)
     }
     FilesList=TempStringList;
     csvHandler->startReading();
+    initCSV((pageNumber-1)*requestedLen);
     add((pageNumber-1)*requestedLen);
-    //page->swap(0,1);
     page->emptyBack();
 }
 
@@ -166,17 +167,36 @@ stringIterator CassetteGallery::getIterator(){
 
 bool CassetteGallery::moveForwards()
 {
-    if(endPos>=CSVList->getLen())return false;
-    page->AddToFront(*getSong(CSVList->get(endPos)));
-    endPos++;
-    if(page->isFull())startPos++;
+    if(FilesList->getLen()>0)initCSV(1);
+    std::cout<<"el len del file list es"<<FilesList->getLen()<<std::endl;
+
+    if(endPos<csvData->size()){
+        page->AddToFront(*getSong(csvData->at(endPos)));
+
+        endPos++;
+    }
+    else{
+        page->iterateBack();
+        page->DeleteLeftOver();
+    }
+    startPos=endPos-page->getTotal();
+    std::cout<<"The start position "<<startPos<<" "<<std::endl;
+    std::cout<<"The end position is "<<endPos<<" "<<std::endl;
     return true;
 }
 bool CassetteGallery::moverBackwards(){
-    if(startPos<=minIndex)return false;
-    page->AddToBack(*getSong(CSVList->get(startPos-1)));
-    startPos--;
-    if(page->isFull())endPos--;
+
+    if(startPos>minIndex){
+        page->AddToBack(*getSong(csvData->at(startPos)));
+        startPos--;
+    }
+    else{
+        page->iterateFront();
+        page->DeleteLeftOver();
+    }
+    endPos=startPos+page->getTotal();
+    std::cout<<"The start position "<<startPos<<" "<<std::endl;
+    std::cout<<"The end position is "<<endPos<<" "<<std::endl;
     return true;
 }
 
@@ -221,19 +241,17 @@ void CassetteGallery::add(int n)
 {
     Song* temp;
     std::string tempString;
-    int i;
+    int  i;
     page->setListLen(requestedLen);
-    for( i=endPos;i<FilesList->getLen() && i<endPos+n;i++){
-        temp=getSong(csvHandler->getNextLineWithIn(*FilesList->get(i),NamePosition));
-        //if(page->isFull())page->setListLen(page->getListLen()+1);
+    for( i=endPos;i<csvData->size() && i<endPos+n;i++){
+        temp=getSong(csvData->at(i));
         page->AddToFront(*temp);
-
     }
     if(i!=endPos){
     startPos=endPos;
     endPos=i;
     }
-    requestedLen=endPos-startPos;
+    requestedLen=page->getActual()->getLen();
 }
 
 void CassetteGallery::clear()
@@ -242,6 +260,17 @@ void CassetteGallery::clear()
     page=new Pages(minIndex);
     startPos=minIndex;
     endPos=minIndex;
+}
+
+void CassetteGallery::initCSV(int number)
+{
+    DoubleList<std::string>* temp;
+    while(FilesList->getLen()>0 && number!=0){
+       temp=csvHandler->getNextLineWithIn(*FilesList->get(minIndex),NamePosition);
+       csvData->push_back(temp);
+       FilesList->erase(minIndex);
+       number--;
+    }
 }
 
 

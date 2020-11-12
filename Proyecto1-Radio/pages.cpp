@@ -1,4 +1,5 @@
 #include "pages.h"
+#include<iostream>
 int minLen;
 /**
  * @brief Pages::Pages
@@ -44,6 +45,9 @@ DoubleList<Song> *Pages::getActual()
  */
 bool Pages::isFull()
 {
+    std::cout<<"El len de la lista previa es "<<Prev->getLen()<<std::endl;
+    std::cout<<"El len de la lista actual es "<<Actual->getLen()<<std::endl;
+    std::cout<<"El len de la lista siguiente es "<<Next->getLen()<<std::endl;
     bool condition=Prev->getLen()==ListLen;
     condition&=Next->getLen()==ListLen;
     condition&=Actual->getLen()==ListLen;
@@ -149,6 +153,11 @@ void Pages::DeleteLeftOver()
     while (Next->getLen()>ListLen) {
         Next->erase(Next->getLen()-1);
     }
+}
+
+int Pages::getTotal()
+{
+    return Prev->getLen()+Actual->getLen()+Next->getLen();
 }
 /**
  * anexates the fist element of the next viewlist to the actual list and the last first element of the current list

@@ -16,6 +16,10 @@ public:
     bool isFull();
     void swap(int a,int b);
     void emptyBack();
+    void iterateFront();
+    void iterateBack();
+    void DeleteLeftOver();
+    int getTotal();
 
 private:
     int ListLen;
@@ -23,9 +27,7 @@ private:
     DoubleList<Song> * Actual;
     DoubleList<Song>* Next;
     bool lenVerification(int len);
-    void iterateFront();
-    void iterateBack();
-    void DeleteLeftOver();
+
 
 
 };

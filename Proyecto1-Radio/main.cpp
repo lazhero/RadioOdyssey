@@ -60,6 +60,7 @@ int main(int argc, char *argv[])
     csv->startReading();
     csv->getNextLineWithIn("190",0);
     */
+    std::cout<<"satanas"<<std::endl;
     Widget w;
     w.show();
     return a.exec();

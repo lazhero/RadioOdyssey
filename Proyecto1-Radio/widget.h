@@ -32,12 +32,15 @@ private slots:
 
 
 
+
     void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 protected:
     void resizeEvent(QResizeEvent* event);
 private:
-
+    void updateSongview();
     bool playing;
     bool paginationMode;
     void updateScenario();
