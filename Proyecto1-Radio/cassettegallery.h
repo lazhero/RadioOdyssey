@@ -24,6 +24,8 @@ public:
     int getStartPos();
     void setStartPos(int value);
 
+    void configure(int Size , std::string route, stringIterator* iterator,std::string dir);
+
     int getEndPos();
     void setEndPos(int value);
 

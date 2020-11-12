@@ -21,19 +21,18 @@
 QString PlayText="Play";
 QString PauseText="Pause";
 
-//QString route="/home/adrian/Escritorio/Musica";
-//QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+QString route="/home/adrian/Escritorio/Musica";
+QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
-QString route="/home/lazh/QTproyects/Resources/fma/Out";
-QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
-int artistPosition=5;
-int albumPosition=2;
-int genrePosition=artistPosition;
+//QString route="/home/lazh/QTproyects/Resources/fma/Out";
+//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
+
 LocalfileGetter getter;
 int songPosition=0;
 int starting_Vol=50;
 int updateFramingConstant=150;
+int SongsInMemory=10;
 float sizeItemRelationConstant=480/10;  //for each 480 pixels  10 items fits
 
 
@@ -104,8 +103,6 @@ void Widget :: updateScenario(){
     barra->setValue(value+updateFramingConstant);
     barra->setMaximum(player->currentMediaDuration());
 
-
-
     /////////////Calculo de memoria en uso
 
     struct sysinfo memInfo;
@@ -149,16 +146,13 @@ void Widget::addThingTo(QString listView ,QString dir,QString name,QString realN
     newItem->setInfo(dir);        //direccion a seguir
     newItem->setText(name);       //nombre visible
 
-    if(listView=="carpetas")
-
-    {
-
+    if(listView==DirectoriesID){
         ui->directorios->addItem(newItem);
     }
-   if(listView=="canciones"){
+    if(listView==SongsID){
         newItem->setRname(realName);
         ui->canciones->addItem(newItem);
-   }
+    }
 
 
 
@@ -237,6 +231,85 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
 }
 
 /**
+ * @brief Widget::resizeEvent
+ * @param event
+ */
+void Widget::resizeEvent(QResizeEvent* event){
+
+      maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
+      s::cout<<"estas viendo: "<< maxVisibleItems<<" items"<<"tamaño es :"<< this->size().height()<<s::endl;
+      QWidget::resizeEvent(event);
+    }
+
+
+/**
+ * @brief Widget::updateSongview
+ */
+void Widget::updateSongview(){
+        DoubleList<Song>* SongList=gallery->getActualList();
+        DoubleList<std::string>* List=new DoubleList<std::string>;
+        DoubleList<QString> * DirList=new DoubleList<QString>;
+        std::string tempString;
+        QString tempQString;
+
+        for(int i=0;i<SongList->getLen();i++){
+            tempString=SongList->get(i)->toString();
+            List->add(tempString);
+            tempQString=SongList->get(i)->getDirectory();
+            DirList->add(tempQString);
+        }
+        currentLen=SongList->getLen();
+         ui->canciones->clear();//LIMPIA LA VARA
+        insertListToListView(*List,SongsID,DirList);
+    }
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                                //A partir de aca puro codigo de interfaz//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief Widget::on_directorios_itemClicked
+ * @param item
+ */
+
+void Widget::on_directorios_itemClicked( QListWidgetItem *item){
+
+        //instantiation//
+        std::string tempString;
+        QString tempQString;
+
+        Clikable_Item *clickableItem = dynamic_cast<Clikable_Item*>(item)  ;
+        LocalfileGetter *myFileGetter=          new LocalfileGetter;
+
+
+        //setting sources//
+        getter.setSouce(clickableItem->returnInfo().toStdString());
+        myFileGetter->setSource(clickableItem->returnInfo());
+        ui->canciones->clear();
+
+
+        //gallery Configuration//
+        if(gallery!=NULL)free(gallery);
+        gallery=new CassetteGallery(maxVisibleItems);
+        gallery->configure(maxVisibleItems,route2.toStdString(),this->iterator,clickableItem->returnInfo().toStdString());//Me vole el codigo que tenia acá e hice este metodo lindo
+
+
+        updateSongview();
+
+
+
+
+
+    }
+
+
+/**
  * Set pagination mode active or inactive
  * @brief Widget::setPaginationMode
  * @param state
@@ -244,7 +317,9 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
 
 void Widget::setPaginationMode(bool state){
 
-
+    if(!state) {SongsInMemory = 100; }
+    else {SongsInMemory=maxVisibleItems; }
+    this->updateSongview();
 }
 
 /**
@@ -285,59 +360,13 @@ void Widget::on_vol_valueChanged(int value){
 }
 
 
-/**
- * @brief Widget::on_directorios_itemClicked
- * @param item
- */
-
-void Widget::on_directorios_itemClicked( QListWidgetItem *item)
-{
-    Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item)  ;
-    LocalfileGetter *myFileGetter= new LocalfileGetter;
-    getter.setSouce(algo->returnInfo().toStdString());
-    myFileGetter->setSource(algo->returnInfo());
-
-    if(maxVisibleItems<=0)
-        //maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
-        maxVisibleItems=5;
-
-    if(gallery!=NULL)free(gallery);
-        gallery=new CassetteGallery(maxVisibleItems);
-
-    gallery->setAlbumPosition(albumPosition);
-    gallery->setArtistPosition(artistPosition);
-    gallery->setGenrePosition(genrePosition);
-    gallery->setRequestLen(2);
-    gallery->setCsvDir(route2.toStdString());
-    gallery->setIterator(this->iterator);
-    gallery->setSourceDir(algo->returnInfo().toStdString());
-    DoubleList<Song>* SongList=gallery->getActualList();
-    DoubleList<std::string>* List=new DoubleList<std::string>;
-    DoubleList<QString> * DirList=new DoubleList<QString>;
-    std::string tempString;
-    QString tempQString;
-    for(int i=0;i<SongList->getLen();i++){
-        tempString=SongList->get(i)->toString();
-        List->add(tempString);
-        tempQString=SongList->get(i)->getDirectory();
-        DirList->add(tempQString);
-    }
-    currentLen=SongList->getLen();
-     ui->canciones->clear();//LIMPIA LA VARA
-    insertListToListView(*List,"canciones",DirList);
-
-
-   // insertListToListView(*myList2,"canciones");
-
-
-}
 
 void Widget::on_canciones_itemClicked(QListWidgetItem *item)
 {
         Clikable_Item *algo= dynamic_cast<Clikable_Item*>(item);
-        s::cout<<"Estoy imprimiendo la clave de la vida eterna"<<std::endl;
+        //s::cout<<"Estoy imprimiendo la clave de la vida eterna"<<std::endl;
         //s::cout<<algo->getRname().toStdString()<<s::endl;
-        ui->PlayB->setText("Play");
+        ui->PlayB->setText(PlayText);
         Song temp;
         temp.setDirectory(algo->getRname());
         player->addToPlayList(temp);
@@ -352,6 +381,10 @@ void Widget::on_PlayB_2_clicked(){
     ui->timeBar->setValue(0);
     timer->stop();
 }
+
+
+
+
 /**
  * initialize ,stops and resume songs
  * @brief Widget::on_PlayB_clicked
@@ -391,6 +424,10 @@ void Widget::on_timeBar_sliderMoved(int position){
             player->setTime(position);
 }
 
+
+/**
+ * @brief Widget::reportScrollPosition
+ */
 void Widget::reportScrollPosition(){
     int currentPos=ui->canciones->verticalScrollBar()->value();
 
@@ -406,33 +443,6 @@ void Widget::reportScrollPosition(){
 
 }
 
-
-
-
-void Widget::resizeEvent(QResizeEvent* event){
-
-  maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
-  //s::cout<<"estas viendo: "<< maxVisibleItems<<" items"<<"tamaño es :"<< this->size().height()<<s::endl;
-  QWidget::resizeEvent(event);
-}
-
-void Widget::updateSongview()
-{
-    DoubleList<Song>* SongList=gallery->getActualList();
-    DoubleList<std::string>* List=new DoubleList<std::string>;
-    DoubleList<QString> * DirList=new DoubleList<QString>;
-    std::string tempString;
-    QString tempQString;
-    for(int i=0;i<SongList->getLen();i++){
-        tempString=SongList->get(i)->toString();
-        List->add(tempString);
-        tempQString=SongList->get(i)->getDirectory();
-        DirList->add(tempQString);
-    }
-    currentLen=SongList->getLen();
-     ui->canciones->clear();//LIMPIA LA VARA
-    insertListToListView(*List,"canciones",DirList);
-}
 
 
 void Widget::on_pushButton_clicked()

@@ -3,6 +3,10 @@ const int pageNumber=3;
 const char charDelimiter='/';
 const std::string delimiter="/";
 const std::string format=".mp3";
+int artistPosition=5;
+int albumPosition=2;
+int genrePosition=artistPosition;
+
 #include<DoubleList/InsertionSort.hpp>
 #include<localfilegetter.h>
 
@@ -195,8 +199,8 @@ bool CassetteGallery::moverBackwards(){
         page->DeleteLeftOver();
     }
     endPos=startPos+page->getTotal();
-    std::cout<<"The start position "<<startPos<<" "<<std::endl;
-    std::cout<<"The end position is "<<endPos<<" "<<std::endl;
+    //std::cout<<"The start position "<<startPos<<" "<<std::endl;
+    //std::cout<<"The end position is "<<endPos<<" "<<std::endl;
     return true;
 }
 
@@ -271,6 +275,15 @@ void CassetteGallery::initCSV(int number)
        FilesList->erase(minIndex);
        number--;
     }
+}
+void CassetteGallery::configure(int Size, std::string route, stringIterator* iterator,std::string dir){
+   this->setAlbumPosition(albumPosition);
+   this->setArtistPosition(artistPosition);
+   this->setGenrePosition(genrePosition);
+   this->setRequestLen(Size);
+   this->setCsvDir(route);
+   this->setIterator(iterator);
+   this->setSourceDir(dir);
 }
 
 
