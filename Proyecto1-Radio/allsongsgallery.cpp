@@ -5,6 +5,10 @@ AllSongsGallery::AllSongsGallery()
     csvData=new std::vector<DoubleList<std::string>*>;
     Directories=new std::vector<std::string>;
     pages=new Pages(minIndex);
+    handler= new CSVHandler;
+    PagingCondition=true;
+
+
 
 }
 
@@ -31,6 +35,11 @@ int AllSongsGallery::getAlbumPosition() const
 void AllSongsGallery::setAlbumPosition(int value)
 {
     AlbumPosition = value;
+}
+
+void AllSongsGallery::setSource(std::string source)
+{
+    sourceDir=source;
 }
 
 void AllSongsGallery::setIterator(MyProyectStringIterator iterator)
@@ -68,7 +77,9 @@ void AllSongsGallery::setNamePosition(int value)
 void AllSongsGallery::startReading()
 {
     clear();
+    //handler->setFileDirectory(csvDir);
     handler->startReading();
+
     if(PagingCondition){
         add(requestedLen);
     }
@@ -102,6 +113,8 @@ std::string AllSongsGallery::buildString(std::string subDirectory, std::string f
     copy.append(subDirectory);
     copy.append(filesDelimiter);
     copy.append(myFileName);
+    std::cout<<"HOLAAAAAAAAAAAAAAAAAA:   "<<  copy ;
+    std::cout<<std::endl;
     return copy;
 }
 
@@ -149,6 +162,17 @@ DoubleList<Song> *AllSongsGallery::getActualPage()
     return pages->getActual();
 }
 
+std::string AllSongsGallery::getCsvDir() const
+{
+    return csvDir;
+}
+
+void AllSongsGallery::setCsvDir(const std::string &value)
+{
+    handler->setFileDirectory(value);
+    csvDir = value;
+}
+
 void AllSongsGallery::AddNSong(int n)
 {
     while(n>0){
@@ -159,7 +183,7 @@ void AllSongsGallery::AddNSong(int n)
 
 void AllSongsGallery::clear()
 {
-   start=minIndex;
+    start=minIndex;
    end=minIndex;
    free(csvData);
    free(Directories);

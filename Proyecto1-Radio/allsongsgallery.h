@@ -24,7 +24,7 @@ public:
 
     void setSource(std::string source);
     void setIterator(MyProyectStringIterator iterator);
-
+    void startReading();
 
 
 
@@ -43,6 +43,9 @@ public:
     void moveBackward();
     DoubleList<Song>* getActualPage();
 
+
+    std::string getCsvDir() const;
+    void setCsvDir(const std::string &value);
 
 private:
     int start;
@@ -63,8 +66,8 @@ private:
 
     Pages *pages;
 
-    void startReading();
 
+    std::string csvDir;
     void add(int n);
     std::string buildString(std::string subDirectory,std::string filename);
     Song getSong(int position);

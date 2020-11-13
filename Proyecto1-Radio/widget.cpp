@@ -70,7 +70,10 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 
     //starting all song Gallery
     allSongGallery=new AllSongsGallery;
+    allSongGallery->setCsvDir(route2.toStdString());
     allSongGallery->setIterator(*myIterator);
+    allSongGallery->setRequestedLen(11);
+    allSongGallery->setSource(route.toStdString());
     allSongGallery->setAlbumPosition(5);
     allSongGallery->setArtistPosition(2);
     allSongGallery->setGenrePosition(36);
@@ -489,6 +492,7 @@ void Widget::reportScrollPosition(){
 
 void Widget::on_visualizeAll_clicked()
 {
+    allSongGallery->startReading();
     allMode=true;
     updateSongview();
 }
