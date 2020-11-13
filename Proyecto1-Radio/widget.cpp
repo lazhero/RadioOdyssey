@@ -286,7 +286,7 @@ void Widget::updateSongview(){
             DirList->add(tempQString);
         }
         currentLen=SongList->getLen();
-         ui->canciones->clear();//LIMPIA LA VARA
+        ui->canciones->clear();//LIMPIA LA VARA
         insertListToListView(*List,SongsID,DirList);
     }
 

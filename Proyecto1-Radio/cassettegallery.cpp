@@ -4,8 +4,8 @@ const char charDelimiter='/';
 const std::string delimiter="/";
 const std::string format=".mp3";
 int artistPosition=5;
-int albumPosition=2;
-int genrePosition=artistPosition;
+int albumPosition =2;
+int o_namePosition=37;
 
 #include<DoubleList/InsertionSort.hpp>
 #include<localfilegetter.h>
@@ -153,12 +153,12 @@ void CassetteGallery::setAlbumPosition(int value)
 
 int CassetteGallery::getGenrePosition()
 {
-    return GenrePosition;
+    return AlbumPosition;
 }
 
-void CassetteGallery::setGenrePosition(int value)
+void CassetteGallery::setOriginalNamePosition(int value)
 {
-    GenrePosition = value;
+     OriginalNamePosition=value;
 }
 
 void CassetteGallery::setIterator(stringIterator* iterator)
@@ -227,9 +227,12 @@ Song *CassetteGallery::getSong(DoubleList<std::string>* AtributteList)
 {
     std::string FileDirectory;
     Song *temp=new Song;
+
     temp->setArtist(*new std::string(*AtributteList->get(ArtistPosition)));
     temp->setFileName(*new std::string(*AtributteList->get(NamePosition)));
-    temp->setGenre(*new std::string(*AtributteList->get(GenrePosition)));
+    temp->setAlbum(*new std::string(*AtributteList->get(AlbumPosition)));
+    temp->setOriginalName(*new std::string(*AtributteList->get(OriginalNamePosition)));
+
     FileDirectory=*sourceDir;
     FileDirectory.append(delimiter);
     std::string firstTemp=temp->getFileName().toStdString();
@@ -279,7 +282,8 @@ void CassetteGallery::initCSV(int number)
 void CassetteGallery::configure(int Size, std::string route, stringIterator* iterator,std::string dir){
    this->setAlbumPosition(albumPosition);
    this->setArtistPosition(artistPosition);
-   this->setGenrePosition(genrePosition);
+   this->setOriginalNamePosition(o_namePosition);
+
    this->setRequestLen(Size);
    this->setCsvDir(route);
    this->setIterator(iterator);

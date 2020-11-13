@@ -44,7 +44,29 @@
 background-color: rgba(255, 255, 255, 28)</string>
                </property>
                <property name="text">
-                <string>Nombre</string>
+                <string>Nombre Real</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="styleSheet">
+                <string notr="true">border-color: rgb(0, 0, 0);
+background-color: rgba(255, 255, 255, 28)</string>
+               </property>
+               <property name="text">
+                <string>Nombre </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="styleSheet">
+                <string notr="true">border-color: rgb(0, 0, 0);
+background-color:  rgba(255, 255, 255, 28)</string>
+               </property>
+               <property name="text">
+                <string>Album</string>
                </property>
               </widget>
              </item>
@@ -56,28 +78,6 @@ background-color:  rgba(255, 255, 255, 28)</string>
                </property>
                <property name="text">
                 <string>Artista</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_7">
-               <property name="styleSheet">
-                <string notr="true">border-color: rgb(0, 0, 0);
-background-color:  rgba(255, 255, 255, 28)</string>
-               </property>
-               <property name="text">
-                <string>Longitud</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_6">
-               <property name="styleSheet">
-                <string notr="true">border-color: rgb(0, 0, 0);
-background-color: rgba(255, 255, 255, 28)</string>
-               </property>
-               <property name="text">
-                <string>Género</string>
                </property>
               </widget>
              </item>
