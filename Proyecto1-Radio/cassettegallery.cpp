@@ -74,15 +74,17 @@ void CassetteGallery::setSourceDir(std::string dir)
     *this->sourceDir=dir;
     LocalfileGetter *getter=new LocalfileGetter;
     getter->setSouce(dir);
-    FilesList=getter->getFilesList();
+    FilesList=getter->getRecursiveFileList();
     DoubleList<int>* tempList=new DoubleList<int>;
     int tempInt;
+    std::string myTempString;
     RouteTools tools;
     SubDirectoryList=new DoubleList<std::string>;
     for(int i=0;i<FilesList->getLen();i++){
         tools.setRoute(*FilesList->get(i));
         tempInt=std::stoi(tools.getFileName());
-       //SubDirectoryList->add(tools.getDirectory(t))
+        myTempString=tools.getSeccionRoute(minIndex,tools.getSplittedStringLen()-1);
+        SubDirectoryList->add(myTempString);
         tempList->add(tempInt);
     }
     sort(tempList);
@@ -176,8 +178,8 @@ stringIterator CassetteGallery::getIterator(){
 bool CassetteGallery::moveForwards()
 {
     if(FilesList->getLen()>0)initCSV(1);
-    std::cout<<"el len del file list es"<<FilesList->getLen()<<std::endl;
     if(endPos<(signed int)csvData->size()){
+        *sourceDir=*SubDirectoryList->get(endPos);
         page->AddToFront(*getSong(csvData->at(endPos)));
         endPos++;
     }
@@ -191,6 +193,7 @@ bool CassetteGallery::moveForwards()
 bool CassetteGallery::moverBackwards(){
 
     if(startPos>minIndex){
+        *sourceDir=*SubDirectoryList->get(startPos-1);
         page->AddToBack(*getSong(csvData->at(startPos-1)));
         startPos--;
     }
@@ -234,6 +237,7 @@ void CassetteGallery::add(int n)
     int  i;
     page->setListLen(requestedLen);
     for( i=endPos;i<csvData->size() && i<endPos+n;i++){
+        *sourceDir=*SubDirectoryList->get(i);
         temp=getSong(csvData->at(i));
         page->AddToFront(*temp);
     }

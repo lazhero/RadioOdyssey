@@ -31,6 +31,16 @@ std::string RouteTools::getRoute(){
     return this->route;
 }
 
+std::string RouteTools::getSeccionRoute(int start, int final)
+{
+    QString string;
+    for(int i=start;i<final;i++){
+        string.append(QString::fromStdString(*data->get(i)));
+        string.append(charDelimiter);
+    }
+    return string.toStdString();
+}
+
 std::string RouteTools::deleteExtension(std::string data)
 {
     std::string temp;

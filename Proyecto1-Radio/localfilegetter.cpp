@@ -73,6 +73,24 @@ DoubleList<std::string> *LocalfileGetter::getFilesList()
 
 }
 
+DoubleList<std::string> *LocalfileGetter::getRecursiveFileList()
+{
+
+    std::string temp;
+    DoubleList<std::string> * ReturnList=new DoubleList<std::string>;
+    for(auto& p: fs::recursive_directory_iterator(Source_Route->toStdString())){
+      if(!p.is_directory()){
+          temp=p.path();
+          ReturnList->add(temp);
+      }
+
+    }
+    return ReturnList;
+
+}
+
+
+
 /**
  * look for a file with name "value" and save it directory
  * @brief LocalfileGetter::getRoute
@@ -113,6 +131,7 @@ DoubleList<std::string> *LocalfileGetter::getRoutesList(bool ISDIRECTORY)
     }
     return ReturnList;
 }
+
 
 
 

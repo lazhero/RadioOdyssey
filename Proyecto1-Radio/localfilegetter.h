@@ -17,6 +17,8 @@ public:
     QString getSource();
     DoubleList<std::string>* getDirectoryList();
     DoubleList<std::string>* getFilesList();
+    DoubleList<std::string>* getRecursiveFileList();
+
 private:
     QString* Source_Route;
     std::string getRoute(std::string route, std::string value);

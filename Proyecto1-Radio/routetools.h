@@ -12,7 +12,9 @@ public:
     std::string getFileName();
     void setRoute(std::string route);
     std::string getRoute();
+    std::string getSeccionRoute(int start,int final);
     static std::string deleteExtension(std::string data);
+
 
 
 private:
