@@ -16,7 +16,7 @@
 #include "sys/sysinfo.h"
 #include "clikable_item.h"
 #include<DoubleList/InsertionSort.hpp>
-
+#include <QMouseEvent>
 
 QString PlayText="Play";
 QString PauseText="Pause";
@@ -220,8 +220,16 @@ DoubleList<std::string> Widget::FixSongsNames(DoubleList<std::string> List)
  */
 void Widget::insertListToListView( DoubleList<std::string> listilla,QString listView,DoubleList<QString>* DirList){
 
-     //if(listView!=SongsID)sort(&listilla);
-     this->csv->startReading();
+    if(paginationMode){
+         ui->canciones->verticalScrollBar()->resize(0,ui->canciones->verticalScrollBar()->height() );;
+        }
+
+    else{
+        ui->canciones->verticalScrollBar()->resize(300,ui->canciones->verticalScrollBar()->height() );
+        }
+
+
+    this->csv->startReading();
     for (int i=0; i< listilla.getLen();i++ ){
         QString temp;
         QString dir_info= QString::fromStdString(listilla.get(i)->data());
@@ -246,12 +254,35 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
  * @param event
  */
 void Widget::resizeEvent(QResizeEvent* event){
+          maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
+          s::cout<<"estas viendo: "<< maxVisibleItems<<" items"<<"tamaño es :"<< this->size().height()<<s::endl;
 
       maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
       //maxVisibleItems=3; //quitar esto despues
       s::cout<<"estas viendo: "<< maxVisibleItems<<" items"<<"tamaño es :"<< this->size().height()<<s::endl;
       QWidget::resizeEvent(event);
+
+}
+/**
+ * Dettects mouse wheel movement and update pagination pages
+ * @brief Widget::wheelEvent
+ * @param event
+ */
+void Widget::wheelEvent(QWheelEvent *event){
+
+    if (paginationMode && ui->canciones->count()!=0){
+
+        if(event->angleDelta().y()<0){
+                gallery->moveForwards();
+        }
+        else{
+             gallery->moverBackwards();
+        }
+        updateSongview();
     }
+
+
+}
 
 
 /**
@@ -295,7 +326,6 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item){
         //instantiation//
         std::string tempString;
         QString tempQString;
-
         Clikable_Item *clickableItem = dynamic_cast<Clikable_Item*>(item)  ;
         LocalfileGetter *myFileGetter=          new LocalfileGetter;
 
@@ -308,14 +338,12 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item){
 
         //gallery Configuration//
         if(gallery!=NULL)free(gallery);
-        gallery=new CassetteGallery(maxVisibleItems);
-        gallery->configure(maxVisibleItems,route2.toStdString(),this->iterator,clickableItem->returnInfo().toStdString());//Me vole el codigo que tenia acá e hice este metodo lindo
+        if(!paginationMode)SongsInMemory=100;
 
+        gallery=new CassetteGallery(SongsInMemory);
+        gallery->configure(SongsInMemory,route2.toStdString(),this->iterator,clickableItem->returnInfo().toStdString());//Me vole el codigo que tenia acá e hice este metodo lindo
 
         updateSongview();
-
-
-
 
 
     }
@@ -329,9 +357,10 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item){
 
 void Widget::setPaginationMode(bool state){
 
+    paginationMode=state;
     if(!state) {SongsInMemory = 100; }
     else {SongsInMemory=maxVisibleItems; }
-    this->updateSongview();
+
 }
 
 /**
@@ -441,15 +470,8 @@ void Widget::on_timeBar_sliderMoved(int position){
  * @brief Widget::reportScrollPosition
  */
 void Widget::reportScrollPosition(){
+
     int currentPos=ui->canciones->verticalScrollBar()->value();
-
-    if (lastScrollPos>currentPos){
-        gallery->moveForwards();
-    }
-    else if(lastScrollPos<currentPos){
-       gallery->moverBackwards();
-    }
-
     lastScrollPos=currentPos;
     //s::cout<<ui->canciones->verticalScrollBar()->value() <<s::endl;
 

@@ -40,6 +40,7 @@ private slots:
 
 protected:
     void resizeEvent(QResizeEvent* event);
+    virtual void wheelEvent(QWheelEvent *event);
 private:
     void updateSongview();
     bool playing;
