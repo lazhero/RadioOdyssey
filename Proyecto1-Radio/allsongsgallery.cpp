@@ -52,6 +52,7 @@ void AllSongsGallery::setRequestedLen(int value)
 
 void AllSongsGallery::startReading()
 {
+    clear();
     handler->startReading();
     if(PagingCondition){
         add(requestedLen);
@@ -134,4 +135,15 @@ void AllSongsGallery::AddNSong(int n)
         moveForward();
         n--;
     }
+}
+
+void AllSongsGallery::clear()
+{
+   free(csvData);
+   free(Directories);
+   free(pages);
+   csvData=new std::vector<DoubleList<std::string>*>;
+   Directories=new std::vector<std::string>;
+   pages=new Pages(minIndex);
+
 }

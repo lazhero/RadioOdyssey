@@ -32,6 +32,12 @@ public:
     int getRequestedLen() const;
     void setRequestedLen(int value);
 
+    void setArtistPosition(int value);
+
+    void setGenrePosition(int value);
+
+    void setNamePosition(int value);
+
 private:
     int start;
     int end;
@@ -59,6 +65,7 @@ private:
     void moveForward();
     void moveBackward();
     void AddNSong(int n);
+    void clear();
 
 
 };
