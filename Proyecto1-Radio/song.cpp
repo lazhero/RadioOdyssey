@@ -2,15 +2,11 @@
 
 Song::Song()
 {
-    Artist=new QString;
-    directory=new QString;
-    FileName=new QString;
-    genre=new QString;
     isLocal=true;
 
 }
 QString Song::getArtist(){
-    return *Artist;
+    return Artist;
 }
 
 
@@ -26,10 +22,10 @@ bool Song::getLocalState()
 
 QString Song::getFileName()
 {
-    return *this->FileName;
+    return this->FileName;
 }
 void Song::setFileName(QString Name){
-    *this->FileName=Name;
+    this->FileName=Name;
 }
 void Song::setFileName(std::string Name){
     this->setFileName(QString::fromStdString(Name));
@@ -38,15 +34,15 @@ void Song::setFileName(std::string Name){
 std::string Song::toString()
 {
     QString returning;
-    returning.append(*FileName);
-    returning.append(*Artist);
+    returning.append(FileName);
+    returning.append(Artist);
     return returning.toStdString();
 }
 QString Song::getDirectory(){
-    return *directory;
+    return directory;
 }
 void Song::setArtist(QString artist){
-    *Artist=artist;
+    Artist=artist;
 
 }
 
@@ -56,7 +52,7 @@ void Song::setArtist(std::string artist)
 
 }
 void Song::setDirectory(QString dir){
-    *directory=dir;
+    directory=dir;
 }
 
 void Song::setDirectory(std::string data)
@@ -64,10 +60,10 @@ void Song::setDirectory(std::string data)
     this->setDirectory(QString::fromStdString(data));
 }
 QString Song::getGenre(){
-    return *this->genre;
+    return this->genre;
 }
 void Song::setGenre(QString Name){
-    *this->genre=Name;
+    this->genre=Name;
 }
 void Song::setGenre(std::string Name){
   this->setGenre(QString::fromStdString(Name));

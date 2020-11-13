@@ -10,6 +10,7 @@ QT += multimedia
 
 
 SOURCES += \
+    allsongsgallery.cpp \
     cassettegallery.cpp \
     csvhandler.cpp \
     csvsorting.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
 HEADERS += \
     DoubleList/InsertionSort.hpp \
     SongGetter.h \
+    allsongsgallery.h \
     cassettegallery.h \
     csvhandler.h \
     csvsorting.h \

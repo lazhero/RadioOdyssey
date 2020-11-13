@@ -67,6 +67,7 @@ std::string CassetteGallery::getCsvDir()
 
 void CassetteGallery::setSourceDir(std::string dir)
 {
+
     if(!FileManager::canOpen(dir))return;
     clear();
     page->setListLen(requestedLen);
@@ -251,9 +252,12 @@ void CassetteGallery::add(int n)
 void CassetteGallery::clear()
 {
     free(page);
+    if(csvData!=nullptr)free(csvData);
+    csvData=new std::vector<DoubleList<std::string>*>;
     page=new Pages(minIndex);
     startPos=minIndex;
     endPos=minIndex;
+
 }
 
 void CassetteGallery::initCSV(int number)

@@ -23,10 +23,10 @@ public:
     void setFileName(std::string Name);
     std::string toString();
 private:
-    QString* FileName;
-    QString* directory;
-    QString * Artist;
-    QString* genre;
+    QString FileName;
+    QString directory;
+    QString  Artist;
+    QString genre;
     bool isLocal;
 };
 
