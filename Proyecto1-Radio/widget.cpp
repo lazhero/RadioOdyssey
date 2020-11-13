@@ -20,7 +20,7 @@
 
 QString PlayText="Play";
 QString PauseText="Pause";
-
+std::string AllString="All";
 //QString route="/home/adrian/Escritorio/Musica";
 //QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
@@ -34,7 +34,9 @@ int starting_Vol=50;
 int updateFramingConstant=150;
 int SongsInMemory=10;
 float sizeItemRelationConstant=480/10;  //for each 480 pixels  10 items fits
-
+int artistPosition=5;
+int albumPosition=2;
+int genrePosition=artistPosition;
 
 namespace s = std;
 
@@ -66,6 +68,15 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 
     ui->setupUi(this);
     ui->vol->setValue(starting_Vol);
+
+
+    //starting all song Gallery
+    allSongGallery=new AllSongsGallery;
+    allSongGallery->setIterator(*myIterator);
+    allSongGallery->setAlbumPosition(albumPosition);
+    allSongGallery->setArtistPosition(artistPosition);
+    allSongGallery->setGenrePosition(genrePosition);
+    allSongGallery->setNamePosition(songPosition);
 
 
     //conexiones

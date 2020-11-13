@@ -7,6 +7,7 @@
 #include<localfilegetter.h>
 #include<cassettegallery.h>
 #include"csvhandler.h"
+#include<allsongsgallery.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
@@ -63,5 +64,6 @@ private:
     CSVHandler* csv;
     CassetteGallery * gallery;
     stringIterator *iterator;
+    AllSongsGallery* allSongGallery;
 };
 #endif

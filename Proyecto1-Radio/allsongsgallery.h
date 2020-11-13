@@ -38,6 +38,12 @@ public:
 
     void setNamePosition(int value);
 
+    void clear();
+    void moveForward();
+    void moveBackward();
+    DoubleList<std::string>* getActualPage();
+
+
 private:
     int start;
     int end;
@@ -62,10 +68,8 @@ private:
     void add(int n);
     std::string buildString(std::string subDirectory,std::string filename);
     Song getSong(int position);
-    void moveForward();
-    void moveBackward();
     void AddNSong(int n);
-    void clear();
+
 
 
 };

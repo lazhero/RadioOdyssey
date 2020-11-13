@@ -49,6 +49,21 @@ void AllSongsGallery::setRequestedLen(int value)
     pages->setListLen(value);
 }
 
+void AllSongsGallery::setArtistPosition(int value)
+{
+    ArtistPosition = value;
+}
+
+void AllSongsGallery::setGenrePosition(int value)
+{
+    GenrePosition = value;
+}
+
+void AllSongsGallery::setNamePosition(int value)
+{
+    NamePosition = value;
+}
+
 
 void AllSongsGallery::startReading()
 {
@@ -129,6 +144,11 @@ void AllSongsGallery::moveBackward()
     }
 }
 
+DoubleList<Song> *AllSongsGallery::getActualPage()
+{
+    return pages->getActual();
+}
+
 void AllSongsGallery::AddNSong(int n)
 {
     while(n>0){
@@ -139,6 +159,8 @@ void AllSongsGallery::AddNSong(int n)
 
 void AllSongsGallery::clear()
 {
+   start=minIndex;
+   end=minIndex;
    free(csvData);
    free(Directories);
    free(pages);
