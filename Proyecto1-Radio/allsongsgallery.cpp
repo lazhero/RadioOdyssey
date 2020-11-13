@@ -79,15 +79,18 @@ void AllSongsGallery::startReading()
     clear();
     //handler->setFileDirectory(csvDir);
     handler->startReading();
-
+    pages->setListLen(requestedLen);
     if(PagingCondition){
-        add(requestedLen);
+        add(2*requestedLen);
+        AddNSong(2*requestedLen);
     }
     else{
         add(-1);
         requestedLen=csvData->size();
+        AddNSong(requestedLen);
     }
-    AddNSong(requestedLen);
+
+
     pages->emptyBack();
 }
 
@@ -96,13 +99,19 @@ void AllSongsGallery::add(int n)
     DoubleList<std::string> *Line;
     std::string route;
     while (n!=0 && (Line=handler->getnextLine())->getLen()>0) {
-        route=buildString(*Line->get(ArtistPosition),*Line->get(NamePosition));
-        if(FileManager::canOpen(route)){
-            n--;
-            Directories->push_back(route);
-            csvData->push_back(Line);
+        try{
+            route=buildString(*Line->get(ArtistPosition),*Line->get(NamePosition));
+            if(FileManager::canOpen(route)){
+                n--;
+                Directories->push_back(route);
+                csvData->push_back(Line);
+            }
+        }
+        catch (OutIndexException) {
+
         }
     }
+    std::cout<<"Me cago en Milton/ Noguera/ Isaac "<<std::endl;
 }
 
 std::string AllSongsGallery::buildString(std::string subDirectory, std::string filename)
@@ -120,12 +129,17 @@ std::string AllSongsGallery::buildString(std::string subDirectory, std::string f
 
 Song AllSongsGallery::getSong(int position)
 {
-    DoubleList<std::string> attributeList;
+    DoubleList<std::string> attributeList=*csvData->at(position);
     Song song;
-    song.setArtist(*attributeList.get(ArtistPosition));
-    song.setGenre(*attributeList.get(GenrePosition));
-    song.setDirectory(Directories->at(position));
-    song.setFileName(*attributeList.get(NamePosition));
+    try{
+        song.setDirectory(Directories->at(position));
+        song.setFileName(*attributeList.get(NamePosition));
+        song.setArtist(*attributeList.get(ArtistPosition));
+        song.setGenre(*attributeList.get(GenrePosition));
+    }
+    catch (OutIndexException) {
+
+    }
     return song;
 }
 
@@ -173,12 +187,24 @@ void AllSongsGallery::setCsvDir(const std::string &value)
     csvDir = value;
 }
 
+bool AllSongsGallery::getPagingCondition() const
+{
+    return PagingCondition;
+}
+
+void AllSongsGallery::setPagingCondition(bool value)
+{
+    PagingCondition = value;
+}
+
 void AllSongsGallery::AddNSong(int n)
 {
-    while(n>0){
-        moveForward();
-        n--;
+    Song temp;
+    for(int i=start;i<n;i++){
+        temp=getSong(i);
+        pages->AddToFront(temp);
     }
+    end=start+pages->getTotal();
 }
 
 void AllSongsGallery::clear()

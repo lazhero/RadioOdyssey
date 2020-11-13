@@ -47,6 +47,9 @@ public:
     std::string getCsvDir() const;
     void setCsvDir(const std::string &value);
 
+    bool getPagingCondition() const;
+    void setPagingCondition(bool value);
+
 private:
     int start;
     int end;

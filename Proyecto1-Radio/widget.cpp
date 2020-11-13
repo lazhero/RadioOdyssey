@@ -21,12 +21,12 @@
 QString PlayText="Play";
 QString PauseText="Pause";
 std::string AllString="All";
-QString route="/home/adrian/Escritorio/Musica";
-QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+//QString route="/home/adrian/Escritorio/Musica";
+//QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
-//QString route="/home/lazh/QTproyects/Resources/fma/Out";
-//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
+QString route="/home/lazh/QTproyects/Resources/fma/Out";
+QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
 
 LocalfileGetter getter;
 int songPosition=0;
@@ -74,8 +74,8 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     allSongGallery->setIterator(*myIterator);
     allSongGallery->setRequestedLen(11);
     allSongGallery->setSource(route.toStdString());
-    allSongGallery->setAlbumPosition(5);
-    allSongGallery->setArtistPosition(2);
+    allSongGallery->setAlbumPosition(2);
+    allSongGallery->setArtistPosition(5);
     allSongGallery->setGenrePosition(36);
     allSongGallery->setNamePosition(songPosition);
 
@@ -274,10 +274,12 @@ void Widget::wheelEvent(QWheelEvent *event){
     if (paginationMode && ui->canciones->count()!=0){
 
         if(event->angleDelta().y()<0){
-                gallery->moveForwards();
+            if(!allMode)gallery->moveForwards();
+            else allSongGallery->moveForward();
         }
         else{
-             gallery->moverBackwards();
+            if(!allMode)gallery->moverBackwards();
+            else allSongGallery->moveBackward();
         }
         updateSongview();
     }
@@ -492,6 +494,8 @@ void Widget::reportScrollPosition(){
 
 void Widget::on_visualizeAll_clicked()
 {
+    if(!paginationMode)allSongGallery->setPagingCondition(false);
+    else allSongGallery->setPagingCondition(true);
     allSongGallery->startReading();
     allMode=true;
     updateSongview();
