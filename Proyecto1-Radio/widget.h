@@ -31,12 +31,7 @@ private slots:
     void on_checkBox_stateChanged(int arg1);
     void reportScrollPosition();
 
-
-
-
-    void on_pushButton_clicked();
-
-    void on_pushButton_2_clicked();
+    void on_visualizeAll_clicked();
 
 protected:
     void resizeEvent(QResizeEvent* event);
@@ -66,5 +61,8 @@ private:
     CassetteGallery * gallery;
     stringIterator *iterator;
     AllSongsGallery* allSongGallery;
+
+    bool allMode;
+
 };
 #endif

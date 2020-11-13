@@ -21,12 +21,12 @@
 QString PlayText="Play";
 QString PauseText="Pause";
 std::string AllString="All";
-//QString route="/home/adrian/Escritorio/Musica";
-//QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+QString route="/home/adrian/Escritorio/Musica";
+QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
-QString route="/home/lazh/QTproyects/Resources/fma/Out";
-QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
+//QString route="/home/lazh/QTproyects/Resources/fma/Out";
+//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
 
 LocalfileGetter getter;
 int songPosition=0;
@@ -34,9 +34,7 @@ int starting_Vol=50;
 int updateFramingConstant=150;
 int SongsInMemory=10;
 float sizeItemRelationConstant=480/10;  //for each 480 pixels  10 items fits
-int artistPosition=5;
-int albumPosition=2;
-int genrePosition=artistPosition;
+
 
 namespace s = std;
 
@@ -73,9 +71,9 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     //starting all song Gallery
     allSongGallery=new AllSongsGallery;
     allSongGallery->setIterator(*myIterator);
-    allSongGallery->setAlbumPosition(albumPosition);
-    allSongGallery->setArtistPosition(artistPosition);
-    allSongGallery->setGenrePosition(genrePosition);
+    allSongGallery->setAlbumPosition(5);
+    allSongGallery->setArtistPosition(2);
+    allSongGallery->setGenrePosition(36);
     allSongGallery->setNamePosition(songPosition);
 
 
@@ -88,7 +86,7 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
    // this->csv->setFileDirectory(route2.toStdString());
     insertListToListView(*myList,DirectoriesID);
     maxVisibleItems=this->ui->canciones->size().height()/sizeItemRelationConstant;
-
+    allMode=false;
 }
 
 
@@ -289,7 +287,16 @@ void Widget::wheelEvent(QWheelEvent *event){
  * @brief Widget::updateSongview
  */
 void Widget::updateSongview(){
-        DoubleList<Song>* SongList=gallery->getActualList();
+
+        DoubleList<Song>* SongList;
+        if(!allMode){
+            SongList=gallery->getActualList();
+        }
+        else{
+            SongList=allSongGallery->getActualPage();
+        }
+
+
         DoubleList<std::string>* List=new DoubleList<std::string>;
         DoubleList<QString> * DirList=new DoubleList<QString>;
         std::string tempString;
@@ -322,7 +329,7 @@ void Widget::updateSongview(){
  */
 
 void Widget::on_directorios_itemClicked( QListWidgetItem *item){
-
+        allMode=false;
         //instantiation//
         std::string tempString;
         QString tempQString;
@@ -479,16 +486,9 @@ void Widget::reportScrollPosition(){
 
 
 
-void Widget::on_pushButton_clicked()
-{
-          gallery->moveForwards();
-          updateSongview();
 
-}
-
-void Widget::on_pushButton_2_clicked()
+void Widget::on_visualizeAll_clicked()
 {
-    gallery->moverBackwards();
+    allMode=true;
     updateSongview();
-
 }

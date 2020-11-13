@@ -17,6 +17,13 @@
    <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="2">
+    <widget class="QCheckBox" name="checkBox">
+     <property name="text">
+      <string>Paginación</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
@@ -227,10 +234,10 @@ background-color: rgba(255, 255, 255, 28)</string>
      </item>
     </layout>
    </item>
-   <item row="1" column="2">
-    <widget class="QCheckBox" name="checkBox">
+   <item row="1" column="0">
+    <widget class="QPushButton" name="visualizeAll">
      <property name="text">
-      <string>Paginación</string>
+      <string>Visualize all songs</string>
      </property>
     </widget>
    </item>

@@ -11,6 +11,7 @@ public:
     QString getRname();
     void setInfo(QString valor);
     void setRname(QString valor);
+
 private:
     QString informacion;
     QString realName;

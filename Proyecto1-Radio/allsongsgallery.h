@@ -41,7 +41,7 @@ public:
     void clear();
     void moveForward();
     void moveBackward();
-    DoubleList<std::string>* getActualPage();
+    DoubleList<Song>* getActualPage();
 
 
 private:
