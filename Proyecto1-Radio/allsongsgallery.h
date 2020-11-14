@@ -50,6 +50,8 @@ public:
     bool getPagingCondition() const;
     void setPagingCondition(bool value);
 
+     int getUsedMemory();
+
 private:
     int start;
     int end;

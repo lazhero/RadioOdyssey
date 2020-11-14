@@ -47,6 +47,9 @@ public:
     bool moveForwards();
     bool moverBackwards();
 
+    int getUsedMemory();
+
+
 
    DoubleList<Song>* getActualList();
 
@@ -77,6 +80,7 @@ private:
     void add(int n);
     void clear();
     void initCSV(int number);
+
 
 
 

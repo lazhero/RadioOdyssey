@@ -197,6 +197,12 @@ void AllSongsGallery::setPagingCondition(bool value)
     PagingCondition = value;
 }
 
+int AllSongsGallery::getUsedMemory()
+{
+    if(pages==NULL)return 0;
+    return sizeof (Song)*pages->getTotal();
+}
+
 void AllSongsGallery::AddNSong(int n)
 {
     Song temp;

@@ -206,12 +206,17 @@ bool CassetteGallery::moverBackwards(){
     return true;
 }
 
+int CassetteGallery::getUsedMemory()
+{
+    if(page==NULL)return 0;
+    return sizeof(*page)*page->getTotal();
+
+}
+
 DoubleList<Song> *CassetteGallery::getActualList()
 {
     return page->getActual();
 }
-
-
 
 Song *CassetteGallery::getSong(DoubleList<std::string>* AtributteList)
 {

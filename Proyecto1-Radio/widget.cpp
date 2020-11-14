@@ -119,9 +119,17 @@ void Widget :: updateScenario(){
 
     struct sysinfo memInfo;
     sysinfo (&memInfo);
-    long long virtualMemUsed = memInfo.totalram - memInfo.freeram;
+    //long long virtualMemUsed = memInfo.totalram - memInfo.freeram;
+    int virtualMemUsed;
+    if(allMode){
+        if(allSongGallery!=NULL)virtualMemUsed=allSongGallery->getUsedMemory();
+    }
+    else{
+        if(gallery==NULL)virtualMemUsed=gallery->getUsedMemory();
+    }
     //s::cout<<virtualMemUsed<< s::endl;
-    ui->Memory->setText(QString::number(virtualMemUsed/1048576) +"mb");
+
+    ui->Memory->setText(QString::number(virtualMemUsed) +" b");
 
     /////////////Calculo de memoria en uso
 
@@ -296,9 +304,11 @@ void Widget::updateSongview(){
         DoubleList<Song>* SongList;
         if(!allMode){
             SongList=gallery->getActualList();
+
         }
         else{
             SongList=allSongGallery->getActualPage();
+
         }
 
 
@@ -356,6 +366,7 @@ void Widget::on_directorios_itemClicked( QListWidgetItem *item){
         gallery->configure(SongsInMemory,route2.toStdString(),this->iterator,clickableItem->returnInfo().toStdString());//Me vole el codigo que tenia acá e hice este metodo lindo
 
         updateSongview();
+        updateScenario();
 
 
     }
@@ -434,10 +445,6 @@ void Widget::on_PlayB_2_clicked(){
     ui->timeBar->setValue(0);
     timer->stop();
 }
-
-
-
-
 /**
  * initialize ,stops and resume songs
  * @brief Widget::on_PlayB_clicked
@@ -477,21 +484,13 @@ void Widget::on_timeBar_sliderMoved(int position){
             player->setTime(position);
 }
 
-
 /**
  * @brief Widget::reportScrollPosition
  */
 void Widget::reportScrollPosition(){
-
     int currentPos=ui->canciones->verticalScrollBar()->value();
     lastScrollPos=currentPos;
-    //s::cout<<ui->canciones->verticalScrollBar()->value() <<s::endl;
-
 }
-
-
-
-
 void Widget::on_visualizeAll_clicked()
 {
     if(!paginationMode)allSongGallery->setPagingCondition(false);
@@ -502,4 +501,5 @@ void Widget::on_visualizeAll_clicked()
     allSongGallery->startReading();
     allMode=true;
     updateSongview();
+    updateScenario();
 }
