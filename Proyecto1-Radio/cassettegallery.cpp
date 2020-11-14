@@ -5,7 +5,7 @@ const std::string delimiter="/";
 const std::string format=".mp3";
 int artistPosition=5;
 int albumPosition=2;
-int genrePosition=artistPosition;
+int orNamePosition=37;
 
 #include<DoubleList/InsertionSort.hpp>
 #include<localfilegetter.h>
@@ -35,38 +35,35 @@ CassetteGallery::~CassetteGallery()
     free(CSVList);
 
 }
+
 /**
- * @brief CassetteGallery::setRequestLen
- * @param len
+ * @brief CassetteGallery::getSong
+ * @param AtributteList
+ * @return
  */
-void CassetteGallery::setRequestLen(int len)
-{
-    page->setListLen(len);
-    this->requestedLen=page->getListLen();
+Song *CassetteGallery::getSong(DoubleList<std::string>* AtributteList){
+    std::string FileDirectory;
+    Song *temp=new Song;
+
+    temp->setArtist(*new std::string(*AtributteList->get(ArtistPosition)));
+    temp->setFileName(*new std::string(*AtributteList->get(NamePosition)));
+    temp->setOrName(*new std::string(*AtributteList->get(OrNamePosition)));
+    temp->setAlbum(*new std::string(*AtributteList->get(AlbumPosition)));
+
+    FileDirectory=*sourceDir;
+    FileDirectory.append(delimiter);
+    std::string firstTemp=temp->getFileName().toStdString();
+    std::string tempString=iterator->iterateString(firstTemp);
+    FileDirectory.append(tempString);
+    temp->setDirectory(* new std::string(FileDirectory));
+    return temp;
 
 }
-
-int CassetteGallery::getRequestLen()
-{
-    return this->requestedLen;
-
-}
-
-void CassetteGallery::setCsvDir(std::string dir)
-{
-    if(!FileManager::canOpen(dir))return;
-    *this->csvDir=dir;
-    csvHandler->setFileDirectory(dir);
-    csvHandler->startReading();
-}
-
-std::string CassetteGallery::getCsvDir()
-{
-    return *this->csvDir;
-}
-
-void CassetteGallery::setSourceDir(std::string dir)
-{
+/**
+ * @brief CassetteGallery::setSourceDir
+ * @param dir
+ */
+void CassetteGallery::setSourceDir(std::string dir){
 
     if(!FileManager::canOpen(dir))return;
     clear();
@@ -102,80 +99,10 @@ void CassetteGallery::setSourceDir(std::string dir)
     add((pageNumber-1)*requestedLen);
     page->emptyBack();
 }
-
-std::string CassetteGallery::getSourceDir()
-{
-    return *this->sourceDir;
-}
-
-int CassetteGallery::getStartPos()
-{
-    return startPos;
-}
-
-void CassetteGallery::setStartPos(int value)
-{
-    startPos = value;
-}
-
-int CassetteGallery::getEndPos()
-{
-    return endPos;
-}
-
-void CassetteGallery::setEndPos(int value)
-{
-    endPos = value;
-}
-
-int CassetteGallery::getNamePosition()
-{
-    return NamePosition;
-}
-
-void CassetteGallery::setNamePosition(int value)
-{
-    NamePosition = value;
-}
-
-int CassetteGallery::getArtistPosition()
-{
-    return ArtistPosition;
-}
-
-void CassetteGallery::setArtistPosition(int value)
-{
-    ArtistPosition = value;
-}
-
-int CassetteGallery::getAlbumPosition()
-{
-    return AlbumPosition;
-}
-
-void CassetteGallery::setAlbumPosition(int value)
-{
-    AlbumPosition = value;
-}
-
-int CassetteGallery::getGenrePosition()
-{
-    return GenrePosition;
-}
-
-void CassetteGallery::setGenrePosition(int value)
-{
-    GenrePosition = value;
-}
-
-void CassetteGallery::setIterator(stringIterator* iterator)
-{
-    this->iterator=iterator;
-}
-stringIterator CassetteGallery::getIterator(){
-    return *this->iterator;
-}
-
+/**
+ * @brief CassetteGallery::moveForwards
+ * @return
+ */
 bool CassetteGallery::moveForwards()
 {
     if(FilesList->getLen()>0)initCSV(1);
@@ -191,6 +118,10 @@ bool CassetteGallery::moveForwards()
     startPos=endPos-page->getTotal();
     return true;
 }
+/**
+ * @brief CassetteGallery::moverBackwards
+ * @return
+ */
 bool CassetteGallery::moverBackwards(){
 
     if(startPos>minIndex){
@@ -205,36 +136,21 @@ bool CassetteGallery::moverBackwards(){
     endPos=startPos+page->getTotal();
     return true;
 }
-
-int CassetteGallery::getUsedMemory()
-{
+/**
+ * @brief CassetteGallery::getUsedMemory
+ * @return
+ */
+int CassetteGallery::getUsedMemory(){
     if(page==NULL)return 0;
     return sizeof(*page)*page->getTotal();
 
 }
 
-DoubleList<Song> *CassetteGallery::getActualList()
-{
-    return page->getActual();
-}
 
-Song *CassetteGallery::getSong(DoubleList<std::string>* AtributteList)
-{
-    std::string FileDirectory;
-    Song *temp=new Song;
-    temp->setArtist(*new std::string(*AtributteList->get(ArtistPosition)));
-    temp->setFileName(*new std::string(*AtributteList->get(NamePosition)));
-    temp->setGenre(*new std::string(*AtributteList->get(GenrePosition)));
-    FileDirectory=*sourceDir;
-    FileDirectory.append(delimiter);
-    std::string firstTemp=temp->getFileName().toStdString();
-    std::string tempString=iterator->iterateString(firstTemp);
-    FileDirectory.append(tempString);
-    temp->setDirectory(* new std::string(FileDirectory));
-    return temp;
-
-}
-
+/**
+ * @brief CassetteGallery::add
+ * @param n
+ */
 void CassetteGallery::add(int n)
 
 {
@@ -253,7 +169,9 @@ void CassetteGallery::add(int n)
     }
     requestedLen=page->getActual()->getLen();
 }
-
+/**
+ * @brief CassetteGallery::clear
+ */
 void CassetteGallery::clear()
 {
     free(page);
@@ -264,7 +182,11 @@ void CassetteGallery::clear()
     endPos=minIndex;
 
 }
-
+/**
+ * Initiales the CSV handler
+ * @brief CassetteGallery::initCSV
+ * @param number
+ */
 void CassetteGallery::initCSV(int number)
 {
     DoubleList<std::string>* temp;
@@ -275,16 +197,198 @@ void CassetteGallery::initCSV(int number)
        number--;
     }
 }
+/**
+ * @brief CassetteGallery::configure
+ * @param Size
+ * @param route
+ * @param iterator
+ * @param dir
+ */
 void CassetteGallery::configure(int Size, std::string route, stringIterator* iterator,std::string dir){
    this->setAlbumPosition(albumPosition);
    this->setArtistPosition(artistPosition);
-   this->setGenrePosition(genrePosition);
+   this->setOrnamePosition(orNamePosition);
    this->setRequestLen(Size);
    this->setCsvDir(route);
    this->setIterator(iterator);
    this->setSourceDir(dir);
 }
 
+
+
+
+///////////////////////////////////////////////////////////////////
+                //setters an getters//
+///////////////////////////////////////////////////////////////////
+
+
+/**
+ * @brief CassetteGallery::setRequestLen
+ * @param len
+ */
+void CassetteGallery::setRequestLen(int len)
+{
+    page->setListLen(len);
+    this->requestedLen=page->getListLen();
+
+}
+/**
+ * @brief CassetteGallery::getRequestLen
+ * @return
+ */
+int CassetteGallery::getRequestLen()
+{
+    return this->requestedLen;
+
+}
+/**
+ * @brief CassetteGallery::setCsvDir
+ * @param dir
+ */
+void CassetteGallery::setCsvDir(std::string dir)
+{
+    if(!FileManager::canOpen(dir))return;
+    *this->csvDir=dir;
+    csvHandler->setFileDirectory(dir);
+    csvHandler->startReading();
+}
+/**
+ * @brief CassetteGallery::getCsvDir
+ * @return
+ */
+std::string CassetteGallery::getCsvDir()
+{
+    return *this->csvDir;
+}
+
+/**
+ * @brief CassetteGallery::getSourceDir
+ * @return
+ */
+std::string CassetteGallery::getSourceDir()
+{
+    return *this->sourceDir;
+}
+/**
+ * @brief CassetteGallery::getStartPos
+ * @return
+ */
+int CassetteGallery::getStartPos()
+{
+    return startPos;
+}
+/**
+ * @brief CassetteGallery::setStartPos
+ * @param value
+ */
+void CassetteGallery::setStartPos(int value)
+{
+    startPos = value;
+}
+/**
+ * @brief CassetteGallery::getEndPos
+ * @return
+ */
+int CassetteGallery::getEndPos()
+{
+    return endPos;
+}
+/**
+ * @brief CassetteGallery::setEndPos
+ * @param value
+ */
+void CassetteGallery::setEndPos(int value)
+{
+    endPos = value;
+}
+/**
+ * @brief CassetteGallery::getNamePosition
+ * @return
+ */
+int CassetteGallery::getNamePosition()
+{
+    return NamePosition;
+}
+/**
+ * @brief CassetteGallery::setNamePosition
+ * @param value
+ */
+void CassetteGallery::setNamePosition(int value)
+{
+    NamePosition = value;
+}
+/**
+ * @brief CassetteGallery::getArtistPosition
+ * @return
+ */
+int CassetteGallery::getArtistPosition()
+{
+    return ArtistPosition;
+}
+/**
+ * @brief CassetteGallery::setArtistPosition
+ * @param value
+ */
+void CassetteGallery::setArtistPosition(int value)
+{
+    ArtistPosition = value;
+}
+/**
+ * @brief CassetteGallery::getAlbumPosition
+ * @return
+ */
+int CassetteGallery::getAlbumPosition()
+{
+    return AlbumPosition;
+}
+/**
+ * @brief CassetteGallery::setAlbumPosition
+ * @param value
+ */
+void CassetteGallery::setAlbumPosition(int value)
+{
+    AlbumPosition = value;
+}
+/**
+ * @brief CassetteGallery::getGenrePosition
+ * @return
+ */
+int CassetteGallery::getGenrePosition()
+{
+    return OrNamePosition;
+}
+/**
+ * @brief CassetteGallery::setOrnamePosition
+ * @param value
+ */
+void CassetteGallery::setOrnamePosition(int value)
+{
+    OrNamePosition = value;
+}
+/**
+ * @brief CassetteGallery::setIterator
+ * @param iterator
+ */
+void CassetteGallery::setIterator(stringIterator* iterator)
+{
+    this->iterator=iterator;
+}
+/**
+ * @brief CassetteGallery::getIterator
+ * @return
+ */
+stringIterator CassetteGallery::getIterator(){
+    return *this->iterator;
+}
+
+/**
+ * @brief CassetteGallery::getActualList
+ * @return
+ */
+DoubleList<Song> *CassetteGallery::getActualList()
+{
+    return page->getActual();
+}
 
 
 

@@ -2,7 +2,9 @@
 int lower=0;
 int negative=-1;
 int unity=1;
-
+/**
+ * @brief CSVHandler::CSVHandler
+ */
 CSVHandler::CSVHandler()
 
 {
@@ -10,23 +12,34 @@ CSVHandler::CSVHandler()
     inputStream=NULL;
     FordWard=true;
 }
-
+/**
+ * @brief CSVHandler::setFileDirectory
+ * @param name
+ */
 void CSVHandler::setFileDirectory(std::string name)
 {
 
     *this->Route=name;
 }
-
+/**
+ * @brief CSVHandler::getFileDirectory
+ * @return
+ */
 std::string CSVHandler::getFileDirectory()
 {
     return *Route;
 }
-
+/**
+ * @brief CSVHandler::getnextLine
+ * @return
+ */
 DoubleList<std::string> *CSVHandler::getnextLine()
 {
     return getlines(unity)->get(minIndex);
 }
-
+/**
+ * @brief CSVHandler::startReading
+ */
 
 void CSVHandler::startReading()
 {
@@ -45,7 +58,11 @@ void CSVHandler::startReading()
 
 
 }
-
+/**
+ * @brief CSVHandler::getlines
+ * @param n
+ * @return
+ */
 DoubleList<DoubleList<std::string> > *CSVHandler::getlines(int n)
 {
     DoubleList<DoubleList<std::string>>* returnMatrix=new DoubleList<DoubleList<std::string>>;
@@ -54,14 +71,23 @@ DoubleList<DoubleList<std::string> > *CSVHandler::getlines(int n)
     }
     return returnMatrix;
 }
-
+/**
+ * @brief CSVHandler::getNextLineWith
+ * @param text
+ * @return
+ */
 DoubleList<std::string> *CSVHandler::getNextLineWith(std::string text)
 {
 
     return getNextLineWithIn(text,negative);
 }
 
-
+/**
+ * @brief CSVHandler::getNextLineWithIn
+ * @param text
+ * @param position
+ * @return
+ */
 DoubleList<std::string> *CSVHandler::getNextLineWithIn(std::string text, int position)
 {
     std::string line;
@@ -88,13 +114,22 @@ DoubleList<std::string> *CSVHandler::getNextLineWithIn(std::string text, int pos
     }
     return new DoubleList<std::string>;
 }
-
+/**
+ * @brief CSVHandler::getAllLinesWith
+ * @param text
+ * @return
+ */
 DoubleList<DoubleList<std::string> > *CSVHandler::getAllLinesWith(std::string text)
 {
 
     return getAllLinesWithIn(text,negative);
 }
-
+/**
+ * @brief CSVHandler::getAllLinesWithIn
+ * @param text
+ * @param position
+ * @return
+ */
 DoubleList<DoubleList<std::string>> *CSVHandler::getAllLinesWithIn(std::string text, int position)
 {
     DoubleList<DoubleList<std::string>>* matriz=new DoubleList<DoubleList<std::string>>;
@@ -107,19 +142,30 @@ DoubleList<DoubleList<std::string>> *CSVHandler::getAllLinesWithIn(std::string t
 
 
 }
-
+/**
+ * @brief CSVHandler::getAllLines
+ * @return
+ */
 DoubleList<DoubleList<std::string> > *CSVHandler::getAllLines()
 {
     return getAllLinesWithIn(emptyString,negative);
 
 
 }
-
+/**
+ * @brief CSVHandler::setForward
+ * @param state
+ */
 void CSVHandler::setForward(bool state)
 {
    FordWard=state;
 }
-
+/**
+ * @brief CSVHandler::getTheLine
+ * @param is
+ * @param str
+ * @return
+ */
 std::istream& CSVHandler::getTheLine(std::istream &is, std::string &str)
 {
     if(!FordWard){

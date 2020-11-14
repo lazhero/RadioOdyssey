@@ -21,12 +21,12 @@
 QString PlayText="Play";
 QString PauseText="Pause";
 std::string AllString="All";
-//QString route="/home/adrian/Escritorio/Musica";
-//QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+QString route="/home/adrian/Escritorio/Musica";
+QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
-QString route="/home/lazh/QTproyects/Resources/fma/Out";
-QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
+//QString route="/home/lazh/QTproyects/Resources/fma/Out";
+//QString route2="/home/lazh/QTproyects/Resources/fma/fma_metadata/raw_tracks.csv";
 
 LocalfileGetter getter;
 int songPosition=0;
@@ -38,7 +38,10 @@ float sizeItemRelationConstant=480/10;  //for each 480 pixels  10 items fits
 
 namespace s = std;
 
-
+/**
+ * @brief Widget::Widget
+ * @param parent
+ */
 Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
 {
     //instancias
@@ -76,7 +79,7 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     allSongGallery->setSource(route.toStdString());
     allSongGallery->setAlbumPosition(2);
     allSongGallery->setArtistPosition(5);
-    allSongGallery->setGenrePosition(36);
+    allSongGallery->setGenrePosition(37);
     allSongGallery->setNamePosition(songPosition);
 
 
@@ -247,7 +250,8 @@ void Widget::insertListToListView( DoubleList<std::string> listilla,QString list
             temp=*DirList->get(i);
             dir_info=temp;
 
-            //std::cout<<"El texto es "<<temp.toStdString()<<std::endl;
+
+
         }
 
 

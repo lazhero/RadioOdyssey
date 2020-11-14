@@ -63,42 +63,83 @@ void CSVSorting::sortToDirectory()
     FileManager::createFile(OutputDirectory,verificationFile,Filetext);
 
 }
-
+/**
+ * @brief CSVSorting::setSource
+ * @param source
+ */
 void CSVSorting::setSource(std::string source)
 {
     this->source=source;
 
 }
+/**
+ * @brief CSVSorting::setCsvDirectory
+ * @param dir
+ */
 void CSVSorting::setCsvDirectory(std::string dir){
     this->CsvDirectory=dir;
 }
+/**
+ * @brief CSVSorting::setOutputDirectory
+ * @param dir
+ */
 void CSVSorting::setOutputDirectory(std::string dir){
     this->OutputDirectory=dir;
 }
+/**
+ * @brief CSVSorting::setFilePosition
+ * @param position
+ */
 void CSVSorting::setFilePosition(int position){
     this->FilePosition=position;
 }
+/**
+ * @brief CSVSorting::setReferencePosition
+ * @param position
+ */
 void CSVSorting::setReferencePosition(int position){
     this->ReferencePosition=position;
 }
+/**
+ * @brief CSVSorting::getCsvDirectory
+ * @return
+ */
 std::string CSVSorting::getCsvDirectory(){
     return this->CsvDirectory;
 }
+/**
+ * @brief CSVSorting::getOutputDirectory
+ * @return
+ */
 std::string CSVSorting::getOutputDirectory(){
     return this->OutputDirectory;
 }
+/**
+ * @brief CSVSorting::getSource
+ * @return
+ */
 std::string CSVSorting::getSource(){
     return this->source;
 }
+/**
+ * @brief CSVSorting::getFilePosition
+ * @return
+ */
 int CSVSorting::getFilePosition(){
     return this->FilePosition;
 }
-
+/**
+ * @brief CSVSorting::setIterator
+ * @param iterator
+ */
 void CSVSorting::setIterator(stringIterator &iterator)
 {
     this->iterator=&iterator;
 }
-
+/**
+ * @brief CSVSorting::verification
+ * @return
+ */
 bool CSVSorting::verification()
 {
     std::string direction;
@@ -108,7 +149,10 @@ bool CSVSorting::verification()
     if(FileManager::canOpen(direction))return true;
     return false;
 }
-
+/**
+ * @brief CSVSorting::getNextIDFrame
+ * @return
+ */
 DoubleList<DoubleList<std::string>>*  CSVSorting::getNextIDFrame(){
 
     DoubleList<DoubleList<std::string>> * tempList=new DoubleList<DoubleList<std::string>>;
@@ -127,7 +171,10 @@ DoubleList<DoubleList<std::string>>*  CSVSorting::getNextIDFrame(){
     return tempList;
 
 }
-
+/**
+ * @brief CSVSorting::getReference
+ * @return
+ */
 std::string CSVSorting::getReference()
 {
     std::string returning;
@@ -147,7 +194,9 @@ std::string CSVSorting::getReference()
     return returning;
 
 }
-
+/**
+ * @brief CSVSorting::initializeMatriz
+ */
 void CSVSorting::initializeMatriz()
 {
     CSVHandler* handler=new CSVHandler;
@@ -171,20 +220,7 @@ void CSVSorting::initializeMatriz()
                 else if(tempLine->get(ReferencePosition)->compare(tempReference)==0){
                     csvMatrix->add(*tempLine);
                     Matriz->erase(i);
-                }
-                else{
-                    i++;
-                }
-                i--;
-
-            }
-        }
-        free(tempLine);
-    }
-    DoubleList<std::string> temp;
-
-    csvMatrix=Matriz;
-}
+           ^
 int CSVSorting::getReferencePosition(){
     return this->ReferencePosition;
 }

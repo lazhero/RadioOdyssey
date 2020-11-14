@@ -14,19 +14,24 @@ public:
     void setArtist(std::string artist);
     QString getArtist();
     QString getGenre();
-    void setGenre(QString Name);
-    void setGenre(std::string Name);
+    void setOrName(QString Name);
+    void setOrName(std::string Name);
     void setLocalState(bool state);
     bool getLocalState();
     QString getFileName();
     void setFileName(QString Name);
     void setFileName(std::string Name);
     std::string toString();
+    QString getAlbum() const;
+    void setAlbum(const std::string &value);
+
 private:
     QString FileName;
+    QString cutText(QString text, int size);
     QString directory;
     QString  Artist;
-    QString genre;
+    QString OrName;
+    QString Album;
     bool isLocal;
 };
 

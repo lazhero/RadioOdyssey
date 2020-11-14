@@ -38,11 +38,10 @@ int main(int argc, char *argv[])
  */
 
 
-/*
     CSVSorting *csv=new CSVSorting;
-    csv->setCsvDirectory("/home/lazh/QTproyects/Resources/fma/fma_metadata/sortedCSV.csv");
-    csv->setOutputDirectory("/home/lazh/QTproyects/Resources/fma/Out");
-    csv->setSource("/home/lazh/QTproyects/Resources/fma/fma_small");
+    csv->setCsvDirectory("/home/adrian/Escritorio/Musicap/sortedCSV.csv");
+    csv->setOutputDirectory("/home/adrian/Escritorio/MusicaP/out");
+    csv->setSource("/home/adrian/Escritorio/Musica");
     csv->setReferencePosition(5);
     csv->setFilePosition(0);
     MyProyectStringIterator iterator;
@@ -51,7 +50,7 @@ int main(int argc, char *argv[])
     iterator.setBeforeDigits(6);
     csv->setIterator(iterator);
     csv->sortToDirectory();
-*/
+
    // FileManager::DeleteEmptyDir("/home/lazh/QTproyects/Resources/fma/Out");
 
     /*
@@ -60,7 +59,7 @@ int main(int argc, char *argv[])
     csv->startReading();
     csv->getNextLineWithIn("190",0);
     */
-    std::cout<<"satanas"<<std::endl;
+
     Widget w;
     w.show();
     return a.exec();

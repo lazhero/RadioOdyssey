@@ -1,5 +1,8 @@
 #include "allsongsgallery.h"
 std::string filesDelimiter="/";
+/**
+ * @brief AllSongsGallery::AllSongsGallery
+ */
 AllSongsGallery::AllSongsGallery()
 {
     csvData=new std::vector<DoubleList<std::string>*>;
@@ -11,68 +14,106 @@ AllSongsGallery::AllSongsGallery()
 
 
 }
-
+/**
+ * @brief AllSongsGallery::getNamePosition
+ * @return
+ */
 int AllSongsGallery::getNamePosition() const
 {
     return NamePosition;
 }
-
+/**
+ * @brief AllSongsGallery::getArtistPosition
+ * @return
+ */
 int AllSongsGallery::getArtistPosition() const
 {
     return ArtistPosition;
 }
-
+/**
+ * @brief AllSongsGallery::getGenrePosition
+ * @return
+ */
 int AllSongsGallery::getGenrePosition() const
 {
     return GenrePosition;
 }
-
+/**
+ * @brief AllSongsGallery::getAlbumPosition
+ * @return
+ */
 int AllSongsGallery::getAlbumPosition() const
 {
     return AlbumPosition;
 }
-
+/**
+ * @brief AllSongsGallery::setAlbumPosition
+ * @param value
+ */
 void AllSongsGallery::setAlbumPosition(int value)
 {
     AlbumPosition = value;
 }
-
+/**
+ * @brief AllSongsGallery::setSource
+ * @param source
+ */
 void AllSongsGallery::setSource(std::string source)
 {
     sourceDir=source;
 }
-
+/**
+ * @brief AllSongsGallery::setIterator
+ * @param iterator
+ */
 void AllSongsGallery::setIterator(MyProyectStringIterator iterator)
 {
     this->iterator=iterator;
 }
-
+/**
+ * @brief AllSongsGallery::getRequestedLen
+ * @return
+ */
 int AllSongsGallery::getRequestedLen() const
 {
     return requestedLen;
 }
-
+/**
+ * @brief AllSongsGallery::setRequestedLen
+ * @param value
+ */
 void AllSongsGallery::setRequestedLen(int value)
 {
     requestedLen = value;
     pages->setListLen(value);
 }
-
+/**
+ * @brief AllSongsGallery::setArtistPosition
+ * @param value
+ */
 void AllSongsGallery::setArtistPosition(int value)
 {
     ArtistPosition = value;
 }
-
+/**
+ * @brief AllSongsGallery::setGenrePosition
+ * @param value
+ */
 void AllSongsGallery::setGenrePosition(int value)
 {
     GenrePosition = value;
 }
-
+/**
+ * @brief AllSongsGallery::setNamePosition
+ * @param value
+ */
 void AllSongsGallery::setNamePosition(int value)
 {
     NamePosition = value;
 }
-
+/**
+ * @brief AllSongsGallery::startReading
+ */
 
 void AllSongsGallery::startReading()
 {
@@ -94,7 +135,10 @@ void AllSongsGallery::startReading()
 
     pages->emptyBack();
 }
-
+/**
+ * @brief AllSongsGallery::add
+ * @param n
+ */
 void AllSongsGallery::add(int n)
 {
     DoubleList<std::string> *Line;
@@ -113,7 +157,12 @@ void AllSongsGallery::add(int n)
         }
     }
 }
-
+/**
+ * @brief AllSongsGallery::buildString
+ * @param subDirectory
+ * @param filename
+ * @return
+ */
 std::string AllSongsGallery::buildString(std::string subDirectory, std::string filename)
 {
     std::string copy=sourceDir;
@@ -122,11 +171,13 @@ std::string AllSongsGallery::buildString(std::string subDirectory, std::string f
     copy.append(subDirectory);
     copy.append(filesDelimiter);
     copy.append(myFileName);
-    std::cout<<"HOLAAAAAAAAAAAAAAAAAA:   "<<  copy ;
-    std::cout<<std::endl;
     return copy;
 }
-
+/**
+ * @brief AllSongsGallery::getSong
+ * @param position
+ * @return
+ */
 Song AllSongsGallery::getSong(int position)
 {
     DoubleList<std::string> attributeList=*csvData->at(position);
@@ -135,7 +186,7 @@ Song AllSongsGallery::getSong(int position)
         song.setDirectory(Directories->at(position));
         song.setFileName(*attributeList.get(NamePosition));
         song.setArtist(*attributeList.get(ArtistPosition));
-        song.setGenre(*attributeList.get(GenrePosition));
+        song.setOrName(*attributeList.get(GenrePosition));
     }
     catch (OutIndexException) {
 
@@ -144,7 +195,9 @@ Song AllSongsGallery::getSong(int position)
 }
 
 
-
+/**
+ * @brief AllSongsGallery::moveForward
+ */
 void AllSongsGallery::moveForward()
 {
     add(1);
@@ -158,7 +211,9 @@ void AllSongsGallery::moveForward()
     }
     start=end-pages->getTotal();
 }
-
+/**
+ * @brief AllSongsGallery::moveBackward
+ */
 void AllSongsGallery::moveBackward()
 {
     if(start>minIndex){
@@ -170,39 +225,61 @@ void AllSongsGallery::moveBackward()
         pages->DeleteLeftOver();
     }
 }
-
+/**
+ * @brief AllSongsGallery::getActualPage
+ * @return
+ */
 DoubleList<Song> *AllSongsGallery::getActualPage()
 {
     return pages->getActual();
 }
-
+/**
+ * @brief AllSongsGallery::getCsvDir
+ * @return
+ */
 std::string AllSongsGallery::getCsvDir() const
 {
     return csvDir;
 }
-
+/**
+ * @brief AllSongsGallery::setCsvDir
+ * @param value
+ */
 void AllSongsGallery::setCsvDir(const std::string &value)
 {
     handler->setFileDirectory(value);
     csvDir = value;
 }
-
+/**
+ * @brief AllSongsGallery::getPagingCondition
+ * @return
+ */
 bool AllSongsGallery::getPagingCondition() const
 {
     return PagingCondition;
 }
-
+/**
+ * @brief AllSongsGallery::setPagingCondition
+ * @param value
+ */
 void AllSongsGallery::setPagingCondition(bool value)
 {
     PagingCondition = value;
 }
+/**
+ * @brief AllSongsGallery::getUsedMemory
+ * @return
+ */
 
 int AllSongsGallery::getUsedMemory()
 {
     if(pages==NULL)return 0;
     return sizeof (Song)*pages->getTotal();
 }
-
+/**
+ * @brief AllSongsGallery::AddNSong
+ * @param n
+ */
 void AllSongsGallery::AddNSong(int n)
 {
     Song temp;
@@ -212,7 +289,9 @@ void AllSongsGallery::AddNSong(int n)
     }
     end=start+pages->getTotal();
 }
-
+/**
+ * @brief AllSongsGallery::clear
+ */
 void AllSongsGallery::clear()
 {
    start=minIndex;

@@ -39,7 +39,7 @@ public:
     void setAlbumPosition(int value);
 
     int getGenrePosition();
-    void setGenrePosition(int value);
+    void setOrnamePosition(int value);
 
     void setIterator(stringIterator* iterator);
     stringIterator getIterator();
@@ -63,7 +63,7 @@ private:
     int NamePosition;
     int ArtistPosition;
     int AlbumPosition;
-    int GenrePosition;
+    int OrNamePosition;
 
 
     std::string * sourceDir;
