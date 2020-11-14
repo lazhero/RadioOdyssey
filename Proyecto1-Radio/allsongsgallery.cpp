@@ -87,6 +87,7 @@ void AllSongsGallery::startReading()
     else{
         add(-1);
         requestedLen=csvData->size();
+        pages->setListLen(requestedLen);
         AddNSong(requestedLen);
     }
 
@@ -101,7 +102,7 @@ void AllSongsGallery::add(int n)
     while (n!=0 && (Line=handler->getnextLine())->getLen()>0) {
         try{
             route=buildString(*Line->get(ArtistPosition),*Line->get(NamePosition));
-            if(FileManager::canOpen(route)){
+            if(route.length()<300 && FileManager::canOpen(route)){
                 n--;
                 Directories->push_back(route);
                 csvData->push_back(Line);
@@ -111,7 +112,6 @@ void AllSongsGallery::add(int n)
 
         }
     }
-    std::cout<<"Me cago en Milton/ Noguera/ Isaac "<<std::endl;
 }
 
 std::string AllSongsGallery::buildString(std::string subDirectory, std::string filename)
@@ -209,7 +209,7 @@ void AllSongsGallery::AddNSong(int n)
 
 void AllSongsGallery::clear()
 {
-    start=minIndex;
+   start=minIndex;
    end=minIndex;
    free(csvData);
    free(Directories);

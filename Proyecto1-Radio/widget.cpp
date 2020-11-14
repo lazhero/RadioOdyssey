@@ -495,7 +495,10 @@ void Widget::reportScrollPosition(){
 void Widget::on_visualizeAll_clicked()
 {
     if(!paginationMode)allSongGallery->setPagingCondition(false);
-    else allSongGallery->setPagingCondition(true);
+    else{
+        allSongGallery->setPagingCondition(true);
+        allSongGallery->setRequestedLen(maxVisibleItems);
+    }
     allSongGallery->startReading();
     allMode=true;
     updateSongview();
