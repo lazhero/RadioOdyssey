@@ -23,7 +23,8 @@ QString PlayText="Play";
 QString PauseText="Pause";
 std::string AllString="All";
 QString route="/home/adrian/Escritorio/MusicaP/Out";
-QString route2="/home/adrian/Escritorio/MusicaP/sortedCSV.csv";
+//QString route2="/home/adrian/Escritorio/MusicaP/sortedCSV.csv";
+QString route2="/home/adrian/Escritorio/MusicaP/raw_tracks.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
 //QString route="/home/lazh/QTproyects/Resources/fma/Out";
@@ -80,7 +81,7 @@ Widget::Widget(QWidget *parent): QWidget(parent), ui(new Ui::Widget)
     allSongGallery->setSource(route.toStdString());
     allSongGallery->setAlbumPosition(2);
     allSongGallery->setArtistPosition(5);
-    allSongGallery->setGenrePosition(37);
+    allSongGallery->setGenrePosition(39);
     allSongGallery->setNamePosition(songPosition);
 
 

@@ -13,7 +13,7 @@ Song::Song()
 std::string Song::toString()
 {
     QString returning;
-    returning.append(FileName);
+    returning.append(cutText(FileName,10));
     returning.append(" | ");
     returning.append(cutText(OrName,10));
     returning.append(" | ");

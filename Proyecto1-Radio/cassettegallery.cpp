@@ -5,7 +5,7 @@ const std::string delimiter="/";
 const std::string format=".mp3";
 int artistPosition=5;
 int albumPosition=2;
-int orNamePosition=37;
+int orNamePosition=39;
 
 #include<DoubleList/InsertionSort.hpp>
 #include<localfilegetter.h>
@@ -47,7 +47,7 @@ Song *CassetteGallery::getSong(DoubleList<std::string>* AtributteList){
 
     temp->setArtist(*new std::string(*AtributteList->get(ArtistPosition)));
     temp->setFileName(*new std::string(*AtributteList->get(NamePosition)));
-    temp->setOrName(*new std::string(*AtributteList->get(OrNamePosition)));
+    //temp->setOrName(*new std::string(*AtributteList->get(OrNamePosition)));
     temp->setAlbum(*new std::string(*AtributteList->get(AlbumPosition)));
 
     FileDirectory=*sourceDir;

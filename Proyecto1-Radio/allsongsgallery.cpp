@@ -185,6 +185,7 @@ Song AllSongsGallery::getSong(int position)
     try{
         song.setDirectory(Directories->at(position));
         song.setFileName(*attributeList.get(NamePosition));
+        song.setAlbum(*attributeList.get(AlbumPosition));
         song.setArtist(*attributeList.get(ArtistPosition));
         song.setOrName(*attributeList.get(GenrePosition));
     }
