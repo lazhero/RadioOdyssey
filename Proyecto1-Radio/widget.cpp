@@ -17,12 +17,13 @@
 #include "clikable_item.h"
 #include<DoubleList/InsertionSort.hpp>
 #include <QMouseEvent>
+#include<QMessageBox>
 
 QString PlayText="Play";
 QString PauseText="Pause";
 std::string AllString="All";
-QString route="/home/adrian/Escritorio/Musica";
-QString route2="/home/adrian/Escritorio/Musica/fma_metadata/raw_tracks.csv";
+QString route="/home/adrian/Escritorio/MusicaP/Out";
+QString route2="/home/adrian/Escritorio/MusicaP/sortedCSV.csv";
 QString DirectoriesID="carpetas";
 QString SongsID="canciones";
 //QString route="/home/lazh/QTproyects/Resources/fma/Out";
@@ -445,6 +446,7 @@ void Widget::on_canciones_itemClicked(QListWidgetItem *item)
  * @brief Widget::on_PlayB_2_clicked
  */
 void Widget::on_PlayB_2_clicked(){
+    ui->PlayB->setText(PlayText);
     player->Stop();
     ui->timeBar->setValue(0);
     timer->stop();
@@ -497,13 +499,45 @@ void Widget::reportScrollPosition(){
 }
 void Widget::on_visualizeAll_clicked()
 {
-    if(!paginationMode)allSongGallery->setPagingCondition(false);
-    else{
-        allSongGallery->setPagingCondition(true);
-        allSongGallery->setRequestedLen(maxVisibleItems);
-    }
-    allSongGallery->startReading();
-    allMode=true;
-    updateSongview();
-    updateScenario();
+
+   if(!paginationMode){
+       allSongGallery->setPagingCondition(false);
+
+       QMessageBox::StandardButton reply = QMessageBox::question(this, "CAUTION", "Are you sure about that?, no-pagination mode can crash your pc and forces you to restart it?",QMessageBox::Yes |  QMessageBox::Cancel);
+
+       if (reply == QMessageBox::Yes){
+
+            if(ui->demos->isChecked()){
+                allSongGallery->setPagingCondition(true);
+                allSongGallery->setRequestedLen(2000);
+            }
+
+
+
+           allSongGallery->startReading();
+           allMode=true;
+           updateSongview();
+           updateScenario();
+       }
+
+
+
+   }
+
+
+
+   else{
+            allSongGallery->setPagingCondition(true);
+            allSongGallery->setRequestedLen(maxVisibleItems);
+            allSongGallery->startReading();
+            allMode=true;
+            updateSongview();
+            updateScenario();
+       }
+
+
+
+
+
+
 }

@@ -220,7 +220,11 @@ void CSVSorting::initializeMatriz()
                 else if(tempLine->get(ReferencePosition)->compare(tempReference)==0){
                     csvMatrix->add(*tempLine);
                     Matriz->erase(i);
-           ^
+                }
+             }
+            }
+    }
+}
 int CSVSorting::getReferencePosition(){
     return this->ReferencePosition;
 }
