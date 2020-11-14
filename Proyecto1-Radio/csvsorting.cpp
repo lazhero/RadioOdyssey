@@ -185,6 +185,17 @@ void CSVSorting::initializeMatriz()
 
     csvMatrix=Matriz;
 }
+
+void CSVSorting::createFile()
+
+{
+    std::string direction;
+    direction.append(OutputDirectory);
+    direction.append(delimiter);
+    direction.append(verificationFile);
+    FileManager::createFile(OutputDirectory,verificationFile,Filetext);
+
+}
 int CSVSorting::getReferencePosition(){
     return this->ReferencePosition;
 }

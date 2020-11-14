@@ -39,6 +39,7 @@ private:
     DoubleList<DoubleList<std::string>>* getNextIDFrame();
     std::string getReference();
     void initializeMatriz();
+    void createFile();
 
 
 };
